@@ -1,0 +1,12 @@
+type command ## describe how its arguments would be interpreted if used as command names, possible results are listed below
+type -a command ## show all locations for a command: ls goes /bin/ls and /usr/bin/ls 
+
+shell builtin ## built-in-shell command, executed directly by the shell itself, rather than by an external program, part of the shell's internal binary
+## Examples: cd, echo, exit, pwd, alias, set
+alias ## if bash alias
+/bin/ls ## external executable searched through the PATH environment variable
+## Examples: ls, cat, grep, find
+function ## not commands but functions written in bash, defined by the user or the distribution
+
+man ## external executable manuals
+help ## shell builtins help

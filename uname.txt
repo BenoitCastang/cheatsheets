@@ -1,0 +1,7 @@
+uname ## print system basic info 
+uname -s ## print kernel name
+uname -r ## print kernel release
+uname -n ## print hostname
+uname -m ## print processor
+uname -o ## print os
+uname -a ## print everything

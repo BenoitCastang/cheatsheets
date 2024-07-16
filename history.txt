@@ -1,0 +1,3 @@
+space before command
+!number
+.bash_history ## hisory of command written each time session is exited

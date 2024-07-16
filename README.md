@@ -1,2 +1,2 @@
 # cheatsheets
-Here are my cheatsheets
+Here are my cheatsheets.

@@ -1,8 +1,58 @@
-
 echo -e
 test
-shell variables
 colors 
 things about scripting on chagpt
-type
 etc
+path
+
+#? TYPE
+
+type command ## describe how its arguments would be interpreted if used as command names, possible re    sults are listed below
+type -a command ## show all locations for a command: ls goes /bin/ls and /usr/bin/ls
+
+shell builtin ## built-in-shell command, executed directly by the shell itself, rather than by an ext    ernal program, part of the shell's internal binary
+## Examples: cd, echo, exit, pwd, alias, set
+alias ## if bash alias
+/bin/ls ## external executable searched through the PATH environment variable
+## Examples: ls, cat, grep, find
+function ## not commands but functions written in bash, defined by the user or the distribution
+
+man ## external executable manuals
+help ## shell builtins help
+
+#? VARIABLES
+
+variable=value ## create a local variable, available only in the same bash processe
+export variable=value ## create a variable available in child processes
+PATH=$PATH:~ script ## if a script is in the home direcory, it is run and the PATH is changed only the time of the commmand
+var=value bash -c "echo $var" ## var exists only the time of the command execution (echo is trough bash -c cause bash expansion happens before variable assignement
+env ## display all environment variables of the current shell
+set ## display all environment variables, shell variables, and shell functions 
+## shell variables and functions are defined in all confiration files, user-wide and system-wide
+set -option ## enable a shell option
+set +option ## disable a shell option
+set -x ## enable debugging mode, displaying all commands
+set +x ## disable debugging mode
+set -e ## exit on error
+set -u ## treat unset variable as an error and exit
+set -- blop crac boum && echo $1 $2 $3
+## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
+unset var ## removes shell variable or function from current bash process
+
+#? SPECIAL PARAMETERS
+
+parameter $0 ## Name of the script or shell
+parameter $1 ## First positionnal parameter when arguments are given to a script
+parameter $_ ## Last argument of the previous command
+parameter $# ## The number of positional parameters
+parameter $* ## All positional parameters as a single word
+parameter $@ ## All positional parameters as separate words
+parameter $? ## The exit status of the last command
+parameter $$ ## The process ID of the current shell
+parameter $! ## The process ID of the last background command
+parameter $- ## Current options set for the shell
+
+#? QUOTES AND ESCAPING
+
+echo '$var' ## preserve literal value of all characters
+echo "$var" ## preserve literal value of all characters except for $, \ and `
