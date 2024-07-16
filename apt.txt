@@ -1,5 +1,7 @@
 ## apt has over dpkg advanced search capabilities and automatic dependency resolution, it works also in concert with software repositories
 
+#? APT-GET
+
 apt-get update ## update package index to get info and sources of new and updated packages
 apt update ## shorthand
 apt-get install package ## install package from online source
@@ -17,6 +19,9 @@ apt upgrade ## shorthand
 /var/cache/apt/archives/partial ## partially downloaded files
 apt-get clean ## remove content of archives directories
 apt clean ## package
+apt list --installed ## echo list of installed packages
+
+#? APT-CACHE
 
 apt-cache ## operations on the package index
 apt-cache search pattern ## output list of packages containing the pattern in either the name, description or files
@@ -44,6 +49,8 @@ deb-src ## source packages archive type (containing only source code)
 		non-free ## contains packages that are not compliant with the DFSG.
 		security ## contains security updates.
 		backports ## contains more recent versions of packages that are in main, not validated yet by debian stable version.
+
+#? APT-FILE
 
 apt-file ## file research
 apt-file update ## update package cache (must be done after installation)

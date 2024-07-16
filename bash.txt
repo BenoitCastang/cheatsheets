@@ -232,11 +232,6 @@ sudo update-alternatives --config editor ## edit visudo editor
 %sudo ALL=(ALL:ALL) /usr/bin/apt,/usr/bin/rm ##  restricting commands
 %sudo ALL=(ALL:ALL) NOPASSWD: ALL ##  use sudo without password
 
-$? APT
-
-apt list --installed ## echo list of installed packages
-
-
 $? MANAGING PROCESSES
 
 uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.

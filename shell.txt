@@ -1,9 +1,20 @@
+to do :
 echo -e
 test
+if
+[[ ]]
+logical operators
+case
 colors 
 things about scripting on chagpt
 etc
 path
+which
+command
+eval
+declare
+printf
+Order of Execution : Parsing Brace Expansion Tilde Expansion Parameter and Variable Expansion Command Substitution Arithmetic Expansion Process Substitution Word Splitting Filename Expansion (Globbing) Quote Removal Redirections Variable Assignment Alias Substitution Function Lookup Built-in Command Lookup Hash Table Lookup Path Lookup
 
 #? TYPE
 
@@ -56,3 +67,9 @@ parameter $- ## Current options set for the shell
 
 echo '$var' ## preserve literal value of all characters
 echo "$var" ## preserve literal value of all characters except for $, \ and `
+
+#? IF
+
+## Conditions is if statements can be tests, comparisons or commands
+if ls . ## ls . returns exit status 0 so the condition is true
+if ls /roote ## ls /roote returns exit 1 so the condition is false
