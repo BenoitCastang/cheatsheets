@@ -1,0 +1,22 @@
+netstat -tulpn' ## Show network traffic
+ping google.com ## Send echo request forever                                                           11 ping -c 3 google.com ## Send 3 echo requests
+
+ip addr show ## Show ip adress                                                                         14 ip addr add 192.168.0.1/255.255.255.0 dev wlo1 ## static ip address configuration
+ip link show ## List network interfaces
+ip route show ## Show current IPv4 routing table
+ip route add default via 192.168.0.1 ## set default route
+
+/etc/hosts ## first look up for names here before contacting the dns
+/etc/resolv.conf ## contains default dns server address
+
+host google.com ## perform dns lookup
+dig google.com ## detailed dns lookup
+
+ss ## show all sockets
+ss -s ## summary
+ss -p ## show process information
+ss -4 ## show IPv4
+ss -6 ## show IPv6
+ss -t ## show tcp sockets
+ss -u ## show udp sockets
+ss -l ## show sockets listening for new connections

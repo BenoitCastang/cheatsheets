@@ -1,3 +1,10 @@
+man command ## open man page
+man 5 command ## man page 5
+man builtins ## man for bash commands
+
+## to read
+
+https://www.reddit.com/r/commandline/comments/1a9u0h/what_are_some_must_read_man_pages/
 man bash
 vim
 tmux

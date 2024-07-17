@@ -1,0 +1,5 @@
+ls ## list files
+ls -l ## long listing
+ls -d ## list a directory
+ls -a ## list all files
+ls -A ## list all files but . and ..

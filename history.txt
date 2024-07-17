@@ -1,3 +1,9 @@
 space before command
 !number
 .bash_history ## hisory of command written each time session is exited
+history ## show every command of the history
+500 ## execute command number 500 of the history
+"\C-f": forward-search-history
+"\C-r": reverse-search-history
+"\C-g": abort
+space before a command ## command doesnt go into history

@@ -1,0 +1,10 @@
+tput ## terminal put
+
+tput setaf 1 ## set ansi foreground red
+tput setab 2 ## set ansi background red
+
+tput cup 0 0 ## cursor position first line first column
+tput cup $(tput lines) ## last line, beginning of line
+tput cup $(tput lines) $(($(tput cols) - 1)) ## last line, end of line
+tput cup 0 $(($(tput cols) - 1)) ## first line, end of line
+tput cup $(($(tput lines) / 2)) $((($(tput cols) / 2) - 1)) ## center of screen

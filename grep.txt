@@ -1,0 +1,2 @@
+grep -v ## reverted grep
+grep -c ## display only number of matches

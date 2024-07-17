@@ -1,0 +1,13 @@
+$? WC
+
+wc -l ## Count number of lines
+wc -c ## Count number of characters
+wc -w ## Count number of words
+
+$? CUT
+
+echo "orange,banana,apple" | cut -d ',' -f 2 ## Keep only field 2, fields being seperated by comma
+
+$? REV
+
+echo "file" | rev ## Reverts letters order

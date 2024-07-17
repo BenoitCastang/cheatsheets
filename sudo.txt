@@ -1,0 +1,10 @@
+sudo -l ## Show rights of the sudo group
+/etc/sudoers ## file for sudo rules                                                                     4 sudo visudo ## edit /etc/sudoers file
+sudo update-alternatives --config editor ## edit visudo editor
+%sudo ALL=(ALL:ALL) ALL ## basic sudo config line                                                       7 ## the % means its a group
+## first ALL means all hosts
+## second ALL means switching to all users is allowed
+## third ALL means switching to all groups is allowed
+## fourth ALL means executing all commands is allowed
+%sudo ALL=(ALL:ALL) /usr/bin/apt,/usr/bin/rm ##  restricting commands
+%sudo ALL=(ALL:ALL) NOPASSWD: ALL ##  use sudo without password

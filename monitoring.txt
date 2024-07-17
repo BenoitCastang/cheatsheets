@@ -1,0 +1,4 @@
+cat /etc/os-release ## Show current Linux system infos
+uname -a ## Show current Linux system infos
+lscpu ## display processor infos
+lsblk ## display disks and partitions

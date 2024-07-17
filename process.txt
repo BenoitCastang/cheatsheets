@@ -1,0 +1,28 @@
+uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.
+top ## Dynamic display running processes
+htop ## colored and fancier version
+atop ## exists also
+
+free ## parses /proc/meminfo and displays the amount of free and used memory in the system - default in kikibytes
+free -b ## Bytes
+free -m ## Mebibytes
+free -g ## Gibibytes
+free -h ## human-readable format
+
+ps ## Static display of processes attached to the current shell ## TIME is the cpu time taken by the process
+ps -f ## more information
+ps -u ## still more
+ps -v ## memory usage
+pstree ## Display tree of running processes
+
+pgrep <processname> ## Display process id
+pgrep -l <processname> ## Display process id and name
+pgrep -a <processname> ## Display process id and bin path
+pgrep -u <username> ## Display processes of one user
+
+kill <processid> ## Kill process giving its id
+killall <processname> ## Kill process giving its name
+killall -s <signal> <processname> ## Send signal to a process giving its name
+
+C-Z ## make a program go to the background
+fg ## make the program go back to the foreground

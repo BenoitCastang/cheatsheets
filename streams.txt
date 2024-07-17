@@ -1,0 +1,5 @@
+0 stdin: standard input
+1> stdout: standard output ## redirects not errors only
+2> stderr: standard error ## redirects errors only
+1> 2>&1 ## redirect standard output and standard error
+/dev/null ## Files there are deleted

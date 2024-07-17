@@ -1,0 +1,13 @@
+find [path] <pattern>
+find -name <pattern> ## Search exact name pattern
+find -type f
+find -type d
+find -mtime 7 ## time of last modification: one week
+find -mtime -7 ## time of last modification: less than a week
+find -mtime +7 ## time of last modification: more than a week
+find -readable ## is readable by the current user
+find -writable ## is writable by the current user
+find -executable ## is executable by the current user
+find -size -10k
+find -size 10M
+find -size +10G
