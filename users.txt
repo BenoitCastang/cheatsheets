@@ -25,9 +25,10 @@ useradd -u uid username ## create user with specific uid
 useradd -D ## show user creation default values
 adduser username ## Create a user, defining password and comments and creating a home directory
 
-/etc/login.defs ## config file for user creation default values: password minimum and maximum days, warn days, uid and gid min and max, create home
-/etc/default/useradd ## other config file for user creation default values: shell, home, inactive, expire, skel
-/etc/skel ## default content of home directory for new users
+/etc/login.defs ## config file for user-related commands: password minimum and maximum days, warn days, uid and gid min and max, create home dir or not etc.
+/etc/default/useradd ## config file for useradd
+/etc/default/adduser.conf ## config file for adduser
+/etc/skel ## default content of home directory for new users for both useradd and adduser
 
 usermod [OPTIONS] USERNAME
 usermod -l user ## rename user login name
