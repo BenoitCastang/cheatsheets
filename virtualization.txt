@@ -21,5 +21,8 @@ sudo chmod 666 /var/run/libvirt/libvirt-sock ## must be readable to the user who
 sudo chown root:kvm /var/lib/libvirt/images/ISO ## give ownership of ISO directory to kvm group
 sudo chmod g+rw /var/lib/libvirt/images/ISO ## give read and write permission to the group
 ## Finally copy ISO file to ISO directory
+sudo virt-manager ## vmm must be run as superuser
 
 #? CREATING VIRTUAL MACHINES
+
+grub must be installed

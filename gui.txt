@@ -1,3 +1,12 @@
+#? INSTALL A GUI
+
+sudo apt upgrade && sudo apt update ## update sources and packages
+sudo apt install task-gnome-desktop || sudo apt install task-kde-desktop || sudo apt install task-xfce-desktop ## install desktop environment
+sudo apt install gdm3 || sudo apt install sddm || sudo apt install lightdm ## install display manager
+sudo dpgk-reconfigure gdm3 ## configure display manager manually if not done automatically during installation
+sudo systemctl enable gdm3 ## make display manager start at each boot
+sudo reboot ## reboot system
+
 ?# GUI
 
 X11 (X Window System) ## An older, established display server protocol that provides the basic framework for a GUI environment on Unix-like operating systems. It handles window management, graphics rendering, and input device handling.
