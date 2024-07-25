@@ -1,1 +1,3 @@
 sysvinit upstart systemd
+
+systemctl enable --now service ## start and enable at the same time
