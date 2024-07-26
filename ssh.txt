@@ -24,9 +24,9 @@ ssh-keygen ## generate keys, do not do it when already having one
 ssh-keygen -t ed25519 ## choose other type of key than rsa
 ssh-keygen -C comment ## add a comment at the end of the public key, default is user@client
 authorized_keys ## file to create on the server in /home/user/.ssh/ and put the public key in it
-ssh-copy-id porco@debian1 ## copy public key in /home/user/.ssh/authorized_keys
-ssh-copy-id -i /home/porco/.ssh/id_rsa.pub porco@debian1 ## manually input public key file
-ssh -i /home/porco/.ssh/id_rsa.pub porco@debian1 ## manually select key to connect to the server
+ssh-copy-id username@debian1 ## copy public key in /home/user/.ssh/authorized_keys
+ssh-copy-id -i /home/username/.ssh/id_rsa.pub username@debian1 ## manually input public key file
+ssh -i /home/username/.ssh/id_rsa.pub username@debian1 ## manually select key to connect to the server
 ssh-add id_ed25519 ## add the private key to the cache so it does not ask for passphrase (ssh-agent must be running)
 eval $(ssh-agent) ## create new ssh-agent session
 ssh-add -l ## list ssh-agent identities saves

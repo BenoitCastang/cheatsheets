@@ -1,0 +1,34 @@
+apt install docker.io ## install docker
+sudo systemctl enable --now docker ## enable and start docker in case
+sudo usermod -aG docker username ## add username to docker group so username wont need using sudo
+
+docker search debian ## search for pre-existing container images
+docker pull debian ## download image
+docker images ## print local images
+docker rmi image-id ## remove local image
+
+docker run -it image-name /bin/bash ## create container and enter it
+## -i means interactive
+## -t means tty
+## /bin/bash is the entrypoint
+## an entrypoint is an application run in a container
+
+c-d or exit ## disconnect or exit the container, meaning it is stopped
+docker ps ## print existing containers
+docker ps -a ## print also stopped containers
+c-p c-q ## detach a container, meaning you leave it without stopping it
+docker stop container-id ## stop a container
+docker start container-id ## restart stopped container
+docker attach container-id ## enter running container
+docker rm container-id ## remove container
+docker info ## show docker server info
+
+docker commit container-id image-name ## create an image from a container
+
+?# RUN APACHE IN CONTAINER
+
+docker run -dit debian /bin/bash ## create container detach mode, without entering it
+docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 ont the host is redirected to port 80 within the container
+apt update ## must be done to install any package, cause source index is outdated
+apt install apache2 
+/etc/init.d/apache2 start ## start apache2 service - systemv style

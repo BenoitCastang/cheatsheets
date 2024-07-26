@@ -15,8 +15,9 @@ git lp ## log with all details
 git stash ## drop local changes
 git revert <hash> ## hash from git log --oneline
 git branch ## list branches in local repository
-git checkout branch ## switch to a branch
+git checkout master  ## switch to a branch
 git checkout -b master ## create branch
+git branch -d master ## delete branch
 
 $? GITHUB
 
