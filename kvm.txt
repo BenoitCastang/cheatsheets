@@ -1,4 +1,4 @@
-#? CONFIGURING KVM
+#? CONFIG KVM
 
 /var/lib/libvirt/images ## default directory for KVM VM images
 egrep -c '(vmx|svm)' /proc/cpuinfo ## 0 means cpu does not support virtualizaton
@@ -21,8 +21,33 @@ sudo chmod 666 /var/run/libvirt/libvirt-sock ## must be readable to the user who
 sudo chown root:kvm /var/lib/libvirt/images/ISO ## give ownership of ISO directory to kvm group
 sudo chmod g+rw /var/lib/libvirt/images/ISO ## give read and write permission to the group
 ## Finally copy ISO file to ISO directory
-sudo virt-manager ## vmm must be run as superuser
+sudo chmod 775 /var/lib/libvirt/images/ ## make kvm admin availavle to all
+sudo chmod 775 /var/lib/libvirt/images/iso/ ## make kvm admin availavle to all
 
-#? CREATING VIRTUAL MACHINES
+#? VIRSH
 
-grub must be installed
+## virsh is a command-line interface to kvm
+/var/lib/libvirt/images ## directory for VM images, in the qcow2 format
+/var/lib/libvirt/images/ISO ## directory for VM ISO files
+virsh list ## show running VMs
+virsh list --all ## include non running VMs
+virsh start vm-name ## start VM
+virsh shutdown vm-name ## shutdown VM
+virsh suspend vm-name ## suspend VM
+virsh resume vm-name ## resume suspended VM
+virsh destroy vm-name ## equivalent to pulling a power cable from a physical server, to use when shutdown wont work, during os installation for example
+virt-viewer --connect qemu:///system --wait vm-name ## launch the VM window to use VM in gui
+
+#? DELETE A VIM
+
+## first shutdown or destroy VM
+virsh undefine vm-name ## delete the VM, but leaves the qcow image
+rm vm-name.qcow2 ## remove VM
+
+#? CREATE A VM
+
+virt-install --name vm-name --os-variant os-name --cdrom iso-file ## create a VM
+virt-install --name testvm --os-variant debian12 --cdrom /var/lib/libvirt/images/ISO/debian-12.0.0-amd64-netinst.iso ## example
+--ram 2048 ## specify the RAM
+--vcpus 2 ## specify number of cpus
+
