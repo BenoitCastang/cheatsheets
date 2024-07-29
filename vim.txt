@@ -4,3 +4,25 @@ CTRL-] ## jump to a subject
 :echom[sg] {message} ## echo a message that remains in the message-history
 :mes[sages] ## show message-history 
 " This is a comment
+
+q: ## q: in normal mode allows editing history in vim mode
+
+c-a ## increment by 1 next number
+c-x ## decrement by 1 next number
+5c-a ## increment by 5
+
+gU<motion> ## make uppercase
+gu<motion> ## make lowercase
+
+read ## insert content from outsite
+read file ## insert content of a file
+read !command ## insert output of a command
+
+#? COMMAND-LINE MODE
+
+:2 ## go line 2
+:normal iblop ## write bLOP where is the cursor
+:normal gocrac ## go last line, insert line, write crac
+:execute "/pattern" | normal dd ## chain commands
+
+vim -c 'normal Gocrac' -c 'wq' file ## edit from outside vim

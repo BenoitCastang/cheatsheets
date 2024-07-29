@@ -38,10 +38,10 @@ virsh resume vm-name ## resume suspended VM
 virsh destroy vm-name ## equivalent to pulling a power cable from a physical server, to use when shutdown wont work, during os installation for example
 virt-viewer --connect qemu:///system --wait vm-name ## launch the VM window to use VM in gui
 
-#? DELETE A VIM
+#? DELETE A VM
 
 ## first shutdown or destroy VM
-virsh undefine vm-name ## delete the VM, but leaves the qcow image
+virsh undefine vm-name ## delete the VM configuration
 rm vm-name.qcow2 ## remove VM
 
 #? CREATE A VM
@@ -51,3 +51,12 @@ virt-install --name testvm --os-variant debian12 --cdrom /var/lib/libvirt/images
 --ram 2048 ## specify the RAM
 --vcpus 2 ## specify number of cpus
 
+#? COPY A VM
+
+virsh shutdown src-vm
+cp src-vm.qcow2 dest-vm.qcow2 ## duplicate disk image to a new file
+virsh dumpxml src-vm > dest-vm.xml ## dump VM configuration
+## then replace in the .xml file the name value, the uuid using uuidgen and the source file link with the new VM name
+vim -c '/<name>' -c 'normal f>lct<dest-vm' -c '/<uuid>' -c 'normal f>ldt<' -c 'read !uuidgen' -c 'normal v$dkf>pJx' -c '/<source' -c 'normal 5f/lcedest-vm' -c 'wq' dest-vm.xml ## doing it with one command
+virsh define dest-vm.xml ## configure VM
+virsh start dest-vm
