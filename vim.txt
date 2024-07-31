@@ -18,6 +18,12 @@ read ## insert content from outsite
 read file ## insert content of a file
 read !command ## insert output of a command
 
+## autocompletion
+c-n ## next match
+c-p ## previous match
+c-x c-f ## auto complete file path
+c-x c-l ## auto complete line
+
 #? COMMAND-LINE MODE
 
 :2 ## go line 2
