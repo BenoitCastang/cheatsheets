@@ -28,7 +28,7 @@ docker commit container-id image-name ## create an image from a container
 ?# RUN APACHE IN CONTAINER
 
 docker run -dit debian /bin/bash ## create container detach mode, without entering it
-docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 ont the host is redirected to port 80 within the container
+docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 on the host is redirected to port 80 within the container
 apt update ## must be done to install any package, cause source index is outdated
 apt install apache2 
 /etc/init.d/apache2 start ## start apache2 service - systemv style

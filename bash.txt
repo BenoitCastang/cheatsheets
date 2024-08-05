@@ -70,9 +70,15 @@ echo "$var" ## preserve literal value of all characters except for $, \ and `
 
 #? IF
 
-## Conditions is if statements can be tests, comparisons or commands
+## Conditions are if statements that can be tests, comparisons or commands
+
+## commands - command exit status can be used
 if ls . ## ls . returns exit status 0 so the condition is true
 if ls /roote ## ls /roote returns exit 1 so the condition is false
+
+## tests
+
+## comparisons
 
 #? READ
 

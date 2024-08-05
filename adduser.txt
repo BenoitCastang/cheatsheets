@@ -1,0 +1,16 @@
+sudo adduser username ## create user
+## perl script using useradd, prompt for password and personal info, automatically create home directory, copy conf files from /etc/skel, configure bash as shell, create a group with the name of the user and define it as primary group for him
+## useradd is a package containing also addgroup, deluser and delgroup
+
+sudo addgroup groupname ## create group
+sudo addgroup --system groupname ## create system group
+
+sudo adduser username groupname ## add user to a group
+
+sudo deluser username ## delete user
+sudo deluser --remove-home ## delete user and home directory
+sudo deluser --remove-all-files ## delete user and home directory plus any file belonging to the user on the system
+
+sudo deluser username groupname ## remove user from group
+
+sudo delgroup groupname ## delete group

@@ -2,7 +2,7 @@ whoami ## print effective username
 who ## list active logins on the system
 w ## list more information
 id user ## get uid, gid and groups of a user
-userls ## print all real users of the system - personal alias
+lsuser ## print all real users of the system - personal alias
 users ## print the user names of users currently logged in to the user host
 
 su [user] ## Switch user
@@ -23,7 +23,6 @@ useradd -G group1,group2 username ## define supplementary groups
 useradd -s /bin/bash username ## set specific login shell
 useradd -u uid username ## create user with specific uid
 useradd -D ## show user creation default values
-adduser username ## Create a user, defining password and comments and creating a home directory
 
 /etc/login.defs ## config file for user-related commands: password minimum and maximum days, warn days, uid and gid min and max, create home dir or not etc.
 /etc/default/useradd ## config file for useradd
