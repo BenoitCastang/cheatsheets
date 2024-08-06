@@ -1,13 +1,34 @@
-find [path] <pattern>
+find [path] <pattern> ## find files matching a pattern
+
 find -name <pattern> ## Search exact name pattern
-find -type f
-find -type d
+find -iname <pattern> ## case insensitive
+find -name "*.sh" ## every filename ending in .sh
+find -name "*foo*" ## every filename containing "foo"
+
+find -type f ## search files only
+find -type d ## search directories onlyj
+
 find -mtime 7 ## time of last modification: one week
 find -mtime -7 ## time of last modification: less than a week
 find -mtime +7 ## time of last modification: more than a week
+
 find -readable ## is readable by the current user
 find -writable ## is writable by the current user
 find -executable ## is executable by the current user
-find -size -10k
-find -size 10M
-find -size +10G
+
+find -size -10k ## search below 10K size
+find -size 10M ## search 10M size only
+find -size +10G ## search above 10G size only
+
+find -delete ## delete found files
+find -exec command {} \; ## execute command on found files
+## {} represents the files
+## \; repredents the end of the command
+
+find -name "foo" -or -name "bar" ## find foo or bar
+find -name "foo" -o -name "bar" ## same
+
+find -name "foo" -and -name "bar" ## find foo and bar
+find -name "foo" -a -name "bar" ## same 
+
+find ! -name "foo" ## find not foo
