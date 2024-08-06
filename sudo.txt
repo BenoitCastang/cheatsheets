@@ -1,10 +1,20 @@
 sudo -l ## Show rights of the sudo group
-/etc/sudoers ## file for sudo rules                                                                     4 sudo visudo ## edit /etc/sudoers file
+sudo command ## perform command as another user - default is root
+sudo -u username command ## perform command as another user
+sudo -g groupname command ## perform command as another group (and same user)
+
+/etc/sudoers ## file for sudo rules
+sudo visudo ## edit /etc/sudoers file
 sudo update-alternatives --config editor ## edit visudo editor
-%sudo ALL=(ALL:ALL) ALL ## basic sudo config line                                                       7 ## the % means its a group
+
+username ALL=(ALL) ALL ## rights for one user to user sudo
+%sudo ALL=(ALL:ALL) ALL ## rights for the sudo group to use sudo 
+## the % means its a group
 ## first ALL means all hosts
+%sudo tty1=(ALL) ALL ## restrict commands from tty1 only
+%sudo ubuntu=(ALL) ALL ## restrict commands from one machine only
 ## second ALL means switching to all users is allowed
 ## third ALL means switching to all groups is allowed
 ## fourth ALL means executing all commands is allowed
 %sudo ALL=(ALL:ALL) /usr/bin/apt,/usr/bin/rm ##  restricting commands
-%sudo ALL=(ALL:ALL) NOPASSWD: ALL ##  use sudo without password
+%sudo ALL=(ALL:ALL) NOPASSWD: ALL ## use sudo without password

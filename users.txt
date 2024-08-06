@@ -59,13 +59,13 @@ chsh ## change user shell interactively
 chsh -s /usr/bin/zsh ## change user's default shell, takes effect at next login
 /etc/shells ## list of available shells
 
-/ect/passwd ## List of users and infos related to accounts: username, x for hidden password, uid, gid, GECOS/comment field, home directory, shell path
-/etc/shadow ## Password infos: username, password hash (! if user is locked), last change, minimum days, maximum days, warn days, grace period, expiration date
+/ect/passwd ## List of users and info related to accounts: username, x for hidden password, uid, gid, GECOS/comment field, home directory, shell path
+/etc/shadow ## Password info: username, password hash (! or * means user is locked, so direct connexion to that user is impossible, one must be logged in to the server with another user first), last change, minimum days, maximum days, warn days, grace period, expiration date
 
 passwd ## change password of logged in user
 passwd user ## change user's password
 passwd -S user ## show password status: username, password status (P = passworded, NP = No password, L = Locked, PS = Password shadowed, stored securely), last change date, minumum and maximum days, warn days, grace period (-1 means no grace period)
-passwd -l user ## lock user password, disabling the account
+passwd -l user ## lock user password, disabling the account - * or ! is instead of password hash in /etc/shadow
 passwd -u user ## unlock user password, re-enabling the account
 passwd -d user ## delete user password, making the account password-less
 passwd -e user ## force password expiration thus password change
@@ -90,6 +90,7 @@ id ## return uid, gid (primary group) and secondary groups
 /ect/group ## List of groups: group name, password (x means not used), gid, list of supplementary members (i.e. the group is a secondary group for the user, primary groups for each user being specified in /etc/passwd)
 /etc/gshadow ## list of groups: group name, encrypted password, group administrators, group members
 groups user ## Display groups of a user
+lsgroup ## print all real users on the system and the groups they belong to - personal alias
 
 groupadd groupname ## Create a group
 groupadd -g gid groupname ## create a group with a specified gid
