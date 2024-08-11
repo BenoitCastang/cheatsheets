@@ -1,0 +1,5 @@
+$? SCP
+
+sudo scp <file> user@host: ## transfer a file to a host via ssh
+sudo scp -r <directory> user@host: ## transfer a directory to a host via ssh
+sudo scp user@host:<file> <destination> ## reverse transfer from remote to local

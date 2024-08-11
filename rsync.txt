@@ -1,0 +1,19 @@
+$? RSYNC
+
+sudo rsync <file> user@host: ## transfer a file to a host via ssh
+sudo rsync -v <file> user@host: ## show files transfered
+sudo rsync -r <directory> user@host: ## transfer a directory
+sudo rsync -l <file> user@host: ## allow symlinks transfer
+sudo rsync -p <file> user@host: ## keep permissions
+sudo rsync -t <file> user@host: ## preserve modification times
+sudo rsync -g <file> user@host: ## preserve groups
+sudo rsync -o <file> user@host: ## preserve owners
+sudo rsync --devices <file> user@host: ## preserve device files
+sudo rsync --specials <file> user@host: ## preserve special files
+sudo rsync -D <file> user@host: ## same as --devices --specials
+sudo rsync -a <file> user@host: ## same as --rlptgoD
+sudo rsync -z <file> user@host: ## compress file data during the transfer
+sudo rsync -h <file> user@host: ## output numbers in a human-readable format
+sudo rsync -progress <file> user@host: ## show progress during transfer
+sudo rsync --remove-source-files <file> user@host: ## works as mv, deletes source files
+sudo rsync --dry-run <file> user@host: ## works as a test, shows what would be the output of the command

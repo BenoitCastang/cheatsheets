@@ -1,19 +1,51 @@
-uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.
-top ## Dynamic display running processes
-htop ## colored and fancier version
-atop ## exists also
+C-Z ## make a process go to the background
+htop & ## background process when executed - prints job ID and process ID
+jobs ## print background processes and their job ID
+jobs -p ## print process ID of backgroud processes
 
-free ## parses /proc/meminfo and displays the amount of free and used memory in the system - default in kikibytes
-free -b ## Bytes
-free -m ## Mebibytes
-free -g ## Gibibytes
-free -h ## human-readable format
+fg ## make most recent background process go back to the foreground
+fg %1 ## make job ID 1 process go back to the foreground
+kill %1 ## kill job ID 1 process go back to the foreground - send SIGTERM
+kill -9 $(jobs -p) ## kill all background processes - send SIGKILL
 
-ps ## Static display of processes attached to the current shell ## TIME is the cpu time taken by the process
+ps ## Static display of processes attached to the current shell
+## PID: process ID
+## TTY: terminal responsible for the command - tty are "real" terminal, pts are virtual terminal
+## TIME: cpu time taken by the process
+## CMD: command executed
+ps a ## prints also processes by other users, details more commands run and adds the STAT column
+## STAT: status of the process
+## R is running
+## S is sleeping (waiting for user input)
+## D is uninterruptible sleep (waiting for hardware request)
+## T is stopped
+## Z is zombie (completed but parent process didn't read exit status yet, doesn't consume system resources anymore)
+## I is idle state
+## ADDITIONAL FLAGS: additional information in status column
+## < is high priority process
+## N is low priority process
+## L is locket in memory
+## s is session leader, first process in a session
+## l is multithreaded
+## + is foreground process group, you see it on the screen if you look at its terminal
+ps au ## prints new colums: user, %cpu, %mem, vsz, rss and start
+## USER is user responsible for the process
+## %CPU is cpu usage
+## %MEM is memory usage
+## VSZ is virtual memory size in kb, i.e. memory + swap + shared libraries
+## RSS is resident set size in kb, i.e. only ram physical memory
+## START is start time of process
+ps aux ## include system-level processes
+ps aux | grep nginx ## filter nging processes
+ps --sort=%cpu ## sort by cpu usage, ascending order
+ps --sort=-%mem ## sort by memory usage, descending order
+## other sorting criteria: user, pid, vsz, rss, tty, stat, start, time, cmd
 ps -f ## more information
 ps -u ## still more
 ps -v ## memory usage
 pstree ## Display tree of running processes
+
+pidof vim ## get pid of all vim instances
 
 pgrep <processname> ## Display process id
 pgrep -l <processname> ## Display process id and name
@@ -24,5 +56,13 @@ kill <processid> ## Kill process giving its id
 killall <processname> ## Kill process giving its name
 killall -s <signal> <processname> ## Send signal to a process giving its name
 
-C-Z ## make a program go to the background
-fg ## make the program go back to the foreground
+uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.
+top ## Dynamic display running processes
+htop ## colored and fancier version
+atop ## exists also
+
+free ## parses /proc/meminfo and displays the amount of free and used memory in the system - default in kikibytes
+free -b ## Bytes
+free -m ## Mebibytes
+free -g ## Gibibytes
+free -h ## human-readable format
