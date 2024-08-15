@@ -1,3 +1,5 @@
+#? BACKGROUND AND FOREGROUND
+
 C-Z ## make a process go to the background
 htop & ## background process when executed - prints job ID and process ID
 jobs ## print background processes and their job ID
@@ -7,6 +9,8 @@ fg ## make most recent background process go back to the foreground
 fg %1 ## make job ID 1 process go back to the foreground
 kill %1 ## kill job ID 1 process go back to the foreground - send SIGTERM
 kill -9 $(jobs -p) ## kill all background processes - send SIGKILL
+
+#? DISPLAY PROCESSES
 
 ps ## Static display of processes attached to the current shell
 ## PID: process ID
@@ -44,6 +48,21 @@ ps -f ## more information
 ps -u ## still more
 ps -v ## memory usage
 pstree ## Display tree of running processes
+
+#? PRIORITY
+
+ps -l ## long format, new colums: F, S, UID, PID, PPID, C, PRI, NI, ADDR, SZ, WCHAN
+## F is flags: 0 is no flag, 1 means processe has superuser privileges, 4 means process is forked by parent process but new process created by it isn't started yet
+## S is status, same thing as in ps a
+## UID is user id of the user who owns the process - 0 is root, 1000 is first non-system user
+## PID is process id
+## PPID is parent process id
+## C is cpu utilization
+## PRI is priority: 80 is normal, 60 is highest priority, 99 is lowest
+## NI is niceness, offset to the priority: 0 is normal, -20 is highest, 19 is lowest
+## ADDR is memory address of the process's kernel stack (process involving the kernel)
+## SZ is size of the process in memory measured in pages (a page is 4KB, so to get the memory size in kilobytes, multiply this value by 4)
+## WCHA is waiting channel, the name of the kernel function in which the process is sleeping (waiting for some resource): - means running, poll_s means the process is waiting for a poll or select system call to finish, do_wait is waiting for child process to finish, do_sys means waiting for a system call to complete (opening file, executing program etc), do_sig means waiting for signal processing or handling in the kernel (stopped program for instance), do_select means process is waiting for a file descriptor to become ready for I/O operations
 
 pidof vim ## get pid of all vim instances
 

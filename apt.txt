@@ -2,7 +2,7 @@
 
 #? APT-GET
 
-apt-get update ## update package index to get info and sources of new and updated packages
+apt-get update ## update local package index to get info and sources of new and updated packages
 apt update ## shorthand
 apt-get install package ## install package from online source
 apt install package ## shorthand
@@ -31,7 +31,7 @@ apt show package ## shorthand
 
 /etc/apt/sources.list ## list of package sources
 /etc/apt/sources.list.d/ ## folder for additional source files
-/etc/apt/sources.list.d/file.list ## file example, source lines must be adde in it
+/etc/apt/sources.list.d/file.list ## file example, source lines must be added in it
 deb http://us.archive.ubuntu.com/ubuntu/ jammy main restricted ## typical source line
 ## a line can be manually added in the file, apt update is required
 archive-type url distribution components ## source line syntax
@@ -50,6 +50,11 @@ deb-src ## source packages archive type (containing only source code)
 		security ## contains security updates.
 		backports ## contains more recent versions of packages that are in main, not validated yet by debian stable version.
 
+#? PERSONAL PACKAGE ARCHIVES
+
+## PPAs are mini-repositories, often including a single application
+sudo apt-add-repository ppa:username/software ## add ppa automaticaly to the sources list dir
+
 #? APT-FILE
 
 apt-file ## file research
@@ -57,3 +62,25 @@ apt-file update ## update package cache (must be done after installation)
 apt-file list package ## list files of a package
 apt list package ## shorthand
 apt-file search file ## search for package containing a file, even uninstalled packages
+
+#? BACKING UP AND RESTORING DEBIAN PACKAGES
+
+dpkg --get-selections > packages.list ## print list of installed packages, put it into a file
+sudo apt update
+sudo apt install dselect ## provides additional features when managing Debian packages
+sudo dselect update
+sudo dpkg --set-selections < packages.list
+sudo apt-get dselect-upgrade ## install list of packages
+
+#? HARDWARE ENABLEMENT STACK
+
+## HWE stack provides additional compatibility for released after the last version of Ubuntu
+sudo apt install --install-recommends linux-generic-hwe-20.04
+
+#? SNAP
+
+snap find pattern ## search
+sudo snap install pattern ## install
+sudo snap remove pattern ## remove
+sudo snap refresh pattern ## update package
+sudo snap refresh ## update all packages

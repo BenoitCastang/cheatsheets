@@ -1,9 +1,11 @@
-space before command
-!number
-.bash_history ## hisory of command written each time session is exited
 history ## show every command of the history
-500 ## execute command number 500 of the history
+.bash_history ## history of command written each time session is exited
+
+sudo !! ## execute previous command as sudo - !! is previous command
+!500 ## execute command number 500 of the history
+history -d 500 ## delete command from the history
 "\C-f": forward-search-history
 "\C-r": reverse-search-history
 "\C-g": abort
 space before a command ## command doesnt go into history
+HISTCONTROL=ignoreboth ## .baschrc conf line: command beginning with a space are not written in the history + duplicated commands are not written either

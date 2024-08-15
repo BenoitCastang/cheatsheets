@@ -5,3 +5,5 @@ uname -n ## print hostname
 uname -m ## print processor
 uname -o ## print os
 uname -a ## print everything
+
+cat /etc/os-release ## file containing system info

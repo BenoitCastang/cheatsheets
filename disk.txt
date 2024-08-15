@@ -1,0 +1,12 @@
+df ## list mounted volumes
+df -h ## human-readable
+df -i ## show inode counts
+
+du ## list and give size of working directory and its sub directories
+du -h ## human-readable
+du -c ## provide total size of directories listed
+du -s ## print only working directory
+du -hcs * ## list all directories of working directories and provide total size
+
+ncdu ## NCurses disk usage utility
+ncdu -x ## skip external and network storage
