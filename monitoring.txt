@@ -2,3 +2,11 @@ cat /etc/os-release ## Show current Linux system infos
 uname -a ## Show current Linux system infos
 lscpu ## display processor infos
 lsblk ## display disks and partitions
+
+uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.
+top ## Dynamic display running processes
+htop ## colored and fancier version
+free -b ## Bytes
+free -m ## Mebibytes
+free -g ## Gibibytes
+free -h ## human-readable format
