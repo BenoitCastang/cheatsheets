@@ -1,0 +1,19 @@
+## the set of cron configurations for a user is a crontab
+
+crontab -l ## print crontab file of current user
+crontab -u username -l ## print crontab for another user
+
+crontab -e ## edit crontab file
+EDITOR=vim crontab -e ## edit crontab with specific editor
+
+## crontab has six fields separated by one space or tab spaces
+## MINUTES - from 0 to 59
+## HOUR - from 0 to 23
+## DAY OF MONTH - from 1 to 31
+## MONTH - from 1 to 12
+## DAY OF THE WEEK - from 1 to 7
+## COMMAND
+
+* ## is used to indicate any minute, hour, day or month
+
+0 0 * * * /usr/bin/apt update ## run apt update every day at midnight

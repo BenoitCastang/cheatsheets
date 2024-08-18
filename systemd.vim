@@ -3,6 +3,7 @@
 systemctl ## list all services (it assumes the list-units option by default
 systemctl list-unit-files ## list units, indicating type and status
 systemctl list-unit-files --type=service ## list only services
+systemctl list-jobs ## print cronjobs
 
 systemctl status service ## print status of a service
 systemctl stop service ## stop service
