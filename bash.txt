@@ -12,7 +12,6 @@ path
 which
 command
 eval
-declare
 printf
 Order of Execution : Parsing Brace Expansion Tilde Expansion Parameter and Variable Expansion Command Substitution Arithmetic Expansion Process Substitution Word Splitting Filename Expansion (Globbing) Quote Removal Redirections Variable Assignment Alias Substitution Function Lookup Built-in Command Lookup Hash Table Lookup Path Lookup
 
@@ -33,7 +32,7 @@ help ## shell builtins help
 
 #? VARIABLES
 
-variable=value ## create a local variable, available only in the same bash processe
+variable=value ## create a local variable, available only in the same bash process
 export variable=value ## create a variable available in child processes
 PATH=$PATH:~ script ## if a script is in the home direcory, it is run and the PATH is changed only the time of the commmand
 var=value bash -c "echo $var" ## var exists only the time of the command execution (echo is trough bash -c cause bash expansion happens before variable assignement
@@ -49,6 +48,95 @@ set -u ## treat unset variable as an error and exit
 set -- blop crac boum && echo $1 $2 $3
 ## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
 unset var ## removes shell variable or function from current bash process
+
+#? DECLARE
+
+declare var=value ## declare and define a variable
+declare -r VAR=value ## declare a read-only variable, i.e. a constant
+
+declare -a array=(1 2 3) ## declare indexed array
+declare -A array=([key1]=1 [key2]=value2) ## declare associative array
+
+declare -i var=4+2 ## declare integer, allowing arithmetic operations by itself
+declare -i var=$a+$b ## with variables
+var+=1 ## works if integer declared ; if not, it adds 1 at the end of the variable as in a string
+
+declare -x VAR=value ## export variable for child processes like the export command
+declare -f function ## display definition of the function
+declare -g var=value ## declare global variable - default is local variable
+declare -n ref=original_var ## declare name reference, i.e. alias to another variable
+
+declare -p ## print all declared variables
+
+#? EXPR
+
+expr expression ## evaluate expressions - allow arithmetic, comparison, logical and string operations
+
+expr 4 + 2 ## performing additions
+expr 4 - 2 ## substractions
+expr 4 / 2 ## divisions - integer only: 9 / 4 returns 2
+expr 4 \* 2 ## multiplications - needs to escape asterisk
+expr 4 % 2 ## modulus
+expr -4 + 2 ## handle relative numbers
+
+expr $a + $b ## with variables
+expr $var + 1 ## increment
+
+expr 4 == 2
+expr 4 != 2
+expr 4 \> 2 ## needs to escape chevrons
+expr 4 \< 2
+expr 4 \<= 2
+epxr 4 \>= 2
+
+expr 4 == 2 \& 1 == 3 ## logical AND
+expr 4 == 2 \| 1 == 3 ## logical OR
+
+expr length string ## return string length
+expr index string n ## return position of n - 0 is not found and returns only first appearance
+expr substr string 1 2 ## return from position 1 2 characters
+expr match string str ## return number of characters found if string is found, return 0 if string is not found
+
+#? EXPANSION
+
+$((expression))## arithmetic expansion
+$((4 + 2)) ## return result of additions - needs use of echo to be printed
+$((4+3)) ## works without spaces
+$((4 - 2)) ## substractions
+$((4 / 2)) ## divisions - integer only: 9 / 4 returns 2
+$((4 * 2)) ## multiplications
+$((4 % 2)) ## modulus
+$((-4 + 2)) ## handle relative numbers
+$((5 + (3 *2))) ## complex operations
+
+$((a + b)) ## with variables - $ is optional
+$((a++)) ## increment - set new value to variable at the same time
+$((a--)) ## decrement
+
+if ((1 == 2));then echo ok; else echo Nok; fi ## can be used in conditional expressions
+
+#? BC
+
+## Basic Calculator - allow to perform calculations beyond bash capabilities
+bc ## enter bc interactive mode
+scale=2 ## define number after zero precision - 0 is the default
+10 / 3 ## returns 3 by default
+10 / 3 ## returns 3.3 with scale=1
+
+echo 4 / 2 | bc ## pass expression to bc from the command line
+echo "scale=2; 4 / 3" | bc ## enable floating point arithmetic
+
+4^2 ## allow exponents
+sqrt(9) ## allow square root functions
+
+## has also a math library, and capabilities to use conditions, loops and functions
+
+#? COMMAND SUBSTITUTION
+
+## capture output of a command to use it as a argument in another command or assign it to a variable
+var=`date` ## using backticks, old fashion
+var=$(date) ## using $(), new fashion
+echo "The system uptime is $(uptime -p)" ## in a command
 
 #? SPECIAL PARAMETERS
 
@@ -80,6 +168,33 @@ if ls /roote ## ls /roote returns exit 1 so the condition is false
 
 ## comparisons
 
+else
+
+#? FOR
+
+for i in 1 2 3; do
+	echo $i
+done
+for i in file
+for in in command
+
+#? ARRAYS
+
+array=(1 2 3) ## declare an array
+array[0]=1 ## define element 0 of array
+echo ${array[0]} ## access element 0 of array
+echo ${array[@]} ## access all elements of array
+echo ${array[*]} ## same
+echo ${#array[@]} ## print array length
+array+=(4) ## add element at the end of the array
+unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
+for i in ${array[@]}; do echo $i; done ## iterate over array elements
+
+associative array
+
+array="1 2 3" ## false array, it is a string - all values are created in ${array[0]}
+for i in $array; do echo $i; done ## go through false array
+
 #? READ
 
 read name ## prompt the user for input and store that input in a variable
@@ -90,3 +205,8 @@ read -r name ## disables backslash escaping, useful for path reading
 read firstname lastname ## read two values
 read txt < file ## store the first line of the file in the variable
 read -t 3 value ## wait only 3 seconds for the input
+
+#? SOURCE
+
+source filepath ## execute bashscript - include file in another script
+. filepath ## shortcut

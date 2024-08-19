@@ -10,3 +10,6 @@ du -hcs * ## list all directories of working directories and provide total siz
 
 ncdu ## NCurses disk usage utility
 ncdu -x ## skip external and network storage
+
+parted
+lsblk

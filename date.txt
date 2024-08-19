@@ -1,0 +1,13 @@
+date ## print date: Mon Aug 18 12:34:56 UTC 2024
+
+date +"%m/%d/%Y" ## print date at format 08/18/2024
+date +"%H:%M" ## print hour at format 12:34
+
+%Y ## Year (e.g., 2024)
+%m ## Month (e.g., 08)
+%d ## Day of the month (e.g., 18)
+%H ## Hour (00–23)
+%M ## Minute (00–59)
+%S ## Second (00–59)
+%A ## Full weekday name (e.g., Monday)
+%B ## Full month name (e.g., August)

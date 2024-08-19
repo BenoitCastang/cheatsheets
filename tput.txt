@@ -3,8 +3,19 @@ tput ## terminal put
 tput setaf 1 ## set ansi foreground red
 tput setab 2 ## set ansi background red
 
-tput cup 0 0 ## cursor position first line first column
+tput cup 0 0 ## move cursor to specific position: first-line first-column
 tput cup $(tput lines) ## last line, beginning of line
 tput cup $(tput lines) $(($(tput cols) - 1)) ## last line, end of line
 tput cup 0 $(($(tput cols) - 1)) ## first line, end of line
 tput cup $(($(tput lines) / 2)) $((($(tput cols) / 2) - 1)) ## center of screen
+
+tput civis ## make cursor invisible
+tput cnorm ## restore cursor to its normal state
+tput cub1 ## moves the cursor one character to the left
+tput cud1 ## Moves the cursor down one line in the same column
+tput cuf1 ## Moves the cursor one character to the right
+tput cuu1 ## Moves the cursor up one line in the same column
+tput cvvis ## Makes the cursor very visible
+tput cup ## Moves the cursor to a specific position on the screen
+tput sc ## Saves the current cursor position
+tput rc ## Restores the cursor to the last saved position using sc
