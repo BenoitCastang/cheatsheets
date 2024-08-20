@@ -1,12 +1,8 @@
 to do :
 echo -e
-test
-if
-[[ ]]
-logical operators
-case
+shift
+switch
 colors 
-things about scripting on chagpt
 etc
 path
 which
@@ -97,23 +93,55 @@ expr index string n ## return position of n - 0 is not found and returns only fi
 expr substr string 1 2 ## return from position 1 2 characters
 expr match string str ## return number of characters found if string is found, return 0 if string is not found
 
+#? LET
+
+## let is not used to print result, it can only perform calculations and store it to data
+let 4+2 ## does the calculation but no output
+let a=4+2 ## a is now 6, while a=4+2 alone makes a be a string "4+2" - handles variables without $
+echo $a ## the result can only be printed this way, through a variable
+
+let result=4+2
+let result=4-2
+let result=4*2
+let result=4/2
+let result=4%2
+let result=4**2 ## exponentiation
+let result=4-20 ## relative numbers work
+let result=4.5-2 ## decimal numbers dont work
+
+let c=a+b ## works with variables
+let a=5 b=2 c=a-b ## allows multiples operations
+let c++ ## increment variable
+
 #? EXPANSION
 
-$((expression))## arithmetic expansion
-$((4 + 2)) ## return result of additions - needs use of echo to be printed
-$((4+3)) ## works without spaces
-$((4 - 2)) ## substractions
-$((4 / 2)) ## divisions - integer only: 9 / 4 returns 2
-$((4 * 2)) ## multiplications
-$((4 % 2)) ## modulus
-$((-4 + 2)) ## handle relative numbers
-$((5 + (3 *2))) ## complex operations
+## expansions output nothing but return an int or a bool - uses $(()) for value substitution or capture the result
+((expression)) ## arithmetic expansion
+((4 + 2)) ## return result of additions - needs use of echo to be printed
+((4+3)) ## works without spaces
+((4 - 2)) ## substractions
+((4 / 2)) ## divisions - integer only: 9 / 4 returns 2
+((4 * 2)) ## multiplications
+((4 % 2)) ## modulus
+((4 ** 2)) ## exponentiation
+((-4 + 2)) ## handle relative numbers
+((5 + (3 *2))) ## complex operations
 
-$((a + b)) ## with variables - $ is optional
-$((a++)) ## increment - set new value to variable at the same time
-$((a--)) ## decrement
+((a + b)) ## with variables - $ is optional
+((a++)) ## increment - set new value to variable at the same time
+((a--)) ## decrement
+((a=5)) ## $a is now 5
 
-if ((1 == 2));then echo ok; else echo Nok; fi ## can be used in conditional expressions
+((4 == 2)) ## returns false
+((4 != 2)) ## returns true
+((4 < 2)) ## returns false
+((4 <= 2)) ## returns false
+((4 > 2)) ## returns true
+((4 >= 2)) ## returns true
+
+echo $((4 + 2)) ## print result 
+var=$((4+2)) ## redirect result
+((var = 4+2)) ## var is now 6, its global
 
 #? BC
 
@@ -140,13 +168,15 @@ echo "The system uptime is $(uptime -p)" ## in a command
 
 #? SPECIAL PARAMETERS
 
-parameter $0 ## Name of the script or shell
+parameter $? ## The exit status of the last command
+## 0 is for command success or true, 1 and more is for errors 
 parameter $1 ## First positionnal parameter when arguments are given to a script
+parameter $2 ## Second positionnal parameter, and so on
+parameter $0 ## Name of the script or shell
 parameter $_ ## Last argument of the previous command
 parameter $# ## The number of positional parameters
 parameter $* ## All positional parameters as a single word
 parameter $@ ## All positional parameters as separate words
-parameter $? ## The exit status of the last command
 parameter $$ ## The process ID of the current shell
 parameter $! ## The process ID of the last background command
 parameter $- ## Current options set for the shell
@@ -158,17 +188,92 @@ echo "$var" ## preserve literal value of all characters except for $, \ and `
 
 #? IF
 
-## Conditions are if statements that can be tests, comparisons or commands
-
-## commands - command exit status can be used
-if ls . ## ls . returns exit status 0 so the condition is true
-if ls /roote ## ls /roote returns exit 1 so the condition is false
-
-## tests
-
-## comparisons
-
+## basic syntax
+if condition; then
+	command
+elif other_conditon; then
+	command
 else
+	command
+fi
+
+## Conditions can be commands, comparisons or tests
+## Bash evaluates the exit status: 0 is true, non-zero is false
+
+if ls /roote ## ls /roote returns exit 1 so the condition is false
+if ls 1> /dev/null 2>&1; then echo true; else echo false; fi ## output of ls is sent away
+if [ -z "$(ls -A /path/to/dir)" ] ## use command substitution to check if directory is empty
+
+test condition ## condition with test command
+if test 4 -eq 4; then echo true; else echo false; fi ## example
+[ condition ] ## shortcut for test command
+if [ 4 -eq 4 ]; then echo true; else echo false; fi ## example
+
+-eq ## Number is equal
+-ne ## Number is not equal
+-lt ## Number is less than
+-le ## Number is less than or equal
+-gt ## Number is greater than
+-ge ## Number is greater than or equal
+
+-e ## File exists
+-f ## File is a regular file
+-d ## File is a directory
+-r ## File is readable
+-w ## File is writable
+-x ## File is executable
+
+= ## Strings are equal
+== ## Strings are equal
+!= ## Strings are not equal
+-z ## String is empty
+-n ## String is not empty
+-v ## String is not set
+
+[ 1 -eq 0 ] && [ 1 -gt 2 ] ## logical operator AND
+[ 1 -eq 0 ] || [ 1 -gt 2 ] ## logical operator OR
+[ ! 1 -eq 0 ] ## logical operator NOT
+
+[ $var ] ## bash checks if value is empty or not, not if its equal to zero or not
+
+((1 > 0)) ## works also with arithmetic expressions
+
+## double brackets provide more advanced and safer syntax
+[[ 3 < 9 ]] ## allows arithetic expressions syntax
+[[ "some file" == some* ]] ## works with wilcard characters
+[[ 2 == 0 && 3 < 9 ]] ## works with logical operators
+[[ (4 == 4 && 4 == 5) || 6 < 2 ]] ## works with parentheses for logical operators
+[[ "string" =~ ^[a-z] ]] ## =~ allows usage of regular expressions
+
+#? CASE
+
+case $var in
+    1)
+			echo "$var = 1"
+      ;;
+    "red")
+      echo "$var = red"
+      ;;
+		*.txt)
+			echo "$var is a text file"
+			;;
+		?.sh)
+			echo "$var is a shell script with a single-character name"
+			;;
+		[A-Z]*)
+			echo "$var starts with an uppercase letter"
+			;;
+		"Monday"|"Tuesday")
+			echo "$var is either Monday or Tuesday"
+			;;
+    *) ## fallback option, default is no other option is met
+      echo "$var is something else"
+      ;;
+esac
+
+#? WHILE
+
+
 
 #? FOR
 
@@ -180,6 +285,7 @@ for in in command
 
 #? ARRAYS
 
+## index array
 array=(1 2 3) ## declare an array
 array[0]=1 ## define element 0 of array
 echo ${array[0]} ## access element 0 of array
@@ -190,10 +296,24 @@ array+=(4) ## add element at the end of the array
 unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
 for i in ${array[@]}; do echo $i; done ## iterate over array elements
 
-associative array
+## associative array
+declare -A assoc_array=([key1]=value1 [key2]=value2) ## declare and define it
+assoc_array[key3]=value3 ## add key and value
+echo ${assoc_array[key2]} ## access element key2 of array
+echo ${assoc_array[@]} ## access all elements of array
+echo ${#assoc_array[@]} ## print array length
+for i in ${assoc_array[@]}; do echo $i; done ## iterate over array values
+for i in ${!assoc_array[@]}; do echo $i; done ## iterate over array keys
+for i in ${!assoc_array[@]}; do echo "$i = ${assoc_array[$i]}"; done ## print keys and values
+if [ -v ${assoc_array[key1]} ]; then echo true; else echo false; fi ## check if key exixts
+unset assoc_array[key3] ## remove element
 
 array="1 2 3" ## false array, it is a string - all values are created in ${array[0]}
 for i in $array; do echo $i; done ## go through false array
+
+$? FUNCTIONS
+
+
 
 #? READ
 
@@ -210,3 +330,52 @@ read -t 3 value ## wait only 3 seconds for the input
 
 source filepath ## execute bashscript - include file in another script
 . filepath ## shortcut
+
+#? SUBSHELLS
+
+## parentheses create a separate instance of the shell that inherits the environment of the parent shell (variables, functions etc.), but any creation done or any change made to the environment within the subshell do not affect the parent shell
+(cd /var/www/ && ls -lA) ## the subshell performs cd and ls, but when back to parent shell, nothing changed, pwd is as before
+ls | grep pattern ## each command in a pipeline is executed in its own subshell
+var=$(ls) ## command substitutions uses subshell
+vim & ## command in the background uses a subshell
+
+#? GROUPING COMMANDS
+
+## curly brace dont create a separate instance, but group the commands together to redirect the output of multiple commands to a single stream
+{ echo file1; echo file2; echo file3; } > file ## group commands and send everything to the file
+
+#? VARIABLE EXPANSION
+
+## the shell replaces variable reference by its value during execution of a command
+echo $var ## basic variable expansion
+echo ${var}text ## with curly braces - better delimitation of the variable name
+
+echo ${var:=default} ## default values: if $var is null or not set, the default value is used
+## variants do exist with -, + or ? instead of =
+echo ${var:2} ## substring extraction: extract the string from character 2
+echo ${var:1:2} ## substring extraction: extract two characters from character 1
+
+echo ${#var} ## string length expansion
+echo ${var/pattern/replacement} ## replace the first match of pattern by replacement in var
+echo ${var//pattern/replacement} ## replace all matches of pattern by replacement in var
+
+path="/path/to/file.txt"
+echo ${var#pattern} ## remove the shortest match of pattern from the beginning of var
+echo ${path#*/} ## outputs path/to/file.txt
+echo ${var##pattern} ## remove the longest match of pattern from the beginning of var
+echo ${path##*/} ## outputs file.txt
+echo ${var%pattern} ## remove the shortest match of pattern from the end of var
+echo ${path%/*} ## ouputs /path/to
+echo ${var%%pattern} ## remove the longest match of pattern from the end of var
+echo ${path%%/*} ## outputs empty string
+
+#? BRACE EXPANSION
+
+echo {a,b,c,d} ## list expansion: echo a b c d
+echo {a..d} ## sequence expansion: echo a b c d
+echo {a..q..4} ## step increment: echo aeimq
+
+echo {a,b,c}{1,2,3} ## nested expansion: echo a1 a2 a3 b1 b2 b3 c1 c2 c3
+echo {a..c}{1..3} ## works the same with sequence expansion
+
+echo file{1..3} ## prefix and suffix expansion: echo file1.txt, file2.txt and file3.txt

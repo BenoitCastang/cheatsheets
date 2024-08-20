@@ -1,3 +1,9 @@
+set -o vi ## switch to vim mode in bash
+## change vi mode commands in .inputrc
+set editing-mode vi ## set the default editing mode to vi
+set keymap vi-command ## set the default keymap to vi-command mode
+jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
+
 :h[elp] {command} | only ## open help fullscreen
 CTRL-] ## jump to a subject
 :ec[ho] {message} ## echo a message
