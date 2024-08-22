@@ -10,3 +10,4 @@ sudo usermod -a -G microk8s username ## add user to the group so sudo isn't requ
 microk8s kubectl ## kube control, command to interact with the cluster via microk8s
 
 ## prerequisites
+static ip adresses

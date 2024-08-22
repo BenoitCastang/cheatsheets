@@ -11,3 +11,7 @@ date +"%H:%M" ## print hour at format 12:34
 %S ## Second (00–59)
 %A ## Full weekday name (e.g., Monday)
 %B ## Full month name (e.g., August)
+
+timedatectl list-timezones ## display all timezones available
+timedatectl list-timezones | grep Europe ## display Europe timezones
+timedatectl set-timezone Europe/Paris ## set timezone

@@ -1,2 +1,7 @@
+touch file ## create file
+## if file exists, update last modification time
 touch file{1..4} ## create file1, file2, file3 and file4
 touch /path/{file1,file2} ## create file1 and file2 without repeating path
+
+fallocate -l 2M file ## create file with forced size
+fallocate -l 2G file ## length option, mandatory
