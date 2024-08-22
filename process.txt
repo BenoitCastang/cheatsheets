@@ -41,6 +41,7 @@ ps au ## prints new colums: user, %cpu, %mem, vsz, rss and start
 ## start is start time of process
 ps aux ## include system-level processes
 ps aux | grep nginx ## filter nging processes
+ps f ## forest view, represents visually hierarchy between processes
 ps --sort=%cpu ## sort by cpu usage, ascending order
 ps --sort=-%mem ## sort by memory usage, descending order
 ## other sorting criteria: user, pid, vsz, rss, tty, stat, start, time, cmd

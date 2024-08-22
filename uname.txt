@@ -1,4 +1,4 @@
-uname ## print system basic info 
+uname ## print basic system information
 uname -s ## print kernel name
 uname -r ## print kernel release
 uname -n ## print hostname
@@ -6,4 +6,4 @@ uname -m ## print processor
 uname -o ## print os
 uname -a ## print everything
 
-cat /etc/os-release ## file containing system info
+cat /etc/os-release ## file containing system information

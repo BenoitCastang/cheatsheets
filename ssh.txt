@@ -1,6 +1,9 @@
 $? SSH
 
-ssh user@host ## connect through ssh
+sudo apt install ssh ## install shh
+
+ssh host ## connect through ssh
+ssh user@host ## precise user
 ssh -v ## gives more infos
 
 /home/user/.ssh/config ## user config file, host is server to connect to, hostname is adress, port is port default 22, user is default user for connection

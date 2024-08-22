@@ -1,0 +1,7 @@
+hostname ## show current hostname
+hostnamectl status ## greater detail - show all host info
+
+sudo hostnamectl set-hostname new-hostname ## temporarily change hostname
+
+/etc/hostname ## file to change hostname permanently
+/etc/hosts ## change 127.0.0.1 old-hostname to 127.0.0.1 new-hostname

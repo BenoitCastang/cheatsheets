@@ -2,5 +2,11 @@
 
 sudo apt install snapd ## install snap on debian
 sudo snap install microk8s --classic ## install microK8s
+sudo microk8s kubectl get all --all-namespaces ## check status of microk8s, overview of the various components
 sudo microk8s enable dns ## install addons: dns, storage, gpu etc
-microk8s kubectl ## command to interact with the cluster via microk8s
+sudo usermod -a -G microk8s username ## add user to the group so sudo isn't required anymore to perform microk8s commands
+
+## one controller node controls all the worker nodes
+microk8s kubectl ## kube control, command to interact with the cluster via microk8s
+
+## prerequisites

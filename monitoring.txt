@@ -1,12 +1,25 @@
-cat /etc/os-release ## Show current Linux system infos
-uname -a ## Show current Linux system infos
-lscpu ## display processor infos
+cat /etc/os-release ## Show current Linux system info
+uname -a ## Show current Linux system info
+hostnamectl status ## show hostname and system info
+
+lscpu ## display processor info
 lsblk ## display disks and partitions
 
 uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.
+
 top ## Dynamic display running processes
 htop ## colored and fancier version
+
+free ## show ram usage
 free -b ## Bytes
 free -m ## Mebibytes
 free -g ## Gibibytes
 free -h ## human-readable format
+total ## total amount of memory installed on the server
+used ## memory not being used by anything, neither shared or buffers or cache
+free ## memory not being used by anything
+shared ## memory being used by tmpfs and other shared resources
+buff/cache ## memory used by the buffers and cache
+available ## memory free for applications to use
+
+swap ## file in hard disk that acts like ram when server's memory is saturated

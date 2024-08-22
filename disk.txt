@@ -1,12 +1,18 @@
-df ## list mounted volumes
+df ## disk filesystem: list mounted volumes, print their size, usage and mount point
+## among them are tmpfs, temporary filesystesms that reside entirely in ram and swap memory and are useb by different processes
 df -h ## human-readable
 df -i ## show inode counts
 
-du ## list and give size of working directory and its sub directories
+du ## disk usage - give name and size of selected directories - by default selects all directories and all subdirectories
+## du gives real size of directories, while ls -l always display 4.0K
+du file ## show disk usage of file only
+du directory ## show disk usage of this directory only, with its subdirectories
+du -s directory ## show not subdirectories - result only one line
 du -h ## human-readable
-du -c ## provide total size of directories listed
-du -s ## print only working directory
-du -hcs * ## list all directories of working directories and provide total size
+du -c ## provide in the end the total size of all elements selected
+
+du -hcs * ## show all elements without the subdirectories, human-readable and with total size
+du -hcs * .* ## show also hiddent files
 
 ncdu ## NCurses disk usage utility
 ncdu -x ## skip external and network storage
