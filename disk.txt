@@ -1,7 +1,11 @@
+#? DF
+
 df ## disk filesystem: list mounted volumes, print their size, usage and mount point
 ## among them are tmpfs, temporary filesystesms that reside entirely in ram and swap memory and are useb by different processes
 df -h ## human-readable
 df -i ## show inode counts
+
+#? DU
 
 du ## disk usage - give name and size of selected directories - by default selects all directories and all subdirectories
 ## du gives real size of directories, while ls -l always display 4.0K
@@ -17,5 +21,102 @@ du -hcs * .* ## show also hiddent files
 ncdu ## NCurses disk usage utility
 ncdu -x ## skip external and network storage
 
-parted
-lsblk
+#? FDISK
+
+sudo fdisk -l ## see disks and partitions, their type and size
+dmesg --follow ## see kernel hardware detection when the device is connected
+lsblk ## show device names, types and mount points
+
+fdisk /dev/vdb ## enter fdisk tool to format disk
+MBR/DOS ## old partition type, max 4 primary partitions, max 2TB disks
+## MBR is for Master Boot Record
+## DOS is for Disk Operating System
+GPT ## new partition type, max 128 primary partitions, no max 2TB disks
+## GPT is for GUID Partition Table
+m ## menu: see available commands
+p ## print current partitionning scheme
+o ## next created partition will be mbr/dos type
+g ## next created partion will be gpt format
+n ## add new partition
+## fdisk will ask for partition number, first sector, last sector (+20G, +20M etc to choose the size)
+w ## save changes
+
+#? MKFS
+
+sudo mkfs /dev/vdb1 ## format with default filesystem: ext2
+sudo mkfs.ext4 /dev/vdb1 ## specify filesystem type
+
+#? MOUNT
+
+sudo mkdir /mnt/vdb1 ## create directory to mount the partition to
+sudo mount /dev/sdb1 /mnt/vdb1 ## mount the partition
+sudo mount -t ext4 /dev/sdb1 /mnt/vdb1 ## specify filesystem type if needed
+/mnt ## directory to mount peristent storage
+/media ## directory to mount temporaty storage (flash drives, cd-rom, external hard drives etc.)
+sudo umount /mnt/vdb1 ## unmount volume
+## Manual mounting is temporary - /etc/fstab must be edited to make it permanent
+
+#? FSTAB
+
+UUID ## Universally Unique Identifier - each filesystem has one
+blkid ## list UUIDs of all filesystems
+blkid /dev/sda ## get UUID of filesystem
+
+/etc/fstab ## read at each starup by the system, place for permanent mounting
+UUID=adsfew7r-34fas-sf4 /mnt/vdb1 ext4 rw,noauto 0 0 ## example
+file system ## device name or UUID (UUID is better because device name can change)
+mount point ## where volume will be mounted on the system
+type ## file system type: ext4, swap etc.
+options ## errors=remount-ro is default, it means if a error occurs, the file system is remounted read-only
+## defaults: rw, exec, auto, nouser, async
+## rw: device will be mounted read/write
+## ro: read-only, to be prefrerred over rw unless very good reason
+## exec: allow files to be executed as programs
+## noexex: prevent scripts from being executed from the volume
+## auto: automatically mount the device at boot time and when performing mount -a
+## noauto: dont automatically mount the device - useful for not always connected volumes like backup volumes - mount mountpoint allow to mount them easily
+## nouser: only root is able to mount the filesystems
+## users: ## allow regular users to mount and unmount the filesystems
+## async: output to the device should be asynchronous
+dump ## determine whether the filesystem should be backed up, 0 is no, 1 is yes - leave it to 0, dump is unused nowadays
+pass ## order in which fsck checks the filesystems in case of system failure - 0 is no check, 1 is first priority, 2 is second priority
+
+mount ## see all mounted partitions and their options
+
+#? LVM
+
+## allows to resize filesystems without needing to reboot the server
+## volume group: pool of storage, container of the disks
+## physical volume: disk itself, physical or virtual
+## logical volume: partition, can span multiple disks
+apt install lvm2 ## install lvm
+
+pvcreate /dev/sdb ## configure a disk for use with lvm 
+pvdisplay ## display physical volumes
+pvs ## summary info
+vgcreate vg-name ## create volume group
+vgextend /dev/sdb ## add physical volume to the volume group
+vgcreate vg-name /dev/sdb ## create vg and add pv at the same time
+vgdisplay ## display volume groups
+vgs ## summary info
+lvcreate -n lv-name -L 10G vg-name ## create a 10G logical volume in volume group
+lvdisplay ## diplay logical volumes
+lvs ## summary info
+mkfs.ext4 /dev/vg/lv ## format logical volume
+mount /dev/vg/lv /mnt/lv ## mount it
+
+lvextend /dev/vg/lv -L 10G ## set new size
+lvextend /dev/vg/lv -L +10G ## incresase size
+lvreduce /dev/vg/lv -L 10G ## set new size
+lvreduce /dev/vg/lv -L -10G ## decresase size
+lvextend /dev/vg/lv -l +100%FREE ## add all remaining space in the volume group
+resize2fs /dev/vg/lv ## resize filesystem
+df -h ## check new size - kv is there named /dev/mapper/vg-lv
+
+lvremove vg/lv ## remove logical volume
+vgremove vg ## remove volume group
+pvremove
+
+#? PARTED
+
+parted ## newer partitionning tool

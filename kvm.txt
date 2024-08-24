@@ -60,3 +60,18 @@ virsh dumpxml src-vm > dest-vm.xml ## dump VM configuration
 vim -c '/<name>' -c 'normal f>lct<dest-vm' -c '/<uuid>' -c 'normal f>ldt<' -c 'read !uuidgen' -c 'normal v$dkf>pJx' -c '/<source' -c 'normal 5f/lcedest-vm' -c 'wq' dest-vm.xml ## doing it with one command
 virsh define dest-vm.xml ## configure VM
 virsh start dest-vm
+
+#? VIRTUAL DISKS
+
+qemu-img create -f qcow2 /var/lib/libvirt/images/mydisk.qcow2 2G ## create virtual disk image
+## -f qcow2:  specify format
+virsh attach-disk vm-name /var/lib/libvirt/images/mydisk.qcow2 vdb --persistent ## attach disk to the vm
+## vdb: name of the disk in the vm
+## --persistent: make disk permanent
+virsh domblklist vm-name ## see all block devives attached to the vm
+fdisk /dev/vdb ## enter fdisk tool to format disk
+a ## add new partition
+w ## save changes
+sudo mkfs /dev/vdb1 ## format with default filesystem: ext4
+sudo mkdir /mnt/vdb1 ## create directory to mount the partition to
+sudo mount /dev/sdb1 /mnt/vdb1 ## mount the partition
