@@ -105,13 +105,18 @@ lvs ## summary info
 mkfs.ext4 /dev/vg/lv ## format logical volume
 mount /dev/vg/lv /mnt/lv ## mount it
 
+## increase logical volume size
 lvextend /dev/vg/lv -L 10G ## set new size
 lvextend /dev/vg/lv -L +10G ## incresase size
-lvreduce /dev/vg/lv -L 10G ## set new size
-lvreduce /dev/vg/lv -L -10G ## decresase size
 lvextend /dev/vg/lv -l +100%FREE ## add all remaining space in the volume group
 resize2fs /dev/vg/lv ## resize filesystem
 df -h ## check new size - kv is there named /dev/mapper/vg-lv
+
+## decrease logical volume size
+e2fsck -f /dev/vg/lv ## filesystem check can be necessary first
+resize2fs /dev/vg/lv 10G ## shrink filesystem first
+lvreduce /dev/vg/lv -L 10G ## set new size
+lvreduce /dev/vg/lv -L -10G ## decrease size
 
 lvremove vg/lv ## remove logical volume
 vgremove vg ## remove volume group
