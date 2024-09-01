@@ -94,9 +94,8 @@ apt install lvm2 ## install lvm
 pvcreate /dev/sdb ## configure a disk for use with lvm 
 pvdisplay ## display physical volumes
 pvs ## summary info
-vgcreate vg-name ## create volume group
+vgcreate vg-name /dev/sdb ## create volume group - one physical volume is needed at a minimum
 vgextend /dev/sdb ## add physical volume to the volume group
-vgcreate vg-name /dev/sdb ## create vg and add pv at the same time
 vgdisplay ## display volume groups
 vgs ## summary info
 lvcreate -n lv-name -L 10G vg-name ## create a 10G logical volume in volume group
@@ -120,7 +119,19 @@ lvreduce /dev/vg/lv -L -10G ## decrease size
 
 lvremove vg/lv ## remove logical volume
 vgremove vg ## remove volume group
-pvremove
+vgreduce vg /dev/vdb ## remove pv from vg
+pvremove /dev/vdb ## make disk no more lvm
+
+## snapshots - clone of logical volume, takes no space at the beginning, saves the changes - confirm changes or rollback to snapshot
+lvcreate -s -n mysnapshot -L 2G vg/lv ## create snapshot of vg/lv
+## -s is for snapshot
+## -n is to choose a name
+## -L is the maximum size
+lvremove vg/mysnapshot ## confirm changes by deleting snapshot
+umount /dev/vg/lv ## unmount lv before rollback
+lvconvert --merge vg/mysnapshot ## cancel changes, roll back to snapshot
+mount /dev/vg/lv /mnt/lv ## remount lv
+
 
 #? PARTED
 
