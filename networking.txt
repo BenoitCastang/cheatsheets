@@ -1,10 +1,73 @@
-netstat -tulpn' ## Show network traffic
-ping google.com ## Send echo request forever                                                           11 ping -c 3 google.com ## Send 3 echo requests
+$? IP
 
-ip addr show ## Show ip adress                                                                         14 ip addr add 192.168.0.1/255.255.255.0 dev wlo1 ## static ip address configuration
-ip link show ## List network interfaces
-ip route show ## Show current IPv4 routing table
-ip route add default via 192.168.0.1 ## set default route
+sdfkj
+## ip command from iproute2 package
+ip option object command ## syntax
+
+## address object
+ip address show ## show ip address
+ip a ## shorthand
+ip -4 a ## show only ipv4 info
+ip -6 a ## show only ipv6 info
+ip addr add 192.168.0.1/255.255.255.0 dev wlo1 ## static ip address configuration
+
+## link object
+ip link show ## list network interfaces
+ip l ## shorthand
+ip link set enp0s3 down ## bring interface down
+ip link set enp0s3 up ## bring interface up
+
+## route object
+ip route list ## show current IPv4 routing table
+ip r ## shorthand
+## default is the gateway, where packetsvare sent if the destination is not in the routing table
+## Link-Local address or Automatic Private Internet Protocol Addressing (APIPA) - not used anymore
+## connected route, to the local subnet, tells the host that no routing is needed to communicate with other hosts in its own subnet
+ip route add default via 192.168.0.1 ## set temporary default route
+ip route add 10.10.10.0/24 via 192.168.0.10 ## add temporary static route
+ip route add 10.10.10.0/24 via 192.168.0.10 dev enp1s0 ## precise egress network interface
+
+#? NMCLI
+
+## Network Manager Command-Line Interface
+nmcli device show device-name ## complete info about device
+nmcli connection show ## show status of network connections
+nmcli connection show connection-id  ## show connection values
+nmcli connection show connection-id | grep ipv4 ## show connection ipv4 values
+nmcli device wifi list ## show detected wifi connections
+nmcli connection up connection-id ## activate connection
+nmcli connection down connection-id ## deactivate connection
+nmcli --get-values connection.id connection show connection-id ## get name of the connection
+nmcli -g ipv4.addresses connection show connection-id ## get ip address if set manually
+nmcli connection modify connection-id ipv4.addresses 192.168.122.75/24 ## set manual ip address
+nmcli -g ipv4.dns connection show connection-id ## get dns if set manually
+nmcli connection modify connection-id ipv4.dns 1.1.1.1 ## set dns manually
+nmcli -g ipv4.gateway connection show connection-id ## get default gateway if set manually
+nmcli connection modify connection-id ipv4.gateway 192.168.122.1 ## set default gateway manually
+nmcli -g ipv4.method connection show connection-id ## get method of connection, auto being dhcp
+nmcli connection modify connection-id ipv4.method manual ## set method of connection
+nmcli connection modify connection-id +ipv4.routes "10.10.10.0/24 192.168.122.10" ## add permanent static route
+nmcli connection up connection-id ## activate changes
+
+nmcli connection modify connection-id 802-3-ethernet.mtu 9000 ## change Message Transfer Unit value, default being 1500, 9000 being faster fo backups of vm migation, 512 being required by some applications
+
+nmcli connection edit type ethernet ## enter interactive nmcli mode
+print ## interactive equivalent to nmcli connection show connection-id
+
+#? IFCONFIG
+
+## ifconfig legacy command from net-tools package
+ifconfig ## show ip and mac address
+ifconfig enp0s3 down ## bring interface down
+ifconfig enp0s3 up ## bring interface up
+
+$? NETSTAT
+
+## legacy command for network status
+nestat -rn ## show routing info
+route -n ## same as netstat -rn
+
+#? DNS
 
 /etc/hosts ## first look up for names here before contacting the dns
 /etc/resolv.conf ## contains default dns server address
@@ -12,10 +75,16 @@ ip route add default via 192.168.0.1 ## set default route
 host google.com ## perform dns lookup
 dig google.com ## detailed dns lookup
 
+netstat -tulpn' ## Show network traffic
+ping google.com ## Send echo request forever
+ping -c 3 google.com ## Send 3 echo requests
+
+#? SS
+
 ss ## show all sockets
 ss -s ## summary
 ss -p ## show process information
-ss -4 ## show IPv4
+ss -4 ## show ipv4
 ss -6 ## show IPv6
 ss -t ## show tcp sockets
 ss -u ## show udp sockets
