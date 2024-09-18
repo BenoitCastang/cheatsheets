@@ -1,6 +1,5 @@
 $? IP
 
-sdfkj
 ## ip command from iproute2 package
 ip option object command ## syntax
 
@@ -12,10 +11,13 @@ ip -6 a ## show only ipv6 info
 ip addr add 192.168.0.1/255.255.255.0 dev wlo1 ## static ip address configuration
 
 ## link object
-ip link show ## list network interfaces
+ip link show ## list network interfaces and show mac adresses
 ip l ## shorthand
+ip link show enp1s0 ## show specific interface
 ip link set enp0s3 down ## bring interface down
 ip link set enp0s3 up ## bring interface up
+ip link set enp1s0 address 52:54:00:b1:ee:60 ## set temporary mac address
+## nmcli or netplan for permanent change
 
 ## route object
 ip route list ## show current IPv4 routing table
@@ -54,6 +56,44 @@ nmcli connection modify connection-id 802-3-ethernet.mtu 9000 ## change Message 
 nmcli connection edit type ethernet ## enter interactive nmcli mode
 print ## interactive equivalent to nmcli connection show connection-id
 
+nmcli connection modify Wired\ connection\ 1 802-3-ethernet.cloned-mac-address 52:54:00:b1:ee:61 ## set permanent mac address
+
+#? ARP
+
+arp ## show arp table
+arp ip-address ## show arp entry for specific address
+arp -a ## show name and ip address
+arp -d ip-address ## delete arp entry
+arp -s ip-address mac-address ## add static arp entry
+/proc/sys/net/ipv4/neigh/default/gc_stale_time ## location for default stale time value, i.e. the number of seconds arp entries remain in the table
+/proc/sys/net/ipv4/neigh/enp1s0/gc_stale_time ## location for enp1s0 stale time value
+
+#? NETPLAN
+
+## tool to define network configurations via YAML files
+/etc/netplan/ ## location of configuration files
+netplan try ## check syntax and try new configuration
+netplan generate ## produce backend configuration files without applying the changes
+netplan apply ## apply changes permanently
+## configuration file example
+network:
+   version: 2
+   renderer: NetworkManager
+   ethernets:
+     enp1s0:
+       dhcp4: no ## true for dhcp instead of static ip address
+       addresses:
+         - 192.168.122.75/24
+       routes: 
+         - to: 0.0.0.0/0 ## default gateway
+           via: 192.168.122.1
+       nameservers:
+         addresses:
+           - 1.1.1.1
+       match: ## set different mac address
+         macaddress: 52:54:00:b1:ee:60 ## Burned-In Address
+       macaddress: 52:54:00:b1:ee:62 ## new mac address
+
 #? IFCONFIG
 
 ## ifconfig legacy command from net-tools package
@@ -63,9 +103,20 @@ ifconfig enp0s3 up ## bring interface up
 
 $? NETSTAT
 
-## legacy command for network status
+## legacy command for network status - ss is the new one
 nestat -rn ## show routing info
 route -n ## same as netstat -rn
+
+#? SS
+
+ss ## show all sockets
+ss -s ## summary
+ss -p ## show process information
+ss -4 ## show ipv4
+ss -6 ## show IPv6
+ss -t ## show tcp sockets
+ss -u ## show udp sockets
+ss -l ## show sockets listening for new connections
 
 #? DNS
 
@@ -79,13 +130,3 @@ netstat -tulpn' ## Show network traffic
 ping google.com ## Send echo request forever
 ping -c 3 google.com ## Send 3 echo requests
 
-#? SS
-
-ss ## show all sockets
-ss -s ## summary
-ss -p ## show process information
-ss -4 ## show ipv4
-ss -6 ## show IPv6
-ss -t ## show tcp sockets
-ss -u ## show udp sockets
-ss -l ## show sockets listening for new connections
