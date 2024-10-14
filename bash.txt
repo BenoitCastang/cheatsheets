@@ -11,6 +11,17 @@ eval
 printf
 Order of Execution : Parsing Brace Expansion Tilde Expansion Parameter and Variable Expansion Command Substitution Arithmetic Expansion Process Substitution Word Splitting Filename Expansion (Globbing) Quote Removal Redirections Variable Assignment Alias Substitution Function Lookup Built-in Command Lookup Hash Table Lookup Path Lookup
 
+'ls' ## overwrite alias
+\ls ## overwrite alias
+ 
+
+#? search in file system
+bash searches files
+
+echo * ## * is replaced by the files bash retrieves
+echo ?
+echo [0-9]
+
 #? TYPE
 
 type command ## describe how its arguments would be interpreted if used as command names, possible re    sults are listed below

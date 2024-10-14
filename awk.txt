@@ -1,0 +1,28 @@
+awk 'pattern { action }' ## basic syntax
+## pattern can be omittted
+## awk will display only lines containing the pattern, then apply action on each line
+ll | awk 'pattern { action }' ## work with result of a command
+awk 'pattern { action }' filename ## work with a file
+
+awk '{ print } ## print everything
+awk '{ print $1 } ## print column 1
+awk '{ print $1, $2 } ## print columns 1 and 2
+
+awk '/word/ { print } ## print only lines containing word
+
+## default field separator is tab
+awk -F, 'pattern { action }' ## set comma as field separator
+
+awk '$2 > 20 { print }' ## print line if column 2 is more than 20
+awk -v var=10 '{ print var }' ## define and print variable
+awk -v var=10 '$2 > var { print }' ## condition with variable
+
+#? BUILT-IN VARIABLES
+
+awk '{ print NR }' ## print number record for each line, mean number of lines processed
+
+#? BLOCKS
+
+END ## block used to perform a final action
+awk '{ sum += $2 } END { print sum }' ## put the addition of numbers in column 2 in variable sum and print it
+awk '{ sum += $2 } END { print "Total:", sum }' ## add text before variable print

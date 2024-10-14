@@ -1,3 +1,6 @@
+## sudo means subsitute user do
+## the sudo group or wheel on redhat allows user do commands as superadministrator
+
 sudo -l ## Show rights of the sudo group
 sudo command ## perform command as another user - default is root
 sudo -u username command ## perform command as another user

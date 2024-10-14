@@ -1,7 +1,8 @@
 whoami ## print effective username
 who ## list active logins on the system
 w ## list more information
-id user ## get uid, gid and groups of a user
+id ## get uid, gid and groups of current user
+id user ## get id of specific user
 lsuser ## print all real users of the system - personal alias
 users ## print the user names of users currently logged in to the user host
 
@@ -60,11 +61,12 @@ chsh -s /usr/bin/zsh ## change user's default shell, takes effect at next login
 /etc/shells ## list of available shells
 
 /ect/passwd ## List of users and info related to accounts: username, x for hidden password, uid, gid, GECOS/comment field, home directory, shell path
+vipw ## on redhat, ensure no other admin is editing it at the same time
 /etc/shadow ## Password info: username, password hash (! or * means user is locked, so direct connexion to that user is impossible, one must be logged in to the server with another user first), last change, minimum days, maximum days, warn days, grace period, expiration date
 
 passwd ## change password of logged in user
 passwd user ## change user's password
-passwd -S user ## show password status: username, password status (P = passworded, NP = No password, L = Locked, PS = Password shadowed, stored securely), last change date, minumum and maximum days, warn days, grace period (-1 means no grace period)
+passwd -S user ## show password status: username, password status (P =passworded, NP = No password, L = Locked, PS = Password shadowed, stored securely), last change date, minumum and maximum days, warn days, grace period (-1 means no grace period)
 passwd -l user ## lock user password, disabling the account - * or ! is instead of password hash in /etc/shadow
 passwd -u user ## unlock user password, re-enabling the account
 passwd -d user ## delete user password, making the account password-less
@@ -86,8 +88,15 @@ chage -W numberofdays ## warn days - number of days before password expiration t
 userdel user ## Remove user
 userdel -r user ## Remove user and delete home directory
 
+#? GROUPS
+
+primary group ## group assigned to the files newly created by the user
+private group ## automatically created group with the same name as the user, commonly being the same as primary group
+supplementary group ## other groups to add rights, like sudo, wheel etc
+
 id ## return uid, gid (primary group) and secondary groups
 /ect/group ## List of groups: group name, password (x means not used), gid, list of supplementary members (i.e. the group is a secondary group for the user, primary groups for each user being specified in /etc/passwd)
+vigr ## on redhat, ensure no other admin is editing it at the same time
 /etc/gshadow ## list of groups: group name, encrypted password, group administrators, group members
 groups user ## Display groups of a user
 lsgroup ## print all real users on the system and the groups they belong to - personal alias

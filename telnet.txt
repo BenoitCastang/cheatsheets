@@ -15,3 +15,4 @@ mode line|char ## switch mode
 ## line mode is legacy, it waits you press enter to send the whole line to the server, reducing network traffic which came in useful in earlier internet days
 
 telnet server-ip 23 ## connect to telnet port
+telnet web-server 80 ## establish a raw connection to the web server, where you can manually type the request

@@ -1,0 +1,5 @@
+## cd is change directory
+cd ~ ## go to $HOME
+cd . ## go to current directory
+cd .. ## go to parent directory
+cd - ## go to previous directory

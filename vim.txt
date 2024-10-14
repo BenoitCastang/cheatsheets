@@ -38,3 +38,4 @@ c-x c-l ## auto complete line
 :execute "/pattern" | normal dd ## chain commands
 
 vim -c 'normal Gocrac' -c 'wq' file ## edit from outside vim
+vim -c '/pattern' file ## search in file

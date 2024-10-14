@@ -1,0 +1,12 @@
+#? GET
+
+## method to retrieve data from a server, who sends back asked resource : webpage, image, api response etc.
+## can transmit data via the url, can be cached, can be bookmarked (since it's in the URL) and should not change the server state
+curl server ## get http resource
+curl https://server ## to get https resources
+
+#? PUT
+
+#? POST
+
+#? DELETE

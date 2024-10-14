@@ -1,0 +1,20 @@
+nmap 192.168.122.1  ## scan host
+nmap 192.168.122.1 192.168.122.2  192.168.122.2 ## scan multiple hosts
+nmap 192.168.122.0-255  ## scan range of hosts
+
+nmap -p 80 ## scan one port
+nmap -p 0-65535 ## scan range of ports, default scan range is 0-1000
+nmap -p- ## scan all ports
+nmap -s ## s is a prefix for scan, does not function alone but needs to be combined with another letter to specify the type of scan
+nmap -sn ## no port scan, ping scan -sP originally: used to discover which hosts are up and running on a network without scanning for open ports, useful to map out devices on a network without triggering potential firewall alerts caused by port scanning
+nmap -sV ## detect the version of services running on open ports
+nmap -sO # detect operationg system
+
+#? PORTS
+
+22 ## SSH
+23 ## TELNET
+53 ## DNS
+67 ## DHCP
+80 ## HTTP
+443 ## HTTPS

@@ -1,2 +1,4 @@
-grep -v ## reverted grep
+grep -v ## reverted grep, show no match entries
 grep -c ## display only number of matches
+grep -i ## ignore case
+grep -r ## recursive

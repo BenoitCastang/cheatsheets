@@ -104,6 +104,17 @@ ifconfig enp0s3 up ## bring interface up
 $? NETSTAT
 
 ## legacy command for network status - ss is the new one
+netstat ## show all active connections
+netstat -l ## show only listening connections
+netstat -a ## show both
+## connections states:
+## - LISTEN: process is running, waiting for someone to connect to it
+## - ESTABLISHED: a connection is etablished between the host and another end
+## - TIME_WAIT: Session is closed but waiting for the ending packet to arrive
+netstat -t ## show only tcp connections
+netstat -u ## show only udp connections
+netstat -x ## show only unix connnections
+netstat -n ## skip name resolution
 nestat -rn ## show routing info
 route -n ## same as netstat -rn
 
@@ -117,6 +128,14 @@ ss -6 ## show IPv6
 ss -t ## show tcp sockets
 ss -u ## show udp sockets
 ss -l ## show sockets listening for new connections
+ss -a ## show established and listening connections
+
+#? NETCAT
+
+nc ip 80 ## connect to port 80 of server
+nc -v ip 80 ## output connection info
+nc -z ip 80 ## Zero I/O : only test the connection
+nc -z ip 1-1024 ## test all ports
 
 #? DNS
 

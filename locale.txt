@@ -1,0 +1,8 @@
+## manage keyboard and language settings
+localectl status ## show current settings
+localectl ## shorthand for localectl status
+yum install glibc-langpack-fr ## install language package
+localectl set-locale LANG=en_US.UTF-8 ## set locale to US English
+localectl set-locale LANG=fr_FR.UTF-8 ## set locale to french
+localectl set-keymap us ## set us keyboard
+localectl set-keymap fr ## set fr keyboard

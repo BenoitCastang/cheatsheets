@@ -1,0 +1,6 @@
+curl benoitcastang.fr ## sends an http get request by default
+curl https://benoitcastang.fr ## sends an https request
+curl -v https://benoitcastang.fr ## give all request detail
+curl -o file https://benoitcastang.fr ## redirect output to a file
+curl https://benoitcastang.fr | jq ## json format
+curl -s https://benoitcastang.fr | jq ## silent curl text

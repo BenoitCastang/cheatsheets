@@ -1,3 +1,18 @@
+## Setup
+
+## preliminary setup of each node related to the cluster
+set hostname
+set static ip adress
+sudo apt update; sudo apt dist-upgrade -y ## update before going on
+sudo apt install containerd ## install Container Runtime on every end, controller or node
+sudo mkdir /etc/containerd ## create containerd config directory
+containerd config default | sudo tee /etc/containerd/config.toml ## show default config and redirect to new config file
+sudo vim -c '/SystemdCgroup' -c 'normal $ciwtrue' -c wq config.toml ## replace false value of SystemdCgroup with true, sets cgroup driver to systemd
+sudo vim -c '/swap' -c 'normal I# ' -c wq /etc/fstab ## comment out swap line, kubernetes needs swap to be disabled
+sudo vim -c '/net.ipv4.ip_forward' -c 'normal ^x' -c wq /etc/sysctl.conf ## uncomment line to enable bridging
+sudo vim -c 'normal ibr_netfilter' -c wq /etc/modules-load.d/k8s.conf ## create module config file, to load module at start; br_netfilter assists Kubernetes cluster with networking
+sudo reboot ## reboot node to apply changes
+
 ## microk8s
 
 sudo apt install snapd ## install snap on debian
@@ -5,9 +20,4 @@ sudo snap install microk8s --classic ## install microK8s
 sudo microk8s kubectl get all --all-namespaces ## check status of microk8s, overview of the various components
 sudo microk8s enable dns ## install addons: dns, storage, gpu etc
 sudo usermod -a -G microk8s username ## add user to the group so sudo isn't required anymore to perform microk8s commands
-
-## one controller node controls all the worker nodes
 microk8s kubectl ## kube control, command to interact with the cluster via microk8s
-
-## prerequisites
-static ip adresses
