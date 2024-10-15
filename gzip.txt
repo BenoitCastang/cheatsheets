@@ -1,0 +1,4 @@
+## compress files to make them lighter
+
+gzip file ## transform file into file.gz
+gunzip file.gz ## transform back file

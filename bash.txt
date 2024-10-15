@@ -43,6 +43,11 @@ variable=value ## create a local variable, available only in the same bash proce
 export variable=value ## create a variable available in child processes
 PATH=$PATH:~ script ## if a script is in the home direcory, it is run and the PATH is changed only the time of the commmand
 var=value bash -c "echo $var" ## var exists only the time of the command execution (echo is trough bash -c cause bash expansion happens before variable assignement
+
+echo $ls ## echo variable ls
+echo ${ls} ## echo variable ls
+echo $(ls) ## echo output of ls command
+
 env ## display all environment variables of the current shell
 set ## display all environment variables, shell variables, and shell functions 
 ## shell variables and functions are defined in all confiration files, user-wide and system-wide

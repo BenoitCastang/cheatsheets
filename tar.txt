@@ -1,0 +1,12 @@
+## aggregate files into one
+
+tar -cf archive_file file1 file2 ## aggregate file1 and file2 into archive_file
+-c ## create
+-f ## file: name for newly created file
+
+tar -xf archive_file ## unpack file
+-x ## extract
+-f ## file: file to unpack
+
+tar -czf archive_file.gz file1 file2 ## aggregate and compress in the same command
+tar -xzf archive_file.gz ## unpack and decompress at the same time
