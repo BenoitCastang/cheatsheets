@@ -1,0 +1,19 @@
+diff [options] file1 file2 ## compare files line by line
+
+## The output indicates the changes to make to the first file for it to be like the second one
+## lines preceded by a < are lines from the first file
+## lines preceded by a > are lines from the second file
+0a1 > blop ## I need to add after line 0 of file1 line 1 of file2 for file1 to be the same as file2
+0a1,2 > blop > crac ## add line 1 and 2 of file2
+1c1 ## line 1 of file1 must be changed to line 1 of file2
+2,3c3 ## lines 2 and 3 must be changed to line 3
+1d0 < blop ## line 1 of file1 must be deleted
+
+diff -c ## context mode
++ ## line added
+- ## line removed
+! ## line changed
+
+diff -u ## unified mode: changes presented in one segment of text
+diff -i ## case insensitive
+diff -y ## side-by-side format
