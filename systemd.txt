@@ -13,3 +13,5 @@ systemctl reload service ## reload configuration files
 systemctl enable service ## enable service (make it start at server startup)
 systemctl enable --now service ## start service immediatly without waiting for next server startup
 systemctl disable service ## disable service (prevent it from starting at server startup)
+
+/usr/lib/systemd/system/ssh.service ## configuration files for services

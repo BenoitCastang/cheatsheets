@@ -346,6 +346,9 @@ read -t 3 value ## wait only 3 seconds for the input
 
 source filepath ## execute bashscript - include file in another script
 . filepath ## shortcut
+## sourcing files containing variable defitions allows to use them:
+. /etc/os-release ## source os info file
+echo $PRETTY_NAME ## echo variable
 
 #? SUBSHELLS
 
