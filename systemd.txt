@@ -15,3 +15,24 @@ systemctl enable --now service ## start service immediatly without waiting for n
 systemctl disable service ## disable service (prevent it from starting at server startup)
 
 /usr/lib/systemd/system/ssh.service ## configuration files for services
+
+#? RUNLEVELS
+
+## Predefined sets of services to be toggled with init command
+## were defined in /etc/inittab
+init 0 ## halt mode
+init 1 ## rescue mode
+init 2 ## single-user mode
+init 3 ## multi-user mode
+init 4 ## networked multi-user mode
+init 5 ## graphical mode
+init 6 ## reboot mode
+
+ll /usr/lib/systemd/system/*.target ## list available system targets
+cat /usr/lib/systemd/system/runlevel5.target ## see target definitions
+systemctl list-unit-files *.target ## list available system targets
+systemctl list-units --type=target --state=active ## see active modes
+systemctl isolate multi-user.target ## switch to runlevel
+systemctl get-default ## get default mode
+systemctl set-default graphical.target ## set default mode
+
