@@ -1,0 +1,13 @@
+## create temporary file in /tmp
+## generates random part of file name to ensure it has unique filename
+## allows automation of temporary file creation
+## if placed in /tmp, they are removed at system reboot
+
+mktemp ## creates a file in /tmp and outputs its path
+mktemp /tmp/fileXXX ## choose destination and file name - must have 3 X to generate unique filename
+mktemp -d ## create temporary directory
+mktemp -p <DIR> ## specify target directory for the file
+mktemp --suffix <SUFFIX> ## specify suffix to be added at the end of the file
+
+temp_file=$(mktemp) ## store file path in variable
+rm $temp_file ## remove temp file

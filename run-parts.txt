@@ -1,0 +1,11 @@
+## execute all scripts of a directory
+
+run-parts . ## run scripts of workind directory
+run-parts --list ## list the scripts that would be executed without actually running them
+run-parts --reports ## print name of executed scripts
+run-parts --regex ## filter scripts to run
+
+## scripts must not contain dots (except at beginning for hidden files)
+## scripts are executed by alphabetical order, add number at beginning to choose order
+## scripts must be executable
+## scripts must begin with the shebang indicating the interpretor

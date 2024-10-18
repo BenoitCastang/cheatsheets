@@ -1,3 +1,4 @@
+## cron is a time-based scheduler daemon allowing to run scripts automatically at specified intervals
 ## the set of cron configurations for a user is a crontab
 
 crontab -l ## print crontab file of current user
@@ -17,3 +18,16 @@ EDITOR=vim crontab -e ## edit crontab with specific editor
 * ## is used to indicate any minute, hour, day or month
 
 0 0 * * * /usr/bin/apt update ## run apt update every day at midnight
+*/2 * * * * command ## run command every two minutes
+
+#? FILES
+
+/var/spool/cron/ ## directory for user-specific crontab files
+/etc/crontab ## system-wide crontab
+01 * * * * root run-parts /etc/cron.daily ## root executes all scripts in directory on the first minute of every hour
+/etc/cron.d ## system-wide cron individual files
+
+/etc/cron.hourly ## system-wide scripts executed every hour
+/etc/cron.daily ## system-wide scripts executed every day
+/etc/cron.weekly ## system-wide scripts executed every week
+/etc/cron.monthly ## system-wide scripts executed every month

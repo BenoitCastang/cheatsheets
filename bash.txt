@@ -261,6 +261,12 @@ if [ 4 -eq 4 ]; then echo true; else echo false; fi ## example
 [[ (4 == 4 && 4 == 5) || 6 < 2 ]] ## works with parentheses for logical operators
 [[ "string" =~ ^[a-z] ]] ## =~ allows usage of regular expressions
 
+#? CONDITIONS WITH LOGICAL OPERATORS
+
+## the presence of logical operator creates a conditional system based on first command's exit status
+ls /homd || echo fail ## does echo if ls fails
+ls /home && echo success ## does echo if ls succeeds
+
 #? CASE
 
 case $var in
@@ -354,6 +360,7 @@ echo $PRETTY_NAME ## echo variable
 
 ## parentheses create a separate instance of the shell that inherits the environment of the parent shell (variables, functions etc.), but any creation done or any change made to the environment within the subshell do not affect the parent shell
 (cd /var/www/ && ls -lA) ## the subshell performs cd and ls, but when back to parent shell, nothing changed, pwd is as before
+(hostname; date) >> file ## combine output: execute two commands in a subshell and send result to file
 ls | grep pattern ## each command in a pipeline is executed in its own subshell
 var=$(ls) ## command substitutions uses subshell
 vim & ## command in the background uses a subshell
