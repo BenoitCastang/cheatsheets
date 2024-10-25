@@ -48,6 +48,7 @@ ps --sort=-%mem ## sort by memory usage, descending order
 
 ps -l ## print threads of processes
 
+ps -e ## print all processes
 ps -f ## more information
 ps -u ## still more
 ps -v ## memory usage

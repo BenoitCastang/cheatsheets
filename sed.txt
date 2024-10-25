@@ -1,9 +1,8 @@
-sed ## stream editor
+sed ## stream editor - goes through all lines and perform action each time
 sed 'command' filename ## syntax with file
 command | sed 'command' ## syntax with command output
 
-## substitution
-sed 's/old/new/g' ## g means all occurrences are substituted
+## substitution sed 's/old/new/g' ## g means all occurrences are substituted
 sed 's/old/new/1' ## substitute only first occurrence
 sed 's/old/new/2' ## substitute only second occurrence
 
@@ -14,6 +13,12 @@ sed '/^$/d' ## delete all empty lines
 ## print
 sed -n '/pattern/p' ## print lines matching pattern
 ## -n removes automatic printing of each line
+sed -n '1p' ## print first line
+sed -n '$p' ## print last line
+sed '=' ## print line number for each line
+sed '1=' ## print line number of line 1
+sed '4p;7p' ## print line 4 and line 7
+sed '4,7p' ## print line 4 to 7
 
 ## in-place editing
 sed -i ## directly modify file and save it
