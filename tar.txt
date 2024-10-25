@@ -10,3 +10,5 @@ tar -xf archive_file ## unpack file
 
 tar -czf archive_file.gz file1 file2 ## aggregate and compress in the same command
 tar -xzf archive_file.gz ## unpack and decompress at the same time
+
+zcat archive_file.gz ## print gz files content

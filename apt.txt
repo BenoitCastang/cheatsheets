@@ -76,11 +76,3 @@ sudo apt-get dselect-upgrade ## install list of packages
 
 ## HWE stack provides additional compatibility for released after the last version of Ubuntu
 sudo apt install --install-recommends linux-generic-hwe-20.04
-
-#? SNAP
-
-snap find pattern ## search
-sudo snap install pattern ## install
-sudo snap remove pattern ## remove
-sudo snap refresh pattern ## update package
-sudo snap refresh ## update all packages

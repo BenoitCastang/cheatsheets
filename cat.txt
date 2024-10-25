@@ -1,9 +1,10 @@
 ## name comes from concatenate
 
+cat file ## print file text to screen
+
 cat ## by default reads from standard input and redirect to standard output
 cat > file ## read from standard input and redirect to file
 cat < file ## read from file and redirect to standard output
-cat < file > file ## read from file and redirect to file
-
 cat file ## read from file and redirect to standard output
+cat < file > file ## read from file and redirect to file
 cat file > file ## read from file and redirect to file

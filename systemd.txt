@@ -1,8 +1,10 @@
 ## systemd is the init system of debian, responible for lauching all the services
 
 systemctl ## list all services (it assumes the list-units option by default
-systemctl list-unit-files ## list units, indicating type and status
+systemctl list-unit-files ## list units, indicating type and if enabled
 systemctl list-unit-files --type=service ## list only services
+systemctl list-units ## list units, indicating type and if running
+systemctl list-units --type=target ## list only targets
 systemctl list-jobs ## print cronjobs
 
 systemctl status service ## print status of a service
@@ -15,6 +17,19 @@ systemctl enable --now service ## start service immediatly without waiting for n
 systemctl disable service ## disable service (prevent it from starting at server startup)
 
 /usr/lib/systemd/system/ssh.service ## configuration files for services
+ 
+#? UNITS
+
+service ## 
+target ## 
+timer ## 
+device ## 
+mount ## 
+path ## 
+scope ## 
+slice ## 
+socket ## 
+swap ## 
 
 #? RUNLEVELS
 

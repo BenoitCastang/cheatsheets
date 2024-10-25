@@ -1,4 +1,6 @@
-date ## print date: Mon Aug 18 12:34:56 UTC 2024
+date ## print date and local time
+date -u ## print UTC time
+date -I ## formation 2024/23/10
 
 date +"%m/%d/%Y" ## print date at format 08/18/2024
 date +"%H:%M" ## print hour at format 12:34
@@ -11,6 +13,7 @@ date +"%H:%M" ## print hour at format 12:34
 %S ## Second (00–59)
 %A ## Full weekday name (e.g., Monday)
 %B ## Full month name (e.g., August)
+%s ## Unix time: sseconds since epoch (January 1st 1970)
 
 timedatectl list-timezones ## display all timezones available
 timedatectl list-timezones | grep Europe ## display Europe timezones

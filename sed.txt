@@ -17,6 +17,7 @@ sed -n '/pattern/p' ## print lines matching pattern
 
 ## in-place editing
 sed -i ## directly modify file and save it
+sed -i.backup ## crete also a backup file
 
 ## changing
 sed 'c\new text' ## replace all lines by new text

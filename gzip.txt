@@ -2,3 +2,7 @@
 
 gzip file ## transform file into file.gz
 gunzip file.gz ## transform back file
+
+gzip -v ## show info
+
+zcat file.gz ## print compressed file's text

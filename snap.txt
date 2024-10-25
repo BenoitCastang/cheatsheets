@@ -1,0 +1,6 @@
+snap list ## see installed snaps
+snap find pattern ## search
+sudo snap install pattern ## install
+sudo snap remove pattern ## remove
+sudo snap refresh pattern ## update package
+sudo snap refresh ## update all packages

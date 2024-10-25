@@ -1,0 +1,5 @@
+## od is for octal dump
+
+od file ## print file in octal format
+od -x file ## print file in hexadecimal format
+od -c file ## print each character of line and newline entries
