@@ -22,6 +22,27 @@ tr -d eo ## delete letters
 tr -s l ## squeeze each sequence of a repeated character with a single occurrence of that character
 tr -c l b ## complementary : every character NOT matching is transformed
 
+$? SORT
+
+## sort lines by alphabetical order
+sort ## from standard input
+sort file ## from file
+sort -r ## reverse sorting
+sort -n ## sort by number
+sort -k 2 ## sort using column 2 values
+sort -t ':' ## sort using ':' delimiter
+sort -u ## uniq : remove duplicate lines
+
 $? UNIQ
 
-$? SORT
+## identify adjacent duplicate entries
+uniq file ## filter out adjacent duplicate entries
+uniq file_in file_out ## put result in another file
+uniq -c ## print count of duplicate entries
+uniq -d ## print only duplicate lines
+uniq -u ## print only uniq lines
+uniq -i ## ignore case
+uniq -f 1 ## skip field 1 when comparing lines
+uniq -f 2 ## skip first 2 fields
+uniq -s 3 ## skip first 3 characters when comparing lines
+uniq -w 4 ## limit comparison to the first 4 characters
