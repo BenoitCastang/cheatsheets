@@ -12,3 +12,13 @@ tar -czf archive_file.gz file1 file2 ## aggregate and compress in the same comma
 tar -xzf archive_file.gz ## unpack and decompress at the same time
 
 zcat archive_file.gz ## print gz files content
+
+#? SPLIT
+
+## divide file into smaller parts
+split file ## by default parts are name xaa, xab etc. ; default size of each part is 1000 lines
+split file part_ ## specify prexix for each part : files are now part_aa, part_ab etc.
+split -b 1K ## specify size of each part
+split -l 10 ## specify number of lines of each part
+split -n 4 ## specify a fixed number of parts
+split -d ## files are now prefix + 01, 02 etc. instead of prefix + aa, ab etc.
