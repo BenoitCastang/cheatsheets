@@ -57,3 +57,11 @@ shuf -n 5 ## display only 5 lines
 shuf file -o file ## output to file
 shuf -i 1-10 ## generate 10 random numbers between 1 and 10
 shuf -i 1-100 -n 1 ## generate one random number between 1 and 100
+
+#? PASTE
+
+## put two text files side by side
+paste file1 file2 ## tab is the default separator
+paste -d: ## specify separator
+paste -d ' ' ## space as separator
+paste -s ## dipaly data on only one line
