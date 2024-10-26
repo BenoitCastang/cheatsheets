@@ -28,6 +28,7 @@ $? SORT
 sort ## from standard input
 sort file ## from file
 sort -r ## reverse sorting
+sort -R ## random sort
 sort -n ## sort by number
 sort -k 2 ## sort using column 2 values
 sort -t ':' ## sort using ':' delimiter
@@ -46,3 +47,13 @@ uniq -f 1 ## skip field 1 when comparing lines
 uniq -f 2 ## skip first 2 fields
 uniq -s 3 ## skip first 3 characters when comparing lines
 uniq -w 4 ## limit comparison to the first 4 characters
+
+#? SHUF
+
+## shuffle : randomly sort lines
+shuf ## from standard input
+shuf file ## from file
+shuf -n 5 ## display only 5 lines
+shuf file -o file ## output to file
+shuf -i 1-10 ## generate 10 random numbers between 1 and 10
+shuf -i 1-100 -n 1 ## generate one random number between 1 and 100
