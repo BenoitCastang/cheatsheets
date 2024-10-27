@@ -20,6 +20,7 @@ tr eo EO ## transform multiple letters
 tr a-z A-Z ## transform ranges
 tr -d eo ## delete letters
 tr -s l ## squeeze each sequence of a repeated character with a single occurrence of that character
+tr -s l g ## replace each sequence by one g
 tr -c l b ## complementary : every character NOT matching is transformed
 
 $? SORT
