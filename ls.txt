@@ -4,4 +4,4 @@ ls -d ## list a directory
 ls -a ## list all files
 ls -A ## list all files but . and ..
 
-ls -m ## liste with with commas between them
+ls -m ## list with with commas between them
