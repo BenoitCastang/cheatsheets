@@ -4,11 +4,11 @@ awk 'pattern { action }' ## basic syntax
 ll | awk 'pattern { action }' ## work with result of a command
 awk 'pattern { action }' filename ## work with a file
 
-awk '{ print } ## print everything
-awk '{ print $1 } ## print column 1
-awk '{ print $1, $2 } ## print columns 1 and 2
+awk '{ print }' ## print everything
+awk '{ print $1 }' ## print column 1
+awk '{ print $1, $2 }' ## print columns 1 and 2
 
-awk '/word/ { print } ## print only lines containing word
+awk '/word/ { print }' ## print only lines containing word
 
 ## default field separator is tab
 awk -F, 'pattern { action }' ## set comma as field separator

@@ -35,3 +35,7 @@ sed '3a\new text' ## append new line of text after line 3
 ## prepend
 sed 'i\new text' ## insert new line of text before each line
 sed '3i\new text' ## insert new line of text before line 3
+
+## logical operators
+sed -n '/blop\|crac/p' ## escape characters are needed
+sed -n '/crac/p' | sed -n '/blop/p'  ## no AND logical operator like &&, two sed commands are needed

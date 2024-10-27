@@ -1,0 +1,10 @@
+## a checksum is a hash generated from a file
+## you can compare hashes generated before and after any event to make sure the file is unchanged
+
+
+md5sum file ## output a checksum of the file
+md5sum file > hashes.md5 ## put checksum in a file
+md5sum -c hashes.md5 ## perform checksum verification
+
+sha156sum ## exact same syntax as md5sum
+sha512sum ## exact same syntax as md5sum
