@@ -3,5 +3,8 @@ ls -l ## long listing
 ls -d ## list a directory
 ls -a ## list all files
 ls -A ## list all files but . and ..
+ls -R ## recursive listing
 
 ls -m ## list with with commas between them
+
+tree ## print hierachical and recursive list of files

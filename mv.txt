@@ -1,0 +1,6 @@
+## move file
+
+mv file1 dir2 ## move file1 to dir2
+mv file1 file2 ## change file name
+mv -i file1 file2 ## interactive mode to confirm if file2 already exists
+mv -f file1 file2 ## force command

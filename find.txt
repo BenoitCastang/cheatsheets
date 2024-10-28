@@ -16,6 +16,8 @@ find -readable ## is readable by the current user
 find -writable ## is writable by the current user
 find -executable ## is executable by the current user
 
+find 
+
 find -size -10k ## search below 10K size
 find -size 10M ## search 10M size only
 find -size +10G ## search above 10G size only

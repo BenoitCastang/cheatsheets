@@ -117,3 +117,36 @@ gpasswd -r groupname ## remove password
 groupdel groupname ## Delete a group
 
 groupmems -g groupname -l ## list secondary members of the group
+
+## newgrp - open new shell session with another active group
+newgrp ## keep same group
+newgrp users ## open session with being the main group of the user
+
+#? SUID, SGID, STICKY BIT
+
+## set user ID, set group ID, sticky bit
+suid ## on executable file: file is executed with the rights of the owner, not the one who run it
+guid ## on executable file: file is executed with the rights of the owner group, not the group of the user who executed the command
+guid ## on directory: file created in this directory is owned by dir's owner instead of user's main group
+## suid and guid work with binaries only not scripts - ex. passwd or newgrp: any user running it is given root rights for the time of the execution
+sticky bit ## on directory: no one is allowed to delete or rename a file in a directory but file's owner and dir's owner event if writing rights are set to other- /tmp is sticky bit
+
+---S------ ## suid is set without executable permission for the user
+---s------ ## suid is set with executable permission for the user
+------S--- ## guid is set without executable permission for the group
+------s--- ## guid is set with executable permission for the group
+d--------T ## sticky bit is set without executable permission for others
+d--------t ## sticky bit is set with executable permission for others
+
+chmod 4000 ## set suid
+chmod 2000 ## set guid
+chmod 1000 ## set sticky bit
+chmod +s ## set suid and guid
+chmod +t ## set sticky bit
+
+?# UMASK
+
+## user file-creation mode mask determines the default permission settings for newly created files and directories
+## mask is inverted: 021 means 756
+umask ## print umask for current user
+umask 022 ## set new umask

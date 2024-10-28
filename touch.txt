@@ -1,5 +1,8 @@
-touch file ## create file
-## if file exists, update last modification time
+touch file ## if file does not exist, create file
+touch file ## if file exists, updates time stamps: last access time, last content modification time and last metadata change time (not birth time date)
+touch -a file ## change only access and change time
+touch -m file ## change only modification and change time
+
 touch file{1..4} ## create file1, file2, file3 and file4
 touch /path/{file1,file2} ## create file1 and file2 without repeating path
 
