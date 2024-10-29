@@ -4,6 +4,9 @@ ls -d ## list a directory
 ls -a ## list all files
 ls -A ## list all files but . and ..
 ls -R ## recursive listing
+ls -t ## sort files by modification time, newest first
+ls -r ## reverse order
+ls -S ## list sorted by size
 
 ls -m ## list with with commas between them
 

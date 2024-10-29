@@ -17,3 +17,9 @@ diff -c ## context mode
 diff -u ## unified mode: changes presented in one segment of text
 diff -i ## case insensitive
 diff -y ## side-by-side format
+
+$? CMP
+
+## compare two files byte by byte
+cmp file1 file2 ## indicate if files are identical or not
+cmp -s ## silent mode

@@ -2,3 +2,15 @@ grep -v ## reverted grep, show no match entries
 grep -c ## display only number of matches
 grep -i ## ignore case
 grep -r ## recursive
+grep -l ## show file name only, the line line matching the pattern
+grep -L ## show file name when not matchin
+grep -c ## show number of matches per file
+grep -n ## show line numbers with matches
+grep -w ## match whole word only
+grep -x ## match whole line
+grep -A 2 ## after context: show two lines of the file afer each match
+grep -B 2 ## before context: show two lines of the file before each match
+grep -C 2 ## context: show two lines of the file around each match
+grep -o ## show only matching part of each line
+grep -e pattern -e pattern ## specify multiple patterns
+grep -q ## quiet, no output and returns 0 if match is found, 1 if not

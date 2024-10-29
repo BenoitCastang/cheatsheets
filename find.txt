@@ -6,7 +6,7 @@ find -name "*.sh" ## every filename ending in .sh
 find -name "*foo*" ## every filename containing "foo"
 
 find -type f ## search files only
-find -type d ## search directories onlyj
+find -type d ## search directories only
 
 find -mtime 7 ## time of last modification: one week
 find -mtime -7 ## time of last modification: less than a week
@@ -46,3 +46,5 @@ find -exec command {} \; ## execute command on found files
 ## {} represents the files
 ## \; repredents the end of the command, escaped so bash won't interpret it as end of command
 find . -exec cat {} \; ## print contente of all found files
+
+find /bin /sbin -name blop ## search in two places at the same time
