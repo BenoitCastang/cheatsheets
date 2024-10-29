@@ -66,3 +66,11 @@ paste file1 file2 ## tab is the default separator
 paste -d: ## specify separator
 paste -d ' ' ## space as separator
 paste -s ## dipaly data on only one line
+
+#? ICONV
+
+## convert text files from one character encoding to another
+iconv -f utf-8 -t ascii//translit -o output-file input-file ## replace accented characters by unaccented ones
+-f ## from
+-t ## to
+//translit ## convert unsupported characters to approximate equivalents in new format

@@ -1,24 +1,19 @@
 ## aggregate files into one
 
-tar -cf archive_file file1 file2 ## aggregate file1 and file2 into archive_file
+tar -cf archive.tar file1 file2 ## aggregate file1 and file2 into archive.tar
 -c ## create
 -f ## file: name for newly created file
 
-tar -xf archive_file ## unpack file
+tar -xf archive.tar ## unpack file
 -x ## extract
 -f ## file: file to unpack
 
-tar -czf archive_file.gz file1 file2 ## aggregate and compress in the same command
-tar -xzf archive_file.gz ## unpack and decompress at the same time
+tar -tf archive.tar ## list files included in the archive
 
-zcat archive_file.gz ## print gz files content
+tar -czf archive.tar.gz file1 file2 ## aggregate and compress in the same command
+tar -xzf archive.tar.gz ## unpack and decompress at the same time
 
-#? SPLIT
+zcat archive.tar.gz ## print gz files content
+
 
 ## divide file into smaller parts
-split file ## by default parts are name xaa, xab etc. ; default size of each part is 1000 lines
-split file part_ ## specify prexix for each part : files are now part_aa, part_ab etc.
-split -b 1K ## specify size of each part
-split -l 10 ## specify number of lines of each part
-split -n 4 ## specify a fixed number of parts
-split -d ## files are now prefix + 01, 02 etc. instead of prefix + aa, ab etc.

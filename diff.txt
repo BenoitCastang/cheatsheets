@@ -18,6 +18,12 @@ diff -u ## unified mode: changes presented in one segment of text
 diff -i ## case insensitive
 diff -y ## side-by-side format
 
+$? PATCH
+
+## reads diff files to apply to files specified in them
+diff file1 file2 > changes.diff ## create the diff file
+patch file1 < changes.diff ## apply changes
+
 $? CMP
 
 ## compare two files byte by byte

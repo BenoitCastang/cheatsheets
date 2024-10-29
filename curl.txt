@@ -4,3 +4,11 @@ curl -v https://benoitcastang.fr ## give all request detail
 curl -o file https://benoitcastang.fr ## redirect output to a file
 curl https://benoitcastang.fr | jq ## json format
 curl -s https://benoitcastang.fr | jq ## silent curl text
+
+
+#? WGET
+
+wget https://benoitcastang.fr/index.html ## download file
+wget -0 output_file https://benoitcastang.fr/index.html ## save in different filename
+wget -r https://benoitcastang.fr/ ## recursive download of all files found following links
+wget --mirror https://benoitcastang.fr/ ## mirror copy of a website

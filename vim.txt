@@ -11,6 +11,7 @@ CTRL-] ## jump to a subject
 :mes[sages] ## show message-history 
 " This is a comment
 
+## vim command-line window
 q: ## q: in normal mode allows editing history in vim mode
 
 c-a ## increment by 1 next number
@@ -33,6 +34,19 @@ c-x c-l ## auto complete line
 #? COMMAND-LINE MODE
 
 :2 ## go line 2
+
+:s/pattern/replacement ## replace first match of current line
+:s/pattern/replacement/g ## replace all matches of current line
+:1,10s/pattern/replacement/ ## replace all first matches of line 1 to 10
+:1,10s/pattern/replacement/g ## replace all matches of line 1 to 10
+:.s/pattern/replacement/g ## replace all matches of current line
+:%s/pattern/replacement/g ## replace all matches in the entire file
+:%s/pattern/replacement/gc ## ask confirmation for each replacement
+:s/\d/#/g ## works with regex - replace digits with hastags
+:/pattern/d ## delete current line if matches pattern
+:g/pattern/d ## delete all lines matching pattern
+:g/pattern/s/foo/bar/g ## replace if line matches pattern
+
 :normal iblop ## write bLOP where is the cursor
 :normal gocrac ## go last line, insert line, write crac
 :execute "/pattern" | normal dd ## chain commands
