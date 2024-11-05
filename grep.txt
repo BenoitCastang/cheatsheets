@@ -12,5 +12,20 @@ grep -A 2 ## after context: show two lines of the file afer each match
 grep -B 2 ## before context: show two lines of the file before each match
 grep -C 2 ## context: show two lines of the file around each match
 grep -o ## show only matching part of each line
-grep -e pattern -e pattern ## specify multiple patterns
+grep -e pattern1 -e pattern2 ## specify multiple patterns, search pattern1 or pattern2
 grep -q ## quiet, no output and returns 0 if match is found, 1 if not
+
+grep ^blop ## if line begins with blop
+grep crac$ ## if line ends with crac
+grep ^flop$ ## if the entire line is exactly flop
+grep ^fl.*op$ ## if line is fl then any character any number of times then op
+
+. ## matches any single character
+[] ## matches any character withing the brackets
+
+* ## previous character can be present any number or times
++ ## previous character must be present at least one time
+? ## previous character must be not present or present only one time
+{n} ## previous character must be present exactly n times
+{n,} ## previous character must be present n or more times
+{n,m} ## previous character must be present between n and m times

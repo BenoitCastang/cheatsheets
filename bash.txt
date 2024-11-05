@@ -11,6 +11,20 @@ eval
 printf
 Order of Execution : Parsing Brace Expansion Tilde Expansion Parameter and Variable Expansion Command Substitution Arithmetic Expansion Process Substitution Word Splitting Filename Expansion (Globbing) Quote Removal Redirections Variable Assignment Alias Substitution Function Lookup Built-in Command Lookup Hash Table Lookup Path Lookup
 
+$? SHELL TYPES
+
+login shell ## shell session started when a user logs into a system - reads configuration files /etc/bash.bashrc and /etc/profile then ~/.bashrc and ~/.profile
+non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - bash config files are read but not profile files
+interactive shell ## shell happening through keyboard and screen
+non-interactive shell ## no human interaction - output is log
+
+#? BASH
+
+
+
+#? ALIAS
+
+alias ll='ls -Ahl --color=auto' ## ll does now the long ls command
 'ls' ## overwrite alias
 \ls ## overwrite alias
 
@@ -75,6 +89,8 @@ declare -p ## print all declared variables
 #? EXPR
 
 expr expression ## evaluate expressions - allow arithmetic, comparison, logical and string operations
+1 + 1 ## is interpreted as text by bash
+num=1; num=$num+1 ## $num is now "1+1"
 
 expr 4 + 2 ## performing additions
 expr 4 - 2 ## substractions
@@ -121,10 +137,17 @@ let c=a+b ## works with variables
 let a=5 b=2 c=a-b ## allows multiples operations
 let c++ ## increment variable
 
-#? EXPANSION
+#? ARITHMERIC OPERATOR
 
 ## expansions output nothing but return an int or a bool - uses $(()) for value substitution or capture the result
 ((expression)) ## arithmetic expansion
+
+echo $((4 + 2)) ## print result 
+var=$((4+2)) ## redirect result
+((var = 4+2)) ## can be done directly in the parentheses
+## var exists outside of parentheses
+echo $((var = 1+3)) ## var is changed and printed at the same time
+
 ((4 + 2)) ## return result of additions - needs use of echo to be printed
 ((4+3)) ## works without spaces
 ((4 - 2)) ## substractions
@@ -146,10 +169,6 @@ let c++ ## increment variable
 ((4 <= 2)) ## returns false
 ((4 > 2)) ## returns true
 ((4 >= 2)) ## returns true
-
-echo $((4 + 2)) ## print result 
-var=$((4+2)) ## redirect result
-((var = 4+2)) ## var is now 6, its global
 
 #? BC
 
@@ -186,6 +205,7 @@ parameter $# ## The number of positional parameters
 parameter $* ## All positional parameters as a single word
 parameter $@ ## All positional parameters as separate words
 parameter $$ ## The process ID of the current shell
+echo $PPID ## The process parent ID of the current shell
 parameter $! ## The process ID of the last background command
 parameter $- ## Current options set for the shell
 
@@ -238,9 +258,13 @@ if [ 4 -eq 4 ]; then echo true; else echo false; fi ## example
 -n ## String is not empty
 -v ## String is not set
 
+[ "$var" = "string" ] ## quotes are needed cause if $var is empty, it compares an empty string instead of producing a syntax error
+
 [ 1 -eq 0 ] && [ 1 -gt 2 ] ## logical operator AND
 [ 1 -eq 0 ] || [ 1 -gt 2 ] ## logical operator OR
 [ ! 1 -eq 0 ] ## logical operator NOT
+#? -o -a logical operators
+$? isolation with parentheses exists with you escape them \(
 
 [ $var ] ## bash checks if value is empty or not, not if its equal to zero or not
 
@@ -251,7 +275,10 @@ if [ 4 -eq 4 ]; then echo true; else echo false; fi ## example
 [[ "some file" == some* ]] ## works with wilcard characters
 [[ 2 == 0 && 3 < 9 ]] ## works with logical operators
 [[ (4 == 4 && 4 == 5) || 6 < 2 ]] ## works with parentheses for logical operators
-[[ "string" =~ ^[a-z] ]] ## =~ allows usage of regular expressions
+[[ "string" =~ ^[a-z] ]] ## equals with tilde ~ allows usage of regular expressions: in this regex test, the left value is treated as the text where to find the pattern, and the right value is that patter
+## no syntax error with empty strings without quotes
+#? support des extglob *(), *() (voir shopt -s extglob)
+#? no need of escaping parentheses with \( and \)
 
 #? CONDITIONS WITH LOGICAL OPERATORS
 
@@ -287,15 +314,37 @@ esac
 
 #? WHILE
 
+while command; do command; done ## executes command as long as return value is 0
+i=0
+while [[ $i < 5 ]]; do
+	echo $i
+	((i++))
+done
 
 
 #? FOR
 
+## regular syntax
 for i in 1 2 3; do
 	echo $i
 done
-for i in file
-for in in command
+
+for in in {1..5}
+for i in $(seq 1 5)
+for i in file.txt ## $i value is "file.txt", cause globbing didnt work
+for i in *.sh ## file globbing works
+for i in file[123] ## globbing
+for ((i = 1; i <= 5; i++)); do echo ok; done ## classic c loop
+
+$? FUNCTIONS
+
+sayHello() {
+	echo "Hello"
+}
+sayHello
+
+function sayHello() ## classic syntax
+function sayHello ## alternative syntax
 
 #? ARRAYS
 
@@ -325,13 +374,21 @@ unset assoc_array[key3] ## remove element
 array="1 2 3" ## false array, it is a string - all values are created in ${array[0]}
 for i in $array; do echo $i; done ## go through false array
 
-$? FUNCTIONS
-
-
-
 #? READ
 
-read name ## prompt the user for input and store that input in a variable
+read ## take value from standard input and put it by default in $REPLY
+read < file ## take a file as input
+## by default seperates with spaces and ends with new line (cf IFS)
+echo "Hello what's up" > txt
+read var1 var2 var3 < txt ## var1 is Hello, var2 is what's, var3 is up
+## parses in multiple variable as possible
+
+IFS=:
+while read login hash uid gid gecos home shell; do
+	echo "login = $login, shell = $home"
+done < /etc/passwd
+
+read name ## prompt the user for input and store that input in a specified variable
 read -p "Give value" name ## make a prompt without the need of an echo
 read -n 1 foo ## read only the first character and go on
 read -s name ## silent the input to not display it
@@ -340,9 +397,11 @@ read firstname lastname ## read two values
 read txt < file ## store the first line of the file in the variable
 read -t 3 value ## wait only 3 seconds for the input
 
+read <<< $(ls) ## takes first result of ls
+
 #? SOURCE
 
-source filepath ## execute bashscript - include file in another script
+source filepath ## execute bashscript in same process - include file in another script
 . filepath ## shortcut
 ## sourcing files containing variable defitions allows to use them:
 . /etc/os-release ## source os info file
@@ -415,3 +474,10 @@ echo ${var%pattern} ## remove the shortest match of pattern from the end of var
 echo ${path%/*} ## ouputs /path/to
 echo ${var%%pattern} ## remove the longest match of pattern from the end of var
 echo ${path%%/*} ## outputs empty string
+
+$? PATHS
+
+dirname <path> ## strip last component from file name
+basename <path> ## strip directory and suffix from filenames
+realpath <relative_path> ## get absolute path from relative path
+pwd ## get current directory's absolute path

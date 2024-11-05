@@ -45,7 +45,7 @@ usermod -e YYYY-MM-DD user ## change account expiration date
 usermod -L user ## lock user account
 usermod -U user ## unlock user acount
 
-chfn user ## change GECOS/comment field interactively
+chfn user ## change GECOS/comment field info interactively
 chfn -f fullname user ## change full name
 chfn -r room user ## change room
 chfn -w workphone user ## change work-phone

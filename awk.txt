@@ -34,3 +34,7 @@ awk '{ sum += $2 } END { print "Total:", sum }' ## add text before variable prin
 
 BEGIN ## block used to perform preliminary action
 awk 'BEGIN { print "Result: " } { print } ## print text before the data
+
+#? CONDITIONS
+
+

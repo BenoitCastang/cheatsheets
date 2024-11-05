@@ -31,6 +31,11 @@ c-p ## previous match
 c-x c-f ## auto complete file path
 c-x c-l ## auto complete line
 
+zo ## unfold under the cursor
+zf ## fold under the cursor
+zR ## open all folds
+zM ## close all folds
+
 #? COMMAND-LINE MODE
 
 :2 ## go line 2
