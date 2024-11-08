@@ -39,3 +39,5 @@ sed '3i\new text' ## insert new line of text before line 3
 ## logical operators
 sed -n '/blop\|crac/p' ## escape characters are needed
 sed -n '/crac/p' | sed -n '/blop/p'  ## no AND logical operator like &&, two sed commands are needed
+
+sed 's/blop/crac; s/flip/plouf' ## do two commands

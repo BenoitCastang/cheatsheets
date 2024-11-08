@@ -1,15 +1,7 @@
-to do :
-echo -e
 shift
-switch
 colors 
-etc
-path
-which
-command
-eval
 printf
-Order of Execution : Parsing Brace Expansion Tilde Expansion Parameter and Variable Expansion Command Substitution Arithmetic Expansion Process Substitution Word Splitting Filename Expansion (Globbing) Quote Removal Redirections Variable Assignment Alias Substitution Function Lookup Built-in Command Lookup Hash Table Lookup Path Lookup
+order of interpretation
 
 $? SHELL TYPES
 
@@ -20,6 +12,10 @@ non-interactive shell ## no human interaction - output is log
 
 #? BASH
 
+## open a bash process
+bash -x ## debugger mode
+bash -o vi ## vi-style line editing interface
+w## all set options are available to use with the bash command
 
 
 #? ALIAS
@@ -367,13 +363,19 @@ function sayHello ## alternative syntax
 ## index array
 array=(1 2 3) ## declare an array
 array[0]=1 ## define element 0 of array
+echo $array ## access element 0 of array
 echo ${array[0]} ## access element 0 of array
 echo ${array[@]} ## access all elements of array
 echo ${array[*]} ## same
 echo ${#array[@]} ## print array length
 array+=(4) ## add element at the end of the array
 unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
-for i in ${array[@]}; do echo $i; done ## iterate over array elements
+for i in ${array[@]}; do echo $i; done ## iterate over array values
+for i in ${!array[@]}; do echo $i; done ## iterate over array keys
+for i in ${!array[@]}; do echo $i = ${array[$i]}; done ## iterate over array keys and values
+
+${array[@]} ## expands to values of array
+${!array[@]} ## expands to indices of array
 
 ## associative array
 declare -A assoc_array=([key1]=value1 [key2]=value2) ## declare and define it
@@ -516,8 +518,15 @@ select color in red green blue; do case $color in red) echo "red" ;; green) echo
 
 ## break, continue
 
-#? PS VALUES
+#? ENVIRONMENT VARIABLES
 
+$HOME ## home path
+$PWD ## working directory
+$OLDPWD ## previous directory
+$PATH ## lits of dirs where bash searches for commands
+$RANDOM ## random number between 0 and 32767
+$REPLY ## default variable for read and select commands
+$SECONDS ## seconds since current bash process creation
 ## control the command prompt
 PS1 ## primary prompt over the terminal
 ## default value is \u@\h:\w\$
@@ -534,3 +543,13 @@ PS4 ## Debug prompt (when set -x was performed)
 return <number>
 
 #? SHIFT
+
+#? EVAL
+
+## execute a string but does all the substitution before
+var=5
+echo {1..5} ## prints 1 2 3 4 5
+echo {1..$var} ## prints {1..5} because the $ interrupts brace expansion structure and bash goes only one time through the text without going back
+## brace expansion happens before variable expansion, so it read his range and doesnt recognize $var as a valid part of the range because it is not a number; then the variable expansion happens and its {1..5} but bash does not go back to perform the brace expansion
+eval "echo {1..$var}" ## echo 1 2 3 4 5 because eval do all the substitutions before sending it to the shell execution
+

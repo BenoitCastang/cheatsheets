@@ -19,14 +19,16 @@ awk -v var=10 '$2 > var { print }' ## condition with variable
 
 #? BUILT-IN VARIABLES
 
+FS ## input field separator
+OFS ## output field separator
 NR ## number record: each line processed add one to this variable
 NF ## number fields
 $0 ## entire current record: whole line
 #1, $2 ## column 1, column 2 etc
-FS ## input field separator
-OFS ## output field separator
 
 #? BLOCKS
+
+awk BEGIN '{ action } pattern { action } END { action }'
 
 END ## block used to perform a final action
 awk '{ sum += $2 } END { print sum }' ## put the addition of numbers in column 2 in variable sum and print it
@@ -37,4 +39,16 @@ awk 'BEGIN { print "Result: " } { print } ## print text before the data
 
 #? CONDITIONS
 
+awk '$3 < 10 { print $3 }' ## print column 3 if its value is less than 10
+awk '$2==blue { print $2 }' ## print column 2 if its value equals 2
+awk '/blue/ { print $0 }' ## print the line if blue is found
 
+#? FUNCTIONS
+
+awk '{ print length("string") }' ## print number of characters of a string
+
+#? VARIABLES
+
+#? IF
+
+#? FOR

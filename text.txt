@@ -6,7 +6,8 @@ wc -w ## Count number of words
 
 $? CUT
 
-echo "orange,banana,apple" | cut -d ',' -f 2 ## Keep only field 2, fields being seperated by comma
+cut -d ',' -f 2 ## Keep only field 2, fields being seperated by comma
+cut -c 1-3 ## Keep only first three characters
 
 $? REV
 
