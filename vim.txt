@@ -36,6 +36,14 @@ zf ## fold under the cursor
 zR ## open all folds
 zM ## close all folds
 
+## swapping letters
+xp ## cut letter and paste it after next one
+
+## surround.vim plugin
+cs"' ## change surround " to '
+ysiw" ## you surround inner word with "
+ds" ## delete surround "
+
 #? COMMAND-LINE MODE
 
 :2 ## go line 2

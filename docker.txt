@@ -1,29 +1,74 @@
+#? INSTALLATION
+
 apt install docker.io ## install docker
 sudo systemctl enable --now docker ## enable and start docker in case
 sudo usermod -aG docker username ## add username to docker group so username wont need using sudo
 
+#? RUN IMAGES
+
+docker run <image> ## create a container and exits when primary process terminates (default is /bin/bash)
+docker run hello-world ## pull hello-world image from repositories if not found locally and create the container
+## the the primary process of that image being to print hello world, it stops directly after that
+docker run hello-world:latest ## precise version - latest is default
+docker run -d <image> ## daemon mode (in the background) - successful invocation returns container ID as output - container remains up when exit
+docker run -i <image> ## interactive mode - expects user input and provides output
+docker run -t <image> ## allocate pseudo-tty handler to the container - not output alone
+docker run -it <image> ## get fully interactive mode
+docker run --name <name> ## specify container name (instead of randomly generated container names)
+docker run -itd <image> /bin/bash ## precise entry point
+
+docker exec -it <image> bash ## open session, new process inside running container - access secondary bash shell inside the container
+exit ## terminates secondary shell session - container is still running
+## user is root
+## hostname is the first twelve letters of the container ID
+docker exec <image> echo blop ## execute a command inside the container and print output without entering the container
+
+docker attach <image> ## attach to the primary running process inside the container
+exit ## terminate primary session - container stops
+c-p c-q ## detach from attached session - container keeps running
+
+docker run -e ENV_VAR=value <image> ## set environment variables inside the container
+
+#? MANAGE IMAGES
+
 docker search debian ## search for pre-existing container images
 docker pull debian ## download image
+docker pull ubuntu:18.04 ## dowload specific version
 docker images ## print local images
 docker rmi image-id ## remove local image
+docker inspect <image-id> ## list attributes that will define the container, like the labels
 
-docker run -it image-name /bin/bash ## create container and enter it
-## -i means interactive
-## -t means tty
-## /bin/bash is the entrypoint
-## an entrypoint is an application run in a container
+#? MANAGE CONTAINERS
 
 c-d or exit ## disconnect or exit the container, meaning it is stopped
-docker ps ## print existing containers
-docker ps -a ## print also stopped containers
-c-p c-q ## detach a container, meaning you leave it without stopping it
+docker ps ## print running containers
+docker ps -a ## print all existing containers
 docker stop container-id ## stop a container
 docker start container-id ## restart stopped container
 docker attach container-id ## enter running container
 docker rm container-id ## remove container
+
+docker system prune ## delete all stopped containers
+docker system prune -a ## delete also images used by no container
+docker system prune -f ## force - ask no confirmation
+
 docker info ## show docker server info
 
 docker commit container-id image-name ## create an image from a container
+
+#? DOCKERFILES
+
+## directives
+FROM ubuntu ## specify parent image
+FROM scratch ## build Docker image from scratch, with an empty image
+LABEL maintainer=contact@benoitcastang.fr ## add metadata to docker image
+RUN apt-get update ## execute commands during the image build time - usually software installation, user creation etc.
+CMD ["echo","Hello World"] ## default initialization command at container creation
+## if there are two CMD directives, only the last one is executed
+## if a command-line argument is sent, like docker run <image> blop, it overrides the CMD directive
+## run echo if no entrypoint, else echo is a second argument to entrypoint command
+ENTRYPOINT ["echo","Hello"] ## default initialization command, we can't override it using command-line parameters   parameters
+CMD ["World"] ## parameters for entrypoint command
 
 ?# RUN APACHE IN CONTAINER
 
@@ -32,3 +77,15 @@ docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 on 
 apt update ## must be done to install any package, cause source index is outdated
 apt install apache2 
 /etc/init.d/apache2 start ## start apache2 service - systemv style
+
+#? RUNNING POSTGRESQL CONTAINER
+
+docker run --name some-postgres -e POSTGRES_USER=panoramic -e POSTGRES_PASSWORD=trekking -d postgres ## specify database user and password
+## primary process is not an interactive shell but the database server itself
+docker exec -it some-postgres bash ## enter shell session in the container
+psql -U panoramic ## enter database as user panoramic (default user)
+\l ## (inside PSQL cli utility) show databases
+\q ## (inside PSQL cli utility) exit database
+docker exec -it some-postgres psql -U panoramic ## enter container directly in the database
+docker exec -it some-postgres psql --username panoramic --password ## enter container directly in the database - alternative syntax
+## no password is required because in containers authentication method is set to trust in /var/lib/postgresql/data/pg_hba.conf

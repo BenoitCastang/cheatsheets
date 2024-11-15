@@ -96,3 +96,5 @@ killall -s <signal> <processname> ## send signal to a process giving its name
 
 SIGTERM ## ask a process to cleanly terminate - VALUE 15
 SIGKILL ## fore a process to terminate uncleanly - VALUE 9
+
+pkill -u <user> ## terminate all processes running under the user and log him out

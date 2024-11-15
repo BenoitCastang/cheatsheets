@@ -1,9 +1,10 @@
-shift
-colors 
-printf
-order of interpretation
-
 $? SHELL TYPES
+
+## startup files
+/etc/bash.bashrc ## all-user bashrc
+/etc/profile ## all-user profile
+/home/user/.bashrc ## user-specific bashrc
+/home/user/.profile ## user-specific profile
 
 login shell ## shell session started when a user logs into a system - reads configuration files /etc/bash.bashrc and /etc/profile then ~/.bashrc and ~/.profile
 non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - bash config files are read but not profile files
@@ -15,8 +16,19 @@ non-interactive shell ## no human interaction - output is log
 ## open a bash process
 bash -x ## debugger mode
 bash -o vi ## vi-style line editing interface
-w## all set options are available to use with the bash command
+w ## all set options are available to use with the bash command
 
+bash -l ## invoke login shell (loads every startup files)
+bash -i ## invoke interactive shell (loads only user bashrc)
+bash --noprofile ## no-profile shell (loads only user bashrc)
+bash --norc ## does not load any startup file
+bash --rcfile <file> ## load only a specified startup file (/etc/bash.bashrc is also loaded)
+
+su - <user>, su -l <user> ## login interactive shell as user (all startup files are loaded)
+su <user> ## interactive non-login shell as user (only bashrc is loaded)
+sudo -u <user> -s ## interactive non login-login shell as user
+sudo -i ## interavtive login shell as root
+sudo -u <user> -i <command> ## open interactive login shell as user, do command and return to the original user
 
 #? ALIAS
 
@@ -543,6 +555,14 @@ PS4 ## Debug prompt (when set -x was performed)
 return <number>
 
 #? SHIFT
+
+shift ## shift positional parameters to the left : $1 disappears, $2 becomes $1, $3 becomes $2 etc
+shift 2 ## shift by two positions
+## process all command-line arguments, whatever their number
+while (( $# > 0 )); do
+	echo "$1"
+	shift
+done
 
 #? EVAL
 

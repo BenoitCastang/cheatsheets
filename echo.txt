@@ -1,1 +1,12 @@
+echo <text> ## print text and go to the next line
 echo -n ## echo without new line
+
+echo * ## file globbing: echo all files in current directory if there are, else echo *
+
+#? printf
+
+printf "Hello, World!" ## print text without carriage return
+printf "Hello, World!\n" ## print text with carriage return
+
+printf "%d %s" "digit" "string" ## %d is placeholder for any digit, %s for any string
+num=5; str=foo; printf "%d %s" "$num" "$str" ## with variables
