@@ -1,8 +1,14 @@
 whoami ## print effective username
+
 who ## list active logins on the system
 w ## list more information
+
 id ## get uid, gid and groups of current user
-id user ## get id of specific user
+id <user> ## get id of specific user
+id -u ## print effective uid
+id -g ## print effective gid
+id -G ## print all group ids
+
 lsuser ## print all real users of the system - personal alias
 users ## print the user names of users currently logged in to the user host
 

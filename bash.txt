@@ -30,6 +30,12 @@ sudo -u <user> -s ## interactive non login-login shell as user
 sudo -i ## interavtive login shell as root
 sudo -u <user> -i <command> ## open interactive login shell as user, do command and return to the original user
 
+echo $0 ## print shell type
+## -bash is the output for an interactive login shell - default
+## bash is the output for an interactive non-login shell - bash child process
+## <name_of_script> is the output for a script
+ps | grep bash ## get active shells list
+
 #? ALIAS
 
 alias ll='ls -Ahl --color=auto' ## ll does now the long ls command
@@ -214,7 +220,7 @@ parameter $? ## The exit status of the last command
 ## 0 is for command success or true, 1 and more is for errors 
 parameter $1 ## First positionnal parameter when arguments are given to a script
 parameter $2 ## Second positionnal parameter, and so on until $9, so $10 and more wont work
-parameter $0 ## Name of the script or shell
+parameter $0 ## shell type - name of the script if in a script
 parameter $_ ## Last argument of the previous command
 parameter $# ## The number of positional parameters
 parameter $* ## equals $1 $2 $3
