@@ -1,1 +1,0 @@
-apropos ## search for a command: search the pattern through man page names and descriptions

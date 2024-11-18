@@ -1,0 +1,7 @@
+## search through a database of all file paths on the system, making it faster that find which performs real-time search
+
+sudo updatedb ## manually update the database
+
+locate <filename> ## search from / for a file having filename in its name
+locate *.txt ## all files ending in .txt
+locate -i <filename> ## case insensitive

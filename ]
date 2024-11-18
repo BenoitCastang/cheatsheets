@@ -1,18 +1,16 @@
 $? SHELL TYPES
 
 ## startup files
+/etc/bash.bashrc ## all-user bashrc
 /etc/profile ## all-user profile
 ## configures PATH variable (different if user is root or not)
-## if shell is interactive (if PS1 is set), loads /etc/bash.bashrc if shell is bash and defines PS1 to "$ " and "# " if shell is not bash
-## if /etc/profile.d exists, load files in it
-/etc/bash.bashrc ## all-user bashrc
 /home/user/.bashrc ## user-specific bashrc
 /home/user/.profile ## user-specific profile
 
 login shell ## shell session started when a user logs into a system - reads configuration files /etc/bash.bashrc and /etc/profile then ~/.bashrc and ~/.profile
 non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - bash config files are read but not profile files
-interactive shell ## shell happening through keyboard and screen - not a script
-non-interactive shell ## no human interaction, i.e. scripts - output is log
+interactive shell ## shell happening through keyboard and screen
+non-interactive shell ## no human interaction - output is log
 
 #? BASH
 
@@ -20,33 +18,6 @@ non-interactive shell ## no human interaction, i.e. scripts - output is log
 bash -x ## debugger mode
 bash -o vi ## vi-style line editing interface
 w ## all set options are available to use with the bash command
-
-## shell options or flags, contained in $-
-i ## interactive shell
-u ## nounset mode: strict mode, unset variables throw an error and exit the script
-v ## verbose mode: shows the exact commands
-x ## xtrace mode: debugging mode, shows commands as they are after expansions etc.
-B ## brace expansion enabled
-H ## history expansion enabled
-n ## noexec mode: syntax checking mode for scripts
-f ## noglob mode: filename expansion is disabled
-a ## allexport: from activation, all assigned variables are exported
-e ## errexit: exit the shell if any command fails
-b ## notify mode: asynchronous jobs (commands in the background like sleep 5 &) send completion notification the terminal
-h ## hashall mode: automatically remembers (hashes) full path of executed commands - the shell caches command location after first execution so it reduces its need to search the $PATH, improving performances
-m ## monitor mode: enables job control, i.e. usage of &, jobs, fg and bg, ctrl-Z etc.
-C ## noclobber mode: prevents overwriting of files with > redirection
-D ## directory autocd: zsh only, set -o autocd allows changing directory whithout writing cd
-E
-P
-T
-o
-p
-t
-s
-
-set -u ## activate u option
-set +u ## disable u option
 
 bash -l ## invoke login shell (loads every startup files)
 bash -i ## invoke interactive shell (loads only user bashrc)
@@ -115,9 +86,7 @@ set -e ## exit on error
 set -u ## strict mode - treat unset variable as an error and exit script - return var: unbound variable
 set -- blop crac boum && echo $1 $2 $3
 ## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
-
-unset var ## removes shell variable from current bash process, making it unset
-unset function ## removes function form current bash process
+unset var ## removes shell variable or function from current bash process
 
 #? DECLARE
 
@@ -293,15 +262,6 @@ if test 4 -eq 4; then echo true; else echo false; fi ## example
 [ condition ] ## shortcut for test command
 if [ 4 -eq 4 ]; then echo true; else echo false; fi ## example
 
-## unset or null is false, else is true
-if [ ]; then echo ok; else echo false; fi ## returns false
-if [ blop ]; then echo ok; else echo false; fi ## returns true
-if [ "string" ]; then echo ok; else echo false; fi ## returns true
-if [ "" ]; then echo ok; else echo false; fi ## returns false
-if [ $unset_var ]; then echo ok; else echo false; fi ## returns false
-if [ "$null_var" ]; then echo ok; else echo false; fi ## returns false
-var=blop; if [ "$var" ]; then echo ok; else echo false; fi ## returns true
-
 -eq ## Number is equal
 -ne ## Number is not equal
 -lt ## Number is less than
@@ -351,7 +311,7 @@ $? isolation with parentheses exists with you escape them \(
 ls /homd || echo fail ## does echo if ls fails
 ls /home && echo success ## does echo if ls succeeds
 
-#? CASE
+#? case
 
 case $var in
     1)
@@ -380,7 +340,7 @@ esac
 
 case $i in 2) echo 2 ;; 5) echo 5 ;; esac ## one-line case
 
-#? WHILE
+#? while
 
 while command; do command; done ## executes command as long as return value is 0
 i=0
@@ -389,11 +349,11 @@ while [[ $i < 5 ]]; do
 	((i++))
 done
 
-#? UNTIL
+#? until
 
 until command; do command; done ## executes command until condition is met
 
-#? FOR
+#? for
 
 ## regular syntax
 for i in 1 2 3; do
@@ -407,7 +367,7 @@ for i in *.sh ## file globbing works
 for i in file[123] ## globbing
 for ((i = 1; i <= 5; i++)); do echo ok; done ## classic c loop
 
-$? FUNCTIONS
+$? functions
 
 sayhello() {
 	echo "hello"
@@ -417,7 +377,7 @@ sayhello
 function sayhello() ## classic syntax
 function sayhello ## alternative syntax
 
-#? ARRAYS
+#? arrays
 
 ## index array
 array=(1 2 3) ## declare an array
@@ -451,7 +411,7 @@ unset assoc_array[key3] ## remove element
 array="1 2 3" ## false array, it is a string - all values are created in ${array[0]}
 for i in $array; do echo $i; done ## go through false array
 
-#? READ
+#? read
 
 read ## take value from standard input and put it by default in $reply
 read < file ## take a file as input
@@ -476,7 +436,7 @@ read -t 3 value ## wait only 3 seconds for the input
 
 read <<< $(ls) ## takes first result of ls
 
-#? SOURCE
+#? source
 
 source filepath ## execute bashscript in same process - include file in another script
 . filepath ## shortcut
@@ -484,7 +444,7 @@ source filepath ## execute bashscript in same process - include file in anothe
 . /etc/os-release ## source os info file
 echo $pretty_name ## echo variable
 
-#? SUBSHELLS
+#? subshells
 
 ## parentheses create a separate instance of the shell that inherits the environment of the parent shell (variables, functions etc.), but any creation done or any change made to the environment within the subshell do not affect the parent shell
 (cd /var/www/ && ls -la) ## the subshell performs cd and ls, but when back to parent shell, nothing changed, pwd is as before
@@ -493,12 +453,12 @@ ls | grep pattern ## each command in a pipeline is executed in its own subshel
 var=$(ls) ## command substitutions uses subshell
 vim & ## command in the background uses a subshell
 
-#? GROUPING COMMANDS
+#? grouping commands
 
 ## braces dont create a separate instance, but group the commands together to redirect the output of multiple commands to a single stream
 { echo file1; echo file2; echo file3; } > file ## group commands and send everything to the file
 
-#? FILE GLOBBING
+#? file globbing
 
 ## file globbing allows to represent multiple file names
 ## wildcards are used that represent one or more characters
@@ -514,7 +474,7 @@ echo l[0-9] ## matches only a file name composed of l and a number
 echo ? ## ouput ? cause didnt find file matching pattern
 ls ? ## ouput no such file in directory
 
-#? BRACE EXPANSION
+#? brace expansion
 
 echo {a,b,c,d} ## list expansion: echo a b c d
 echo {a..d} ## sequence expansion: echo a b c d
@@ -527,7 +487,7 @@ echo file{1..3} ## prefix and suffix expansion: echo file1.txt, file2.txt and fi
 echo {ca,co}.txt ## matches ca.txt and co.txt
 ls {p*,*.txt} ## matches files beginning with p or ending with .txt
 
-#? PARAMETER EXPANSION
+#? parameter expansion
 
 ## the shell replaces variable reference by its value during execution of a command
 echo $var ## basic variable expansion
@@ -536,40 +496,29 @@ echo ${var} ## alternative syntax
 echo ${var}text ## better delimitation of the variable name
 echo ${#var} ## string length expansion
 
-## unset variable: undeclared, unbound variable
+## unset variable: undeclared variable
 ## null variable: empty string variable
 ## unset var: make variable unset
-## var="": set null variable
+## var="": null variable
 
 ## default values
-echo ${var-default} ## expands to default if var is unset
-echo ${var-} ## expands to empty string if var is unset
-echo ${var:-default} ## expands to default is var is unset or null
+echo ${var-default} ## echo default if var is unset
+echo ${var:-default} ## echo default is var is unset or null
 
 ## assign if unset
-echo ${var=default} ## expands to default if var is unset and set var plus assign it default value
-echo ${var=} ## expands to empty string if var is unset and set var plus assign it default value
-echo ${var:=default} ## expands to default is var is unset or null and set var plus assign it default value
+echo ${var=default} ## echo default if var is unset and set var plus assign it default value
+echo ${var:=default} ## echo default is var is unset or null and set var plus assign it default value
 
-## alternate value
-echo ${var+alt} ## expands to alt if var is set even if null, return empty string if var is unset
-echo ${var:+alt} ## expands to alt if var is set and not null, return empty string if var is unset or null
+## variants do exist with -, + or ? instead of =
+${var-} ## transform unset or null to empty string (protection when set -u is enabled and terminates any script when unset or null value is met - return unbound variable)
+## if var is not defined, $var is error, ${var} is error, ${var-} is not
 
-## error handling
-echo ${var?errormessage} ## if var is unset, throw an error with the error message and exit the scipt
-echo ${var:?errormessage} ## if var is unset or null, throw an error with the error message and exit the scipt
+echo ${var:2} ## substring extraction: extract the string from character 2
+echo ${var:1:2} ## substring extraction: extract two characters from character 1
 
-## substring extraction
-echo ${var:2} ## return the substring of var after character 2
-echo ${var:2:3} ## return the substring of var, three characters after character 2
-
-## string replacement
 echo ${var/pattern/replacement} ## replace the first match of pattern by replacement in var
 echo ${var//pattern/replacement} ## replace all matches of pattern by replacement in var
-echo ${var/#pattern/replacement} ## replace match of pattern by replacement in var if the pattern occurs at the start of var
-echo ${var/%pattern/replacement} ## replace match of pattern by replacement in var if the pattern occurs at the end of var
 
-## other parameter expansion syntax
 path="/path/to/file.txt"
 echo ${var#pattern} ## remove the shortest match of pattern from the beginning of var
 echo ${path#*/} ## outputs path/to/file.txt
@@ -626,38 +575,8 @@ PS4 ## Debug prompt (when set -x was performed)
 
 #? RETURN
 
-## exit function or sourced script, not standalone scripts
-return ## in function: exit the function; in sourced script: exit the script and get back to shell
-## with a number return specified exit status
-return 5 ## in function: exit the function with specified exit status; in sourced script: exit the script and get back to shell with specified exit status
-
-#? EXIT
-
-## exit shell process
-## in standalone scripts: exit script
-## in function: exit script
-## in sourced script: exit script and shell process
-exit ## exit shell
-exit 5 ## sets exit status of shell
-
-$? TRAP
-
-## execute commands when certain events are triggered
-trap "echo bye" EXIT ## echo bye when script is exited
-trap "echo bye" SIGINT ## echo bye when script is interrupted (Ctrl-C)
-trap "echo bye" ERR ## echo bye when an error is encountered
-trap "echo bye" SIGTERM ## echo bye when the process is killed (while SIGKILL cant be handled)
-
-trap "" SIGNAL ## ignore a signal
-trap - SIGNAL ## reset signal handling to its default behavior
-
-#? XARGS
-
-## xargs takes ouput and make it argument for a command that dont work with pipe
-echo "one two three" | echo ## outputs empty string
-echo "one two three" | xargs echo ## outputs one two three
-
-find -type d | xargs ls -ld ## long listing of directories only 
+## End a function providing a specified exit status
+return <number>
 
 #? SHIFT
 

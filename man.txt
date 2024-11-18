@@ -1,15 +1,44 @@
+#? HELP
+
+help command ## get help for bash builtin commands
+
+#? MAN
+
 man command ## open man page
 man 5 command ## man page 5
-man builtins ## man for bash commands
+
+#? INFO
 
 info ls ## helpful information
 /usr/share/doc ## more information
 
-## to read
+#? WHICH
 
-https://www.reddit.com/r/commandline/comments/1a9u0h/what_are_some_must_read_man_pages/
-man bash
-vim
-tmux
-man man
-man dpkg
+which grep ## get location of command or binary in system's PATH
+
+#? TYPE
+
+type ls ## get type of a command (alias, shell builtin, function, binary etc.)
+
+#? WHATIS
+
+## get one-line command description from the man pages
+whatis ls ## get brief description of command 
+
+#? APROPOS
+
+## search in all one-line command descriptions from the man pages
+apropos zip ## search the word zip throug all command names and descriptions
+apropos zip | grep archive ## add filter
+
+#? APT SEARCH
+
+apt search locate ## search through package repositories
+
+#? FIND
+
+find / -name <command> ## search command in the system by name
+
+#? LOCATE
+
+locate <command> ## search command in the system by name

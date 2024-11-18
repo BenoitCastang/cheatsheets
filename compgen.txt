@@ -1,0 +1,5 @@
+## generate and display shell autocompletion
+compgen -c pattern ## display all commands beginning with the pattern
+compgen -a pattern ## display all aliases beginning withs the pattern
+compgen -f pattern ## display all functions beginning withs the pattern
+compgen -v pattern ## display all variables beginning withs the pattern

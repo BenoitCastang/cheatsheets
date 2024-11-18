@@ -44,6 +44,16 @@ cs"' ## change surround " to '
 ysiw" ## you surround inner word with "
 ds" ## delete surround "
 
+,,f ## easymotion
+4j ## four lines down
+4k ## four lines up
+4h ## four characters left
+4l ## four characters right
+4G ## go line 4
+
+	* ## go to next identical word
+# ## go to previous identical word
+
 #? COMMAND-LINE MODE
 
 :2 ## go line 2
