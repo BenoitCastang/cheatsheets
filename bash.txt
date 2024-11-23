@@ -8,24 +8,51 @@ $? SHELL TYPES
 /etc/bash.bashrc ## all-user bashrc
 /home/user/.bashrc ## user-specific bashrc
 /home/user/.profile ## user-specific profile
+/home/user/.bash_logout ## user-specific script run when ending bash session
 
-login shell ## shell session started when a user logs into a system - reads configuration files /etc/bash.bashrc and /etc/profile then ~/.bashrc and ~/.profile
-non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - bash config files are read but not profile files
+login shell ## shell session started when a user logs into a system - reads /etc/profile and /etc/bash.bashrc then ~/.bashrc and ~/.profile
+non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - read only ~/.bashrc
 interactive shell ## shell happening through keyboard and screen - not a script
 non-interactive shell ## no human interaction, i.e. scripts - output is log
 
 #? BASH
 
 ## open a bash process
-bash -x ## debugger mode
+bash ## open an instance of the shell
+bash <script> ## execute a script with the bash shell - bash reads a file
+bash -c "echo blop" ## execute the command and exit - bash reads a string
+echo "echo blop" | bash ## pass an instruction or a script to bash through a pipeline
+curl <script> | bash ## dowload a script and pass it to bash for direct execution
+
+bash -i ## start interactive shell session
+bash -l ## start a login shell
+bash -n ## noexec mode
+bash -x ## xtrace mode
+bash -v ## verbose mode
+bash -r ## restricted mode
+bash --noprofile ## no-profile shell (loads only user bashrc)
+bash --norc ## does not load any startup file
+bash --rcfile <file> ## load only a specified startup file (/etc/bash.bashrc is also loaded)
+
 bash -o vi ## vi-style line editing interface
 w ## all set options are available to use with the bash command
+
+bash -- ## the -- stops the list of options, everything after it is an argument, event if it begins with -
+touch -- -blop ## -blop is not considered as a list of options but as a string, so it create a -blop file
+
+set -u ## activate u option
+set +u ## disable u option
+
+set -o <option-name> ## activate option by its name
+set -o verbose ## verbose mode
+set -o vi ## vi mode
 
 ## shell options or flags, contained in $-
 i ## interactive shell
 u ## nounset mode: strict mode, unset variables throw an error and exit the script
 v ## verbose mode: shows the exact commands
 x ## xtrace mode: debugging mode, shows commands as they are after expansions etc.
+r ## restricted mode: disable cd, bash completion, modifying key environment variables, file redirection etc.
 B ## brace expansion enabled
 H ## history expansion enabled
 n ## noexec mode: syntax checking mode for scripts
@@ -36,35 +63,19 @@ b ## notify mode: asynchronous jobs (commands in the background like sleep 5 &
 h ## hashall mode: automatically remembers (hashes) full path of executed commands - the shell caches command location after first execution so it reduces its need to search the $PATH, improving performances
 m ## monitor mode: enables job control, i.e. usage of &, jobs, fg and bg, ctrl-Z etc.
 C ## noclobber mode: prevents overwriting of files with > redirection
-D ## directory autocd: zsh only, set -o autocd allows changing directory whithout writing cd
-E
-P
-T
 o
-p
-t
-s
-
-set -u ## activate u option
-set +u ## disable u option
-
-bash -l ## invoke login shell (loads every startup files)
-bash -i ## invoke interactive shell (loads only user bashrc)
-bash --noprofile ## no-profile shell (loads only user bashrc)
-bash --norc ## does not load any startup file
-bash --rcfile <file> ## load only a specified startup file (/etc/bash.bashrc is also loaded)
-
-su - <user>, su -l <user> ## login interactive shell as user (all startup files are loaded)
-su <user> ## interactive non-login shell as user (only bashrc is loaded)
-sudo -u <user> -s ## interactive non login-login shell as user
-sudo -i ## interavtive login shell as root
-sudo -u <user> -i <command> ## open interactive login shell as user, do command and return to the original user
 
 echo $0 ## print shell type
 ## -bash is the output for an interactive login shell - default
 ## bash is the output for an interactive non-login shell - bash child process
 ## <name_of_script> is the output for a script
 ps | grep bash ## get active shells list
+
+su - <user>, su -l <user> ## login interactive shell as user (all startup files are loaded)
+su <user> ## interactive non-login shell as user (only bashrc is loaded)
+sudo -u <user> -s ## interactive non login-login shell as user
+sudo -i ## interavtive login shell as root
+sudo -u <user> -i <command> ## open interactive login shell as user, do command and return to the original user
 
 #? ALIAS
 
@@ -90,9 +101,7 @@ help ## shell builtins help
 #? VARIABLES
 
 variable=value ## create a local variable, available only in the same bash process
-export variable=value ## create a variable available in child processes
-PATH=$PATH:~ script ## if a script is in the home direcory, it is run and the PATH is changed only the time of the commmand
-var=value bash -c "echo $var" ## var exists only the time of the command execution (echo is trough bash -c cause bash expansion happens before variable assignement
+export variable=value ## create an environment variable available in child processes
 
 echo $ls ## echo variable ls
 echo ${ls} ## echo variable ls
@@ -104,15 +113,23 @@ echo ${blop}bip ## prints cracbip
 
 ${#blop} ## variable length
 
-env ## display all environment variables of the current shell
+## environment variables
+env ## print environment variables
+
+$PATH ## defines directories where exectutables are searched
+$HOME ## the current user's home directory
+$USER ## the name of the logged-in user
+$SHELL ## the default shell
+$IFS ## Internal Field separator for file globbing - default is space, tab, newline)
+$PWD ## the current working directory
+$OLDPWD ## the previous working directory (cd -)
+$LANG ## the current language and locale settings
+$EDITOR ## the default text editor
+$LOGNAME ## the name of the current user
+$TERM ## the type of the terminal
+
 set ## display all environment variables, shell variables, and shell functions 
-## shell variables and functions are defined in all confiration files, user-wide and system-wide
-set -option ## enable a shell option
-set +option ## disable a shell option
-set -x ## enable debugging mode, displaying all commands
-set +x ## disable debugging mode
-set -e ## exit on error
-set -u ## strict mode - treat unset variable as an error and exit script - return var: unbound variable
+
 set -- blop crac boum && echo $1 $2 $3
 ## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
 
@@ -248,22 +265,27 @@ echo "The system uptime is $(uptime -p)" ## in a command
 
 #? SPECIAL PARAMETERS
 
-parameter $? ## The exit status of the last command
+parameter $? ## the exit status of the last command
 ## 0 is for command success or true, 1 and more is for errors 
-parameter $1 ## First positionnal parameter when arguments are given to a script
-parameter $2 ## Second positionnal parameter, and so on until $9, so $10 and more wont work
+parameter $1 ## first positionnal parameter when arguments are given to a script
+parameter $2 ## second positionnal parameter, and so on until $9, so $10 and more wont work
 parameter $0 ## shell type - name of the script if in a script
-parameter $_ ## Last argument of the previous command
-parameter $# ## The number of positional parameters
+parameter $_ ## last argument of the previous command
+parameter $# ## the number of positional parameters
 parameter $* ## equals $1 $2 $3
 "$*" ## equals "$1 $2 $3" - one parameter
 parameter $@ ## equals $1 $2 $3
 "$@" ## equals "$1" "$2" "$3" - three parameters
 ## The difference can matter when providing as arguments strings with space that confuse the count of arguments: echo 3 "Sun Tzu" Bob
-parameter $$ ## The process ID of the current shell
-echo $PPID ## The process parent ID of the current shell
-parameter $! ## The process ID of the last background command
-parameter $- ## Current options set for the shell
+parameter $$ ## the process ID of the current shell
+$PPID ## The process parent ID of the current shell
+parameter $! ## the process ID of the last background command
+parameter $- ## current options set for the shell
+parameter !$ ## last argument from the previous command
+
+$BASH_COMMAND ## next command to be executed
+$LINENO ## current line number in the script
+$BASH_SOURCE ## absolute name of the script being executed
 
 #? QUOTING AND ESCAPING
 
@@ -580,6 +602,10 @@ echo ${path%/*} ## ouputs /path/to
 echo ${var%%pattern} ## remove the longest match of pattern from the end of var
 echo ${path%%/*} ## outputs empty string
 
+#? WORD SPLITTING
+
+
+
 $? PATHS
 
 dirname <path> ## strip last component from file name
@@ -614,6 +640,8 @@ $PATH ## lits of dirs where bash searches for commands
 $RANDOM ## random number between 0 and 32767
 $REPLY ## default variable for read and select commands
 $SECONDS ## seconds since current bash process creation
+$BASH_VERSION ## the version of bash
+
 ## control the command prompt
 PS1 ## primary prompt over the terminal
 ## default value is \u@\h:\w\$
@@ -647,6 +675,8 @@ trap "echo bye" EXIT ## echo bye when script is exited
 trap "echo bye" SIGINT ## echo bye when script is interrupted (Ctrl-C)
 trap "echo bye" ERR ## echo bye when an error is encountered
 trap "echo bye" SIGTERM ## echo bye when the process is killed (while SIGKILL cant be handled)
+trap "echo $BASH_COMMAND" DEBUG ## echo variable each before every command in the script is executed
+trap "echo return status: $?" RETURN ## echo return status when return command is performed
 
 trap "" SIGNAL ## ignore a signal
 trap - SIGNAL ## reset signal handling to its default behavior

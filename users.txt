@@ -34,6 +34,7 @@ useradd -D ## show user creation default values
 /etc/login.defs ## config file for user-related commands: password minimum and maximum days, warn days, uid and gid min and max, create home dir or not etc.
 /etc/default/useradd ## config file for useradd
 /etc/default/adduser.conf ## config file for adduser
+$SKEL ## variable whose value is absolute path to the skel directory - default is /etc/skel
 /etc/skel ## default content of home directory for new users for both useradd and adduser
 
 usermod [OPTIONS] USERNAME
