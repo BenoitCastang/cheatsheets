@@ -1,17 +1,17 @@
 $? SHELL TYPES
 
 ## startup files
-/etc/profile ## all-user profile
+/etc/profile ## all-user profile - only loaded by login shells
 ## configures PATH variable (different if user is root or not)
 ## if shell is interactive (if PS1 is set), loads /etc/bash.bashrc if shell is bash and defines PS1 to "$ " and "# " if shell is not bash
 ## if /etc/profile.d exists, load files in it
-/etc/bash.bashrc ## all-user bashrc
-/home/user/.bashrc ## user-specific bashrc
-/home/user/.profile ## user-specific profile
+/etc/bash.bashrc ## all-user bashrc - loaded by login and non-login shells
+/home/user/.bashrc ## user-specific bashrc - loaded by login and non-login shells
+/home/user/.profile ## user-specific profile - only loaded by login shells
 /home/user/.bash_logout ## user-specific script run when ending bash session
 
 login shell ## shell session started when a user logs into a system - reads /etc/profile and /etc/bash.bashrc then ~/.bashrc and ~/.profile
-non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - read only ~/.bashrc
+non-login shell ## shell session started with a user already logged in, like opening a new terminal window in a graphical environment, running a bash sub process or running a script - read only /etc/bash.bashrc and ~/.bashrc
 interactive shell ## shell happening through keyboard and screen - not a script
 non-interactive shell ## no human interaction, i.e. scripts - output is log
 
@@ -23,6 +23,10 @@ bash <script> ## execute a script with the bash shell - bash reads a file
 bash -c "echo blop" ## execute the command and exit - bash reads a string
 echo "echo blop" | bash ## pass an instruction or a script to bash through a pipeline
 curl <script> | bash ## dowload a script and pass it to bash for direct execution
+
+env -i bash ## start a new bash session with as empty an environment as possible, clearing most variables
+env variable=value script ## run script providing specifc variable
+env BASH_ENV=/path/to/startup-file script ## execute script with specified BASH_ENV, which is the default startup config file
 
 bash -i ## start interactive shell session
 bash -l ## start a login shell
@@ -63,7 +67,6 @@ b ## notify mode: asynchronous jobs (commands in the background like sleep 5 &
 h ## hashall mode: automatically remembers (hashes) full path of executed commands - the shell caches command location after first execution so it reduces its need to search the $PATH, improving performances
 m ## monitor mode: enables job control, i.e. usage of &, jobs, fg and bg, ctrl-Z etc.
 C ## noclobber mode: prevents overwriting of files with > redirection
-o
 
 echo $0 ## print shell type
 ## -bash is the output for an interactive login shell - default
@@ -79,9 +82,19 @@ sudo -u <user> -i <command> ## open interactive login shell as user, do command 
 
 #? ALIAS
 
+alias ## get the list of set aliases
 alias ll='ls -Ahl --color=auto' ## ll does now the long ls command
-'ls' ## overwrite alias
+unalias ll ## remove alias
+ll ## invoke alias
+
+alias where='echo $PWD' ## single quotes make dynamic variable expansion, so $PWD will be evaluated when running alias
+alias where="echo $PWD" ## double quotes make static variable expansion, so $PWD will be evaluated when setting the alias and always be the same
+
 \ls ## overwrite alias
+'ls' ## overwrite alias
+## if a function has the same name, the alias goes first
+
+alias func="pif() { echo plouf; unset -f pif; }; pif" ## function in an alias
 
 #? TYPE
 
@@ -100,41 +113,58 @@ help ## shell builtins help
 
 #? VARIABLES
 
-variable=value ## create a local variable, available only in the same bash process
-export variable=value ## create an environment variable available in child processes
+local_variable=value ## create a local or shell variable, available only in the same bash process
+export GLOBAL_VARIABLE=value ## create a global or environment variable available in child processes
+
+export local_variable ## make a local variable a global variable
+export -n GLOBAL_VARIABLE ## make a global variable a local variable
+export ## print global variables
+declare -x ## same as export
+env ## print environment variables
+printenv ## print environment variables
+printenv var ## echo variable
+
+set ## display all of the currently assigned shell variables and functions
+set -- blop crac boum && echo $1 $2 $3
+## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
+
+unset -v var ## removes shell variable from current bash process, making it unset
+unset -f function ## removes function form current bash process
+unset var/function ## without switch, unset will try to unset a variable first and then a function
+
+readonly constant=value ## create variable that cant be changed or unset
+readonly variable ## make existing variable a constant
+readonly ## list all readonly variables of current shell
 
 echo $ls ## echo variable ls
 echo ${ls} ## echo variable ls
-echo $(ls) ## echo output of ls command
-
-blop=crac
 echo $blopbip ## prints nothing cause searches for variable blopcrac
 echo ${blop}bip ## prints cracbip
-
+echo $(ls) ## echo output of ls command
 ${#blop} ## variable length
 
-## environment variables
-env ## print environment variables
-
-$PATH ## defines directories where exectutables are searched
+$PATH ## list of directories where bash looks for executable files when told to run any program
 $HOME ## the current user's home directory
 $USER ## the name of the logged-in user
+$HOSTNAME ## network name of the host computer
+$HOSTTYPE ## architecture of the host's processor
 $SHELL ## the default shell
-$IFS ## Internal Field separator for file globbing - default is space, tab, newline)
+$IFS ## Internal Field separator for file globbing - default is space, tab, newline: $' \t\n')
 $PWD ## the current working directory
 $OLDPWD ## the previous working directory (cd -)
 $LANG ## the current language and locale settings
 $EDITOR ## the default text editor
 $LOGNAME ## the name of the current user
 $TERM ## the type of the terminal
-
-set ## display all environment variables, shell variables, and shell functions 
-
-set -- blop crac boum && echo $1 $2 $3
-## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
-
-unset var ## removes shell variable from current bash process, making it unset
-unset function ## removes function form current bash process
+$DISPLAY ## related to X server - :0 is default one-screen config for gui
+$HISTCONTROL ## what commands are saved: ignorespace wont save commands starting with a space, ignoredups wont save command if the same as the previous one, ignoreboth wont save any
+$HISTSIZE ## sets the number of commands to be stored in memory while the shell session lasts
+$HISTFILE ## name of the file which stores all commands as they are typed - default is /home/user/.bash_history
+$HISTFILESIZE ## sets the number of commands to be saved in HISTFILE
+$HISTCMD ## number of current running command
+$LD_LIBRARY_PATH ## shared libraries, usually /usr/local/lib
+$MAIL ## file in wich bash searches for email - usually /var/mail/user or /var/spool/mail/user
+$MAILCHECK ## frequency in seconds with which bash ckecks for new email - default is 60
 
 #? DECLARE
 
@@ -232,6 +262,7 @@ echo $((var = 1+3)) ## var is changed and printed at the same time
 ((a++)) ## increment - set new value to variable at the same time
 ((a--)) ## decrement
 ((a=5)) ## $a is now 5
+((a+=2))
 
 ((4 == 2)) ## returns false
 ((4 != 2)) ## returns true
@@ -265,6 +296,7 @@ echo "The system uptime is $(uptime -p)" ## in a command
 
 #? SPECIAL PARAMETERS
 
+## tied to bash, those variables can only be referenced, not assigned
 parameter $? ## the exit status of the last command
 ## 0 is for command success or true, 1 and more is for errors 
 parameter $1 ## first positionnal parameter when arguments are given to a script
@@ -279,7 +311,7 @@ parameter $@ ## equals $1 $2 $3
 ## The difference can matter when providing as arguments strings with space that confuse the count of arguments: echo 3 "Sun Tzu" Bob
 parameter $$ ## the process ID of the current shell
 $PPID ## The process parent ID of the current shell
-parameter $! ## the process ID of the last background command
+parameter $! ## the process ID of the last background job
 parameter $- ## current options set for the shell
 parameter !$ ## last argument from the previous command
 
@@ -308,6 +340,7 @@ fi
 
 if ls /roote ## ls /roote returns exit 1 so the condition is false
 if ls 1> /dev/null 2>&1; then echo true; else echo false; fi ## output of ls is sent away
+/dev/null ## bit bucket, to send away unwanted output
 if [ -z "$(ls -A /path/to/dir)" ] ## use command substitution to check if directory is empty
 
 test condition ## condition with test command
@@ -356,6 +389,7 @@ $? isolation with parentheses exists with you escape them \(
 [ $var ] ## bash checks if value is empty or not, not if its equal to zero or not
 
 ((1 > 0)) ## works also with arithmetic expressions
+if (( 1 < 2 )); then echo ok; fi
 
 ## double brackets provide more advanced and safer syntax
 [[ 3 < 9 ]] ## allows arithetic expressions syntax
@@ -431,13 +465,39 @@ for ((i = 1; i <= 5; i++)); do echo ok; done ## classic c loop
 
 $? FUNCTIONS
 
+## defining a function
 sayhello() {
 	echo "hello"
 }
-sayhello
+## functions in bash are always global, so they are available in subshells
+sayhello ## run the function
 
 function sayhello() ## classic syntax
 function sayhello ## alternative syntax
+
+## write function directly in the terminal
+hello() {
+> echo crac
+> }
+
+hello() { echo crac; } ## write function on a single line
+
+## return command deals with exit status so to return a value, use echo
+double() {
+	arg="$1"
+	echo $(( arg * 2 ))
+}
+double 3 ## echo result
+foo=$(double 3) ## assign to a variable
+
+## variable scope
+var=value ## var is global by default, so it erases every var in the process with the same name and is accesible from everywhere in the process
+local var=value ## var exists only in the function, cant be acessed outside of it neither in nested functions
+
+## escaping functions is not possible, if a function has the same name as a command, the function goes first - the command can still be used these ways:
+/bin/ls ## full path
+command ls ## command command
+builtin ls ## command builtin
 
 #? ARRAYS
 
@@ -448,7 +508,9 @@ echo $array ## access element 0 of array
 echo ${array[0]} ## access element 0 of array
 echo ${array[@]} ## access all elements of array
 echo ${array[*]} ## same
+echo ${#array} ## echo length of first element of array
 echo ${#array[@]} ## print array length
+array+=4 ## add element at the end of the first element
 array+=(4) ## add element at the end of the array
 unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
 for i in ${array[@]}; do echo $i; done ## iterate over array values
@@ -643,14 +705,10 @@ $SECONDS ## seconds since current bash process creation
 $BASH_VERSION ## the version of bash
 
 ## control the command prompt
-PS1 ## primary prompt over the terminal
-## default value is \u@\h:\w\$
-PS2 ## secondary prompt - happen when command spans multiple lines, typically when Enter is pressed while command is not complete, for instance after an unclosed quote, brace or backslash
-## default value is >
-PS3 ## prompt for select command
-## default is #?
-PS4 ## Debug prompt (when set -x was performed)
-## Default value is +
+PS1 ## primary prompt over the terminal - default value is \u@\h:\w\$
+PS2 ## secondary prompt - happen when command spans multiple lines, typically when Enter is pressed while command is not complete, for instance after an unclosed quote, brace or backslash - default value is >
+PS3 ## prompt for select command - default is #?
+PS4 ## Debug prompt (when set -x was performed) - Default value is +
 
 #? RETURN
 

@@ -1,4 +1,5 @@
 history ## show every command of the history
+history 2 ## show two last commands
 .bash_history ## history of command written each time session is exited
 
 sudo !! ## execute previous command as sudo - !! is previous command

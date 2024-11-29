@@ -8,6 +8,7 @@ ls -t ## sort files by modification time, newest first
 ls -r ## reverse order
 ls -S ## list sorted by size
 
-ls -m ## list with with commas between them
+ls -m ## list with commas between them
+ls -1 ## forces output to display one file or directory per line
 
 tree ## print hierachical and recursive list of files
