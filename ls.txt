@@ -1,5 +1,7 @@
 ls ## list files
+ls -1 ## forces output to display one file or directory per line
 ls -l ## long listing
+
 ls -d ## list a directory
 ls -a ## list all files
 ls -A ## list all files but . and ..
@@ -9,6 +11,5 @@ ls -r ## reverse order
 ls -S ## list sorted by size
 
 ls -m ## list with commas between them
-ls -1 ## forces output to display one file or directory per line
 
 tree ## print hierachical and recursive list of files

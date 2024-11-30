@@ -28,6 +28,8 @@ env -i bash ## start a new bash session with as empty an environment as possible
 env variable=value script ## run script providing specifc variable
 env BASH_ENV=/path/to/startup-file script ## execute script with specified BASH_ENV, which is the default startup config file
 
+exec <script> ## run script and exit process right after it
+
 bash -i ## start interactive shell session
 bash -l ## start a login shell
 bash -n ## noexec mode
@@ -51,14 +53,19 @@ set -o <option-name> ## activate option by its name
 set -o verbose ## verbose mode
 set -o vi ## vi mode
 
+shopt
+
+echo $- ## list option flags
+echo $SHELLOPTS ## list options by name
+
 ## shell options or flags, contained in $-
 i ## interactive shell
 u ## nounset mode: strict mode, unset variables throw an error and exit the script
 v ## verbose mode: shows the exact commands
 x ## xtrace mode: debugging mode, shows commands as they are after expansions etc.
 r ## restricted mode: disable cd, bash completion, modifying key environment variables, file redirection etc.
-B ## brace expansion enabled
-H ## history expansion enabled
+B ## braceexpand mode: brance expansion is enabled
+H ## histexpand mode: history expansion enabled
 n ## noexec mode: syntax checking mode for scripts
 f ## noglob mode: filename expansion is disabled
 a ## allexport: from activation, all assigned variables are exported
@@ -79,6 +86,10 @@ su <user> ## interactive non-login shell as user (only bashrc is loaded)
 sudo -u <user> -s ## interactive non login-login shell as user
 sudo -i ## interavtive login shell as root
 sudo -u <user> -i <command> ## open interactive login shell as user, do command and return to the original user
+
+-- ## end of options marker
+rm -blop ## wont delete -blop file cause rm searches for options b, l, o , and p
+rm -- -blop ## delete -blop file, cause -- stop option reading
 
 #? ALIAS
 
@@ -149,7 +160,9 @@ $USER ## the name of the logged-in user
 $HOSTNAME ## network name of the host computer
 $HOSTTYPE ## architecture of the host's processor
 $SHELL ## the default shell
-$IFS ## Internal Field separator for file globbing - default is space, tab, newline: $' \t\n')
+$SHELLOPTS ## shell options by name
+$SHLVL ## shell deep level - default is 1, subshell is 2 etc.
+$IFS ## Internal Field separator for word splitting - default is space, tab, newline: $' \t\n')
 $PWD ## the current working directory
 $OLDPWD ## the previous working directory (cd -)
 $LANG ## the current language and locale settings
@@ -165,11 +178,23 @@ $HISTCMD ## number of current running command
 $LD_LIBRARY_PATH ## shared libraries, usually /usr/local/lib
 $MAIL ## file in wich bash searches for email - usually /var/mail/user or /var/spool/mail/user
 $MAILCHECK ## frequency in seconds with which bash ckecks for new email - default is 60
+$OSTYPE ## operating system type
 
 #? DECLARE
 
+## set and inspect variables and functions
+declare ## list all variables and functions
+declare -p ## list all variables
+declare -a ## list all indexed arrays
+declare -A ## list all associative arrays
+declare -f ## list all functions
+
 declare var=value ## declare and define a variable
-declare -r VAR=value ## declare a read-only variable, i.e. a constant
+declare -- var=value ## declare and define a variable, -- indicates the end of options
+declare var ## declare empty variable
+
+declare -r var ## make a variable readonly
+declare -r VAR=value ## declare a readonly variable, i.e. a constant
 
 declare -a array=(1 2 3) ## declare indexed array
 declare -A array=([key1]=1 [key2]=value2) ## declare associative array
@@ -183,7 +208,6 @@ declare -f function ## display definition of the function
 declare -g var=value ## declare global variable - default is local variable
 declare -n ref=original_var ## declare name reference, i.e. alias to another variable
 
-declare -p ## print all declared variables
 
 #? EXPR
 
@@ -300,9 +324,10 @@ echo "The system uptime is $(uptime -p)" ## in a command
 parameter $? ## the exit status of the last command
 ## 0 is for command success or true, 1 and more is for errors 
 parameter $1 ## first positionnal parameter when arguments are given to a script
-parameter $2 ## second positionnal parameter, and so on until $9, so $10 and more wont work
+parameter $2 ## second positionnal parameter, and so on until $9
+parameter ${10} ## 10th positional parameter and more are in ${}
 parameter $0 ## shell type - name of the script if in a script
-parameter $_ ## last argument of the previous command
+parameter $_ ## last argument of the previous command (if the function executed a command before $_ will represent the last argument of that last command, not the last argument of the function)
 parameter $# ## the number of positional parameters
 parameter $* ## equals $1 $2 $3
 "$*" ## equals "$1 $2 $3" - one parameter
@@ -455,12 +480,13 @@ until command; do command; done ## executes command until condition is met
 for i in 1 2 3; do
 	echo $i
 done
+## for seperates values with word splitting, depenfing on $IFS value
 
 for in in {1..5}
 for i in $(seq 1 5)
-for i in file.txt ## $i value is "file.txt", cause globbing didnt work
-for i in *.sh ## file globbing works
-for i in file[123] ## globbing
+for i in *.sh ## echoes list of files ending in .sh
+for i in file.txt ## echoes only file.txt
+for i in file[123] ## echoes file1, file2, file3 if they exist
 for ((i = 1; i <= 5; i++)); do echo ok; done ## classic c loop
 
 $? FUNCTIONS
@@ -469,7 +495,6 @@ $? FUNCTIONS
 sayhello() {
 	echo "hello"
 }
-## functions in bash are always global, so they are available in subshells
 sayhello ## run the function
 
 function sayhello() ## classic syntax
@@ -499,49 +524,74 @@ local var=value ## var exists only in the function, cant be acessed outside of i
 command ls ## command command
 builtin ls ## command builtin
 
+## readonly
+readonly function ## make function readonly, impossible to modify or unset
+readonly -f fucntion ## 
+declare -r function ## make function readonly, impossible to modify or unset
+readonly -f ## show functions that have received readonly -f
+
+readonly ## print readonly variables and functions
+readonly -f ## print readonly functions
+
 #? ARRAYS
 
 ## index array
-array=(1 2 3) ## declare an array
-array[0]=1 ## define element 0 of array
-echo $array ## access element 0 of array
-echo ${array[0]} ## access element 0 of array
-echo ${array[@]} ## access all elements of array
-echo ${array[*]} ## same
-echo ${#array} ## echo length of first element of array
-echo ${#array[@]} ## print array length
-array+=4 ## add element at the end of the first element
-array+=(4) ## add element at the end of the array
-unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
-for i in ${array[@]}; do echo $i; done ## iterate over array values
-for i in ${!array[@]}; do echo $i; done ## iterate over array keys
-for i in ${!array[@]}; do echo $i = ${array[$i]}; done ## iterate over array keys and values
 
-${array[@]} ## expands to values of array
-${!array[@]} ## expands to indices of array
+index_array=(1 2 3) ## declare an indexed array
+declare -a index_array=(1 2 3) ## declare an indexed array
+declare -a index_array; index_array=(1 2 3) ## in two commands
+
+index_array[3]=4 ## add a value
+index_array+=4 ## add text to the first element
+index_array[3]+=4 ## add text to the third element
+index_array+=(4) ## add element at the end of the array - index is automatic
+unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
+
+echo $index_array ## access element 0 of array
+echo ${index_array[0]} ## print index 0
+echo ${index_array[@]} ## print all values, separated by spaces
+echo ${index_array[*]} ## print all values, separated by spaces
+echo ${#index_array} ## echo length of first element of array
+echo ${#index_array[@]} ## print array length
+echo ${!array[@]} ## print all keys
+
+for i in ${index_array[@]}; do echo $i; done ## iterate over array values
+for i in ${!index_array[@]}; do echo $i; done ## iterate over array keys
+for i in ${!index_array[@]}; do echo $i = ${index_array[$i]}; done ## iterate over array keys and values
 
 ## associative array
-declare -a assoc_array=([key1]=value1 [key2]=value2) ## declare and define it
-assoc_array[key3]=value3 ## add key and value
-echo ${assoc_array[key2]} ## access element key2 of array
-echo ${assoc_array[@]} ## access all elements of array
+
+assoc_array=([key1]=value1 [key2]=value2) ## wont work alone, declare is needed
+declare -A assoc_array=([key1]=value1 [key2]=value2) ## declare and define an associative array
+declare -A assoc_array; assoc_array=([key1]=value1 [key2]=value2) ## in two commands
+
+assoc_array[key3]=value3 ## add key and value - change value if key exists
+assoc_array+=4 ## add text to the first element: key 0 - and add key 0 to the table at the same time
+assoc_array[key2]+=4 ## add text to key2
+assoc_array+=(4) ## add new key named 4
+unset assoc_array[key1] ## remove key-pair value
+
+echo $assoc_array ## unbound variable
+echo ${assoc_array[key1]} ## print key1
+echo ${assoc_array[@]} ## print all values, separated by spaces
+echo ${assoc_array[*]} ## sprint all values, separated by space
+echo ${#assoc_array} ## unbound variable
 echo ${#assoc_array[@]} ## print array length
+echo ${!assoc_array[@]} ## print all keys
+
 for i in ${assoc_array[@]}; do echo $i; done ## iterate over array values
 for i in ${!assoc_array[@]}; do echo $i; done ## iterate over array keys
-for i in ${!assoc_array[@]}; do echo "$i = ${assoc_array[$i]}"; done ## print keys and values
-if [ -v ${assoc_array[key1]} ]; then echo true; else echo false; fi ## check if key exixts
-unset assoc_array[key3] ## remove element
-
-array="1 2 3" ## false array, it is a string - all values are created in ${array[0]}
-for i in $array; do echo $i; done ## go through false array
+for i in ${!assoc_array[@]}; do echo "$i = ${assoc_array[$i]}"; done ## iterate over array keys and values
 
 #? READ
 
-read ## take value from standard input and put it by default in $reply
+read ## take value from standard input and put it by default in $REPLY
+read name surname ## read multiple variables, separated by space - last variable takes all the remaining text
+read -p "Write your name: " name ## add a message without echo
+
 read < file ## take a file as input
 ## by default seperates with spaces and ends with new line (cf ifs)
-echo "hello what's up" > txt
-read var1 var2 var3 < txt ## var1 is hello, var2 is what's, var3 is up
+echo "hello what's up" > txt; read var1 var2 var3 < txt ## var1 is hello, var2 is what's, var3 is up
 ## parses in multiple variable as possible
 
 ifs=:
