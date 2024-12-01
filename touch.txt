@@ -1,5 +1,5 @@
 touch file ## if file does not exist, create file
-touch file ## if file exists, updates time stamps: last access time, last content modification time and last metadata change time (not birth time date)
+touch file ## if file exists, updates time stamps: last access time (atime), last content modification (mtime) time and last metadata change time (not birth time date)
 touch -a file ## change only access and change time
 touch -m file ## change only modification and change time
 

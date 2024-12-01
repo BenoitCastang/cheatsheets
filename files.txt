@@ -63,3 +63,23 @@ chown :group file ## change group
 
 chgrp group file ## change groupe of file(s)
 chgrp - R group directory ## change recursively
+
+#? INODES
+
+## index node is a data structure that stores metadata about a file
+## a single inode can have multiple links toward it, i.e. multiple copies of the same file
+
+number after file permissions ## link count, number of hard links to the file or directory
+## usually 1 for files
+## always 2 for directories (. and ..)
+
+#? TIMESTAMPS
+
+touch file ## if file exists, updates time stamps: last access time (atime), last content modification (mtime) time and last metadata change time (not birth time date)
+touch -a file ## change only access and change time
+touch -m file ## change only modification and change time
+
+stat -c "%x" file ## show atime
+stat -c "%y" file ## show mtime
+stat -c "%z" file ## show metadata change time
+stat -c "%w" file ## show birth time

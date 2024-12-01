@@ -1,6 +1,11 @@
 echo <text> ## print text and go to the next line
 echo -n ## echo without new line
 
+echo -e ## enable escape characters
+echo -e "blop\ncrac" ## newline character
+echo -e "blop \u2192 crac" ## unicode characters
+echo -e "blop\tcrac\nb\tcrac" ## tabs make colums align
+
 echo * ## file globbing: echo all files in current directory if there are, else echo *
 
 #? printf

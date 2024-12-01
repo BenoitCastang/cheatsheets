@@ -53,7 +53,7 @@ set -o <option-name> ## activate option by its name
 set -o verbose ## verbose mode
 set -o vi ## vi mode
 
-shopt
+#? shopt -s nocase match
 
 echo $- ## list option flags
 echo $SHELLOPTS ## list options by name
@@ -318,6 +318,53 @@ var=`date` ## using backticks, old fashion
 var=$(date) ## using $(), new fashion
 echo "The system uptime is $(uptime -p)" ## in a command
 
+#? PROCESS SUBSTITUTION
+
+## process substitution redirects the output of a command so it appears like a file or file descriptor, useful with commands working with files only and avoid creating temporary files
+cat <(ls) ## cat output of ls like if was from a file
+## cat $(ls) on the contrary concatenates the content of all files listed by ls
+
+#? HEREDOCS
+
+#? REDIRECTION
+
+<>
+>
+<
+>>
+<<
+&>>
+<<<
+>&
+&>
+<&
+0>
+1>
+2>
+custom file descriptores
+|
+|&
+>\
+named pipe
+
+#? ORDER OF EXECUTION
+
+script sh, bash -c, $... (readline)
+tokenisation en mots et operateurs
+quoting, metacharacters, | & ; () < >, alias expansion
+analyse des tokens en commande simple + commandes composees
+expansion accolades
+tilde
+parametres, variables
+arithmetique
+commandes
+process
+separation des mots
+noms de fichiers
+redirections
+execution
+attente fin execution et recolte code retour
+
 #? SPECIAL PARAMETERS
 
 ## tied to bash, those variables can only be referenced, not assigned
@@ -382,35 +429,68 @@ if [ $unset_var ]; then echo ok; else echo false; fi ## returns false
 if [ "$null_var" ]; then echo ok; else echo false; fi ## returns false
 var=blop; if [ "$var" ]; then echo ok; else echo false; fi ## returns true
 
--eq ## Number is equal
--ne ## Number is not equal
--lt ## Number is less than
--le ## Number is less than or equal
--gt ## Number is greater than
--ge ## Number is greater than or equal
+## numbers
 
--e ## File exists
--f ## File is a regular file
--d ## File is a directory
--r ## File is readable
--w ## File is writable
--x ## File is executable
+-eq ## number is equal
+-ne ## number is not equal
+-lt ## number is less than
+-le ## number is less than or equal
+-gt ## number is greater than
+-ge ## number is greater than or equal
 
-= ## Strings are equal
-== ## Strings are equal
-!= ## Strings are not equal
--z ## String is empty
--n ## String is not empty
--v ## String is not set
+## strings
 
-[ "$var" = "string" ] ## quotes are needed cause if $var is empty, it compares an empty string instead of producing a syntax error
+string1 = string2 ## strings are equal
+string1 == string 2 ## strings are equal
+string1 != string 2 ## strings are not equal
+string \< string 2 ## string come before in alphabetical order
+string \> string 2 ## string come after in alphabetical order
+
+test "foo" ## true
+test "" ## false
+-z ## string is empty
+-n ## string is not empty
+
+## files
+
+-e ## file exists
+-f ## file is a regular file
+-d ## file is a directory
+-r ## file is readable
+-w ## file is writable
+-x ## file is executable
+
+-O ## file is owned by effective user id
+-G ## file is owned by effective group id
+-u ## file has suid permission
+-g ## file has sgid permission
+-k ## file has sticky bit permission
+-b ## file is a block file (storage)
+-c ## file is a character file (terminal)
+-S ## file is a socket
+-h ## file is a symbolic link
+-L ## file is a symbolic link
+-s ## file is not empty (< 0 byte in size)
+-p ## file is a named pipe
+-t ## file descriptor is connected to a terminal so shell is interactive (file descriptor is 0 1 or 2)
+-N ## file as been modified since last read (mtime is more recent than atime)
+
+file1 -nt file2 ## file1 is newer than file2 (mtime)
+file1 -ot file2 ## file1 is older than file2 (mtime)
+file1 -ef file2 ## file1 has same inode number than file2
+
+## logical operators
+
+! EXPR ## operator NOT
+EXPR1 -o EXPR2 ## operator OR
+EPXR1 -a EPXR2 ## operator AND
 
 [ 1 -eq 0 ] && [ 1 -gt 2 ] ## logical operator and
 [ 1 -eq 0 ] || [ 1 -gt 2 ] ## logical operator or
 [ ! 1 -eq 0 ] ## logical operator not
-#? -o -a logical operators
 $? isolation with parentheses exists with you escape them \(
 
+[ "$var" = "string" ] ## quotes are needed cause if $var is empty, it compares an empty string instead of producing a syntax error
 [ $var ] ## bash checks if value is empty or not, not if its equal to zero or not
 
 ((1 > 0)) ## works also with arithmetic expressions
@@ -425,8 +505,6 @@ if (( 1 < 2 )); then echo ok; fi
 ## no syntax error with empty strings without quotes
 #? support des extglob *(), *() (voir shopt -s extglob)
 #? no need of escaping parentheses with \( and \)
-
-#? conditions with logical operators
 
 ## the presence of logical operator creates a conditional system based on first command's exit status
 ls /homd || echo fail ## does echo if ls fails
@@ -461,33 +539,39 @@ esac
 
 case $i in 2) echo 2 ;; 5) echo 5 ;; esac ## one-line case
 
+## when a pattern is matched, code block is executed
+;; ## default - executes the code block of the first match, then skips other tests and exits the cas statement
+;;& ## does not skip other tests, allow to mactch multiple tests and execute multiple code blocks
+;& ## executes the code block of the first match
+
+#? FOR
+
+## the for construct walks through a given list of items
+for i in 1 2 3; do
+	echo $i
+done
+## for separates values with word splitting, depending on $IFS value
+
+for in in {1..5} ## list of numbers
+for i in $(seq 1 5) ## list of numbers
+for i in *.sh ## echoes list of files ending in .sh
+for i in file.txt ## echoes only file.txt
+for i in file[123] ## echoes file1, file2, file3 if they exist
+for ((i = 1; i <= 5; i++)); do echo ok; done ## classic c loop
+
+#? UNTIL
+
+until EXPR; do command; done ## executes command until condition is met
+
 #? WHILE
 
-while command; do command; done ## executes command as long as return value is 0
+while EXPR; do command; done ## executes command as long as condition is met
+## example
 i=0
 while [[ $i < 5 ]]; do
 	echo $i
 	((i++))
 done
-
-#? UNTIL
-
-until command; do command; done ## executes command until condition is met
-
-#? FOR
-
-## regular syntax
-for i in 1 2 3; do
-	echo $i
-done
-## for seperates values with word splitting, depenfing on $IFS value
-
-for in in {1..5}
-for i in $(seq 1 5)
-for i in *.sh ## echoes list of files ending in .sh
-for i in file.txt ## echoes only file.txt
-for i in file[123] ## echoes file1, file2, file3 if they exist
-for ((i = 1; i <= 5; i++)); do echo ok; done ## classic c loop
 
 $? FUNCTIONS
 
@@ -583,11 +667,25 @@ for i in ${assoc_array[@]}; do echo $i; done ## iterate over array values
 for i in ${!assoc_array[@]}; do echo $i; done ## iterate over array keys
 for i in ${!assoc_array[@]}; do echo "$i = ${assoc_array[$i]}"; done ## iterate over array keys and values
 
+#? MAPFILE / READARRAY
+
+## mapfile or readarray make an indexed array from standard input or from lines of a file
+mapfile ## reads from user input and fill the the $MAPFILE variable by default
+mapfile array ## specify array name
+mapfile array < file ## make array from lines of a file
+mapfile array < <(ls) ## make array from output of a command
+
+mapfile -n 3 ## limit to 3 lines of input
+mapfile -s 3 ## skip first 3 lines of input
+mapfile -O 5 array < file ## input lines are stored in array starting at index 5, leaving indices 0-4 empty
+mapfile -t ## remove all trailing newlines (\n)
+
 #? READ
 
 read ## take value from standard input and put it by default in $REPLY
 read name surname ## read multiple variables, separated by space - last variable takes all the remaining text
 read -p "Write your name: " name ## add a message without echo
+read -s password ## hide the content being typed on the screen
 
 read < file ## take a file as input
 ## by default seperates with spaces and ends with new line (cf ifs)
