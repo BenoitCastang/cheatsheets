@@ -1,4 +1,5 @@
 find [path] <pattern> ## find files matching a pattern
+ls -l $(find . <pattern>) ## present files as in the ls command
 
 find -name <pattern> ## Search exact name pattern
 find -iname <pattern> ## case insensitive
@@ -7,6 +8,10 @@ find -name "*foo*" ## every filename containing "foo"
 
 find -type f ## search files only
 find -type d ## search directories only
+find -type l ## search symbolic link
+find -type b ## search block file
+find -type c ## search character file
+find -type c ## search socket
 
 find -mtime 7 ## time of last modification: one week
 find -mtime -7 ## time of last modification: less than a week

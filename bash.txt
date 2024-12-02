@@ -322,7 +322,8 @@ echo "The system uptime is $(uptime -p)" ## in a command
 
 ## process substitution redirects the output of a command so it appears like a file or file descriptor, useful with commands working with files only and avoid creating temporary files
 cat <(ls) ## cat output of ls like if was from a file
-## cat $(ls) on the contrary concatenates the content of all files listed by ls
+ls | cat ## same as cat <(ls)
+cat $(ls) ## concatenates the content of all files listed by ls
 
 #? HEREDOCS
 
@@ -330,7 +331,16 @@ cat <(ls) ## cat output of ls like if was from a file
 
 <>
 >
+
+## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
 <
+cat ## user input is given to stdin for cat to read it
+cat file ## file argument passed directly to the command, cat reads the file content and outputs it to stdout
+cat < file ## file content redirected to standard input, cat doesnt know the file's name, it only reads its stdin
+echo file | cat ## cat only receives the string "file", not the file content, so it print "file"
+cat toast | cat ## command stdout can be given as stdin to cat
+echo < file ## wont work cause echo cant read from stdin, it needs command line arguments
+
 >>
 <<
 &>>
@@ -341,8 +351,8 @@ cat <(ls) ## cat output of ls like if was from a file
 0>
 1>
 2>
-custom file descriptores
-|
+custom file descriptors
+| ## pipe: a first process sends its output to stdout and a second process takes it as its stdin
 |&
 >\
 named pipe

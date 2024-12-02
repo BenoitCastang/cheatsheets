@@ -1,0 +1,1 @@
+/dev/zero ## pseudo-device, special file that provides infinite stream of null bytes, used to initialize data structures, create files of specific size, or overwrite disks or files with zeros

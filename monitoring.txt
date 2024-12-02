@@ -18,6 +18,8 @@ u ## filter by user
 t ## tree view of processes
 htop -d 10 ## call htop with refresh every second - default is 20, every two seconds
 
+#? FREE
+
 free ## show ram usage
 free -b ## Bytes
 free -m ## Mebibytes
@@ -29,6 +31,8 @@ free ## memory not being used by anything
 shared ## memory being used by tmpfs and other shared resources
 buff/cache ## memory used by the buffers and cache
 available ## memory free for applications to use
+
+#? SWAP 
 
 swap ## file in hard disk that acts like ram when server's memory is saturated - present by default in mosts systems
 /etc/fstab ## see if swap is present

@@ -132,7 +132,38 @@ umount /dev/vg/lv ## unmount lv before rollback
 lvconvert --merge vg/mysnapshot ## cancel changes, roll back to snapshot
 mount /dev/vg/lv /mnt/lv ## remount lv
 
-
 #? PARTED
 
 parted ## newer partitionning tool
+
+#? BLOCKS
+
+## blocks are chunks into which the filesystem divides the disk
+## a filesystem block is the smallest unit of data that can be read from or written to the disk: the most common block size is 4 KB
+smaller blocks ## more efficient storage because less storage is wasted, but performance is less good because more blocks need to be read or written - less memory used
+larger blocks ## less efficient storage because more storage is wasted, but performance is better because less blocks need to be read or written - more memory used
+## in storage devices, block size refers the smallest unit of data the device can physically read or writem, it is also known as sector size
+stat -f / ## gives the block size and number of blocks of a filesystem
+lsblk ## see all filesystems
+
+#? DD
+
+## data duplicator - copy and conversion of data
+
+if=<path> ## input file, specify source file or device
+of=<path> ## output file, specify destination file or device
+count=<number> ## number of blocks
+bs=<size> ## block size, amount of data read and written at one time during the copying process
+status=progress ## display progress during the operation
+/dev/zero ## pseudo-device, special file that provides infinite stream of null bytes, used to initialize data structures, create files of specific size, or overwrite disks or files with zeros
+
+## create a bootable usb
+dd if=image.iso of=/dev/sda bs=4M status=progress
+## backup a disk
+dd if=/dev/sda of=backup.img bs=1M status=progress
+## restore a disk from backup
+dd if=backup.img of=/dev/sda bs=1M status=progress
+## wipe a disk (overwrite with zeros)
+dd if=/dev/zero of=/dev/sda bs=1M status=progress
+## create a file of specific size (filled with zeros)
+dd if=/dev/zero of=1G_file bs=1M count=1024 ## 1024 x 1M = 1G
