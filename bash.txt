@@ -50,8 +50,10 @@ set -u ## activate u option
 set +u ## disable u option
 
 set -o <option-name> ## activate option by its name
+set +o <option-name> ## deactivate option by its name
 set -o verbose ## verbose mode
 set -o vi ## vi mode
+set -C || set -o noclobber ## noclobber mode
 
 #? shopt -s nocase match
 
@@ -311,6 +313,9 @@ sqrt(9) ## allow square root functions
 
 ## has also a math library, and capabilities to use conditions, loops and functions
 
+bc <<< 2+4 ## command-line mode
+bc <<< "scale=1; 1/2" ## multi commands on command-line mode
+
 #? COMMAND SUBSTITUTION
 
 ## capture output of a command to use it as a argument in another command or assign it to a variable
@@ -325,37 +330,91 @@ cat <(ls) ## cat output of ls like if was from a file
 ls | cat ## same as cat <(ls)
 cat $(ls) ## concatenates the content of all files listed by ls
 
-#? HEREDOCS
-
 #? REDIRECTION
 
-<>
->
+## processes receive input and send output through data streams
+## the method of file descriptors allows to dynamically associate integer numbers with data channels
+## the bash shell has the ability to reassign the communication channels when loading a program to chande default behavior: this is the redirection
+stdin ## standard input channel, file descriptor 0: keyboard, file, output of another command
+stdout ## standard output channel, file descriptor 1: screen, file
+stderr ## standard error channel, file descriptor 2: screen, file
+## data channels are also accessible through the special devices /dev/stdin, /dev/stdout/ and /dev/stderr
 
-## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
-<
-cat ## user input is given to stdin for cat to read it
-cat file ## file argument passed directly to the command, cat reads the file content and outputs it to stdout
+> ## standard output is redirected to a file
+1> ## same as >
+echo blop > file ## blop goes into the file instead of being printed into screen
+
+2> ## standard error is redirected to a file
+ls /roote 2> file ## error is written to the file
+
+&> ## both stdout and stderr are redirected to a file
+>& ## both stdout and stderr are redirected to a file
+
+## a redirection must be to a file or to a file descriptor (&1, &2, &3 etc.)
+ls /root >&2 ## sdtout is redirected to stderr
+ls /root 1>&2 ## sdtout is redirected to stderr
+ls /roote 2>&1 ## stderr is redirected to stdout
+ls /root > file 2>&1 ## redirect both to the same file without &> that is bash-specific
+
+## pipe redirects only stdin, not stdout, so dealing with error messages needs redirection of stderr to stdout
+ls foo 2>&1 | grep file ## check is pattern is found in the errors of the command
+
+## command output can be discarded by redirecting it to special file /dev/null
+ls foo &> /dev/null ## discard any output so it does not appear on screen
+
+set +o noclobber ## noclobber prevents from erasing a file when redirection is performed
+>> ## this redirection appends content to the end of the file instead of erasing it
+echo foo >> file ## append text at the end of the file
+ls foo 2>> file ## append stderr
+ls foo &>> file ## append both stdout and sdterr
+ls foo >>& file ## wont work
+ls foo >> file 2>&1 ## append both stdout and sdterr
+
+< ## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
 cat < file ## file content redirected to standard input, cat doesnt know the file's name, it only reads its stdin
-echo file | cat ## cat only receives the string "file", not the file content, so it print "file"
-cat toast | cat ## command stdout can be given as stdin to cat
-echo < file ## wont work cause echo cant read from stdin, it needs command line arguments
+cat 0< file ## same as cat < file
 
->>
-<<
-&>>
-<<<
->&
-&>
-<&
-0>
-1>
-2>
-custom file descriptors
+## Heredocuments and herestrings allow to use only-input commands with command-line arguments
+<<< string ## herestring - string is sent
+wc -c <<< blop ## work directly with my string, while wc -c blop seaches for a file called blop and it takes echo blop | wc -c otherwise or direct user input
+<< EOF ## heredocument - user input is waited on multiple line until "EOF" string is written
+wc -l << eof ## returns number of line before entering eof
+
 | ## pipe: a first process sends its output to stdout and a second process takes it as its stdin
 |&
 >\
 named pipe
+
+< ## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
+cat < file ## file content redirected to standard input, cat doesnt know the file's name, it only reads its stdin
+cat 0< file ## same as cat < file
+cat file ## file argument passed directly to the command, cat reads the file content and outputs it to stdout
+cat ## user input is given to stdin for cat to read it
+echo file | cat ## cat only receives the string "file", not the file content, so it print "file"
+cat toast | cat ## command stdout can be given as stdin to cat
+echo < file ## wont work cause echo cant read from stdin, it needs command line arguments
+cat file | echo ## wont work cause echo cant read from stdin, it needs command line arguments 
+echo $(cat file) ## echoes the file content
+
+#? custom file descriptors
+<>
+<&
+3>&-
+
+#? TEE
+
+## write output to a file and display it in the terminal at the same time
+## named upond the T-splitter in plumbery that direct water flow in two directions
+echo "Hello, World!" | tee output.txt
+tee -a ## append to the file instead of overwriting it
+
+#? XARGS
+
+## xargs takes ouput and make it argument for a command that dont work with pipe
+echo "one two three" | echo ## outputs empty string
+echo "one two three" | xargs echo ## outputs one two three
+
+find -type d | xargs ls -ld ## long listing of directories only 
 
 #? ORDER OF EXECUTION
 
@@ -896,14 +955,6 @@ trap "echo return status: $?" RETURN ## echo return status when return command
 
 trap "" SIGNAL ## ignore a signal
 trap - SIGNAL ## reset signal handling to its default behavior
-
-#? XARGS
-
-## xargs takes ouput and make it argument for a command that dont work with pipe
-echo "one two three" | echo ## outputs empty string
-echo "one two three" | xargs echo ## outputs one two three
-
-find -type d | xargs ls -ld ## long listing of directories only 
 
 #? SHIFT
 

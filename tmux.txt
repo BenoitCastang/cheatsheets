@@ -1,36 +1,49 @@
-tmux list-sessions
-tmux ls
-## See list of open tmux sessions
+#? SESSIONS
 
-tmux attach-session -t session-name
-tmux -a -t session-name
-## Enter target open session
+tmux list-sessions || tmux ls ## See list of open tmux sessions
+tmux attach-session -t session-name || tmux -a -t session-name ## Enter target open session
+ctrl-u + d ## Detach session - leaving it without ending it
+rename-session new-session-name || tmux rename-session -t current-name new-name ## Rename session
+exit || ctrl-d ## Close current unit from smaller to wider -  pane then window then session
+tmux kill-session -t session-name ## End target session
+tmux kill-server ## End all sessions
+tmux switch-client -t session-name ## Enter target open session without detaching from current session
 
-ctrl-u + d
-## Detach session - leaving it without ending it
+#? TABS AND PANES
 
-rename-session new-session-name
-tmux rename-session -t current-name new-name
-## Rename session
+ctrl-u % ## split tab vertically
+ctrl-u " ## split tab horizontally
+ctrl-u z ## zoom active pane
 
-exit
-ctrl-d
-## Close current unit from smaller to wider -  pane then window then session
-
-tmux kill-session -t session-name
-## End target session
-
-tmux kill-server
-## End all sessions
-
-tmux switch-client -t session-name
-## Enter target open session without detaching from current session
+#? COPY MODE
 
 ctrl-u [ ## Enter copy mode
 space ## Highlight text
 enter ## copy text and leave copy mode
 ctrl-u ] ## paste text
 
-ctrl-u % ## split tab vertically
-ctrl-u " ## split tab horizontally
-ctrl-u z ## zoom active pane
+#? KEY BINDINGS
+
+tmux list-keys ## list key bindings
+tmux list-commands ## list tmux commands
+
+ctrl-u ? ## list key bindings
+ctrl-u / ## describe key binding
+
+bind-key || bind ## configure key binding
+bind C-j next-window ## ctrl-u ctrl-j binded to next window
+bind j next-window ## ctrl-u j binded to next window
+
+## -n allows to skip prefix ctrl-u
+bind -n j next-window ## j binded to next window 
+bind -n C-j next-window ## ctrl-j binded to next window 
+
+## -N 'name' create an entry in the key bindings list
+bind -N 'Next window' -n C-j next-window ## ctrl-j is binded to next window and printed in the key bindings list
+
+## \; allows to chain commands
+bind C-j next-window \; display "Next window"
+
+unbind t ## remove ctrl-u t keybinding
+unbind C-t ## remove ctrl-u ctrl-t keybinding
+unbind -n C-t ## remove ctrl-t keybinding

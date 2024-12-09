@@ -1,0 +1,6 @@
+## list open files - in linux, everything is a file
+
+lsof ## print all open files
+## command: command that opened the file
+## user: user that opened the file
+## node: inode of the file
