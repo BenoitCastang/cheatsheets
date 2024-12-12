@@ -1,58 +1,182 @@
+#? VI MODE
+
 set -o vi ## switch to vim mode in bash
 ## change vi mode commands in .inputrc
 set editing-mode vi ## set the default editing mode to vi
 set keymap vi-command ## set the default keymap to vi-command mode
 jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
 
+#? HELP
+
 :h[elp] {command} | only ## open help fullscreen
 CTRL-] ## jump to a subject
-:ec[ho] {message} ## echo a message
-:echom[sg] {message} ## echo a message that remains in the message-history
+
+#? ECHO
+
+:ec[ho] "message" ## echo a message
+:echom[sg] "message" ## echo a message that remains in the message-history
 :mes[sages] ## show message-history 
-" This is a comment
+
+#? OPTIONS
+
+## two types of options, boolean options and options with value
+:set number ## set boolean option
+:set nonumber ## unset boolean option
+:set numberwidth=4 ## set option with value
+:set number! ## toggle option
+:set number numberwidth=4 ## set multiple options at the same time
+
+:set number? ## check boolean option
+:set numberwidth? ## check option with value
+:set number? numberwidth? ## check multiple options at the same time
+
+#? MAPPING
+
+map - dd ## set binding
+map <space> dd ## special characters
+map <C-d> dd ## ctrl key
+unmap - ## remove binding
+
+map ## create a key binding taking account of other custom bindings
+noremap ## create a key binding using default bindings
+
+map ## key binding from all modes but insert mode
+nmap ## key binding from normal mode
+imap ## key binding from insert mode
+cmap ## key binding from command-line mode
+vmap ## key binding from visual mode
+omap ## key binding from operator-pending mode (an operator has been entered and vim waits for a motion)
+
+nnoremap, inoremap, cnoremap, vnoremap, onoremap ## key binding from respective modes using default bindings
+nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective modes''
+
+## leader key
+
+## special characters
+
+<esc> ## escape
+<space> ## space bar
+<leader> ## leader key
+<CR> ## enter
+<C-d> ## ctrl + d
+<M-d> ## alt + d
+
+## unused or useless keys
+\ ## unused
+| ## go to begining of line or go to specific column with 5| 
+? ## reverse / so useless
+M ## go to middle of the screen
+
+
+#? MACROS
+
+qj ## record a macro
+q ## quit recording
+@j ## run macro
+
+#? WINDOWS
 
 ## vim command-line window
 q: ## q: in normal mode allows editing history in vim mode
+
+#? REPEAT
+
+. ## repeat the previous action
+; ## repeat the previous f/F/t/T action
+, ## repeat the previous f/F/t/T action in reverse
+
+#? INCREMENT
 
 c-a ## increment by 1 next number
 c-x ## decrement by 1 next number
 5c-a ## increment by 5
 
-gU<motion> ## make uppercase
+#? CASE
+
+gUmotion ## make uppercase
 gu<motion> ## make lowercase
+u ## in visual mode, make selected text lowercase
+U ## in visual mode, make selected text uppercase
+
+#? READ
 
 read ## insert content from outsite
 read file ## insert content of a file
 read !command ## insert output of a command
 
-## autocompletion
+#? AUTOCOMPLETION
+
 c-n ## next match
 c-p ## previous match
 c-x c-f ## auto complete file path
 c-x c-l ## auto complete line
+
+#? FOLD
 
 zo ## unfold under the cursor
 zf ## fold under the cursor
 zR ## open all folds
 zM ## close all folds
 
-## swapping letters
+#? SAVE
+
+:w ## save
+:wq ## save and quit
+:q! ## quit without saving
+ZZ ## save and quit
+ZQ ## quit without saving
+
+#? SWAPPING LETTERS
+
 xp ## cut letter and paste it after next one
 
-## surround.vim plugin
+#? SURROUND PLUGIN
+
 cs"' ## change surround " to '
 ysiw" ## you surround inner word with "
 ds" ## delete surround "
 
+#? EASYMOTION
+
 ,,f ## easymotion
+,,j ## to line below
+,,k ## to line above
 4j ## four lines down
 4k ## four lines up
 4h ## four characters left
 4l ## four characters right
 4G ## go line 4
 
+#? NEXT OCCURRENCE
+
 	* ## go to next identical word
 # ## go to previous identical word
+
+:reg ## buffer of previously yanked or copied text
+
+#? MARKS
+
+## marks are persistent through files and exiting vim
+
+ma ## set mark of the cursor position to letter a
+'a ## go to that line
+`a ## go to exact cursor position
+
+mA ## works through multiple files
+'A ## go to that line of the other file
+`A ## go to exact cursor position of the other file
+
+:## predefined special marks
+'' ## go to line of last position
+'" ## go to line where vim was exited
+'^ ## go to line of last insert
+'. ## go to line of last change
+
+## command-line
+mark a ## set a mark
+:marks ## see all marks
+:delmarks a ## delete a mark
+:delmarks ! ## delete all marks
 
 #? COMMAND-LINE MODE
 
