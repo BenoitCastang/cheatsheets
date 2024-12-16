@@ -8,27 +8,29 @@ jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
 
 #? HELP
 
-:h[elp] {command} | only ## open help fullscreen
+help {command} | only ## open help fullscreen
 CTRL-] ## jump to a subject
 
 #? ECHO
 
-:ec[ho] "message" ## echo a message
-:echom[sg] "message" ## echo a message that remains in the message-history
-:mes[sages] ## show message-history 
+echo "message" ## echo a message
+echomsg "message" ## echo a message that remains in the message-history
+messages ## show message-history 
 
 #? OPTIONS
 
 ## two types of options, boolean options and options with value
-:set number ## set boolean option
-:set nonumber ## unset boolean option
-:set numberwidth=4 ## set option with value
-:set number! ## toggle option
-:set number numberwidth=4 ## set multiple options at the same time
+set number ## set boolean option
+set nonumber ## unset boolean option
+set numberwidth=4 ## set option with value
+set number! ## toggle option
+set number numberwidth=4 ## set multiple options at the same time
 
-:set number? ## check boolean option
-:set numberwidth? ## check option with value
-:set number? numberwidth? ## check multiple options at the same time
+set number? ## check boolean option
+set numberwidth? ## check option with value
+set number? numberwidth? ## check multiple options at the same time
+
+setlocal number ## set option only in current buffer
 
 #? MAPPING
 
@@ -36,6 +38,7 @@ map - dd ## set binding
 map <space> dd ## special characters
 map <C-d> dd ## ctrl key
 unmap - ## remove binding
+map - <nop> ## set key to no operation
 
 map ## create a key binding taking account of other custom bindings
 noremap ## create a key binding using default bindings
@@ -51,12 +54,15 @@ nnoremap, inoremap, cnoremap, vnoremap, onoremap ## key binding from respective 
 nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective modes''
 
 ## leader key
+let mapleader="," ## set , as leader key
+let maplocalleader="," ## set , as local leader key - alternative leader key for specific file types and no conflict with global leader key
 
 ## special characters
 
 <esc> ## escape
 <space> ## space bar
 <leader> ## leader key
+<localleader> leader for a specific buffer
 <CR> ## enter
 <C-d> ## ctrl + d
 <M-d> ## alt + d
@@ -66,13 +72,95 @@ nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective
 | ## go to begining of line or go to specific column with 5| 
 ? ## reverse / so useless
 M ## go to middle of the screen
+"
+z
+K ## go to man page of current word
+s
+G
+[
+]
+(
+)
+Y ## same as yy
+R
+Q
++ ## next line
+- ## previous line
+_ ## beginning of line
+&
+%
+!
+~
+`
 
+#? ABBREVIATIONS
+
+## define shortcuts for bits of text
+## the big difference with mappings is that the abbreviation is replaced only if followed by non-word character (space, enter, period, comma...)
+abbreviate ## print list of abbreviations
+i ## insert mode abbreviations
+c ## command-line mode abbreviations
+! ## global abbreviations (for both modes)
+iabbreviate ## print list of insert mode abbreviations
+cabbreviate ## print list of command-line mode abbreviations
+
+abbreviate teh the ## set global abbreviation
+iabbreviate teh the ## set insert mode abbreviation
+cabbreviate teh the ## set command-line mode abbreviation
+
+unabbreviate teh ## remove global abbreviation
+iunabbreviate teh ## remove insert mode abbreviation
+cunabbreviate teh ## remove command-line abbreviation
+
+abbreviate btw by the way ## abbreviation expands to multiple words
+
+#? AUTOCOMMANDS
+
+## autocommands run commands when events happen
+autocmd <event> <pattern> <command> ## set autocommand rule
+autocmd ## print active rules
+autocmd <event> ## print active rules for a specific event
+autocmd <event> <pattern> ## print active rules for a specific event and a specific filter
+
+autocmd BufWritePre * :normal gg=G ## before saving file, indent it automatically
+autocmd BufWritePost *.txt :echo "File saved successfully" ## filter pattern, command works only on .txt files 
+
+autocmd BufReadPost,BufNewFile * :normal OHere is your file ! ## multiple events can trigger the command
+autocmd BufReadPost *.html,*.js :normal OHere is your html or js file ! ## multiple filter patterns
+
+autocmd FileType python nnoremap <buffer> <localleader>c I//<esc> ## automatic comment addition only for python files
+set filetype? ## print buffer's detected filetype
+set filetype=python ## set buffer's filetype
+autocmd filetype python ## list set filetype autocommands
+
+## events
+
+BufNewFile ## when is opened a buffer with a new file
+BufEnter ## when entering a buffer
+BufLeave ## when leaving a buffer
+
+BufWritePre ## before saving file
+BufWriteCmd ## instead of saving file
+BufWritePost ## after saving file
+
+TextChanged ## text was changed
+InsertEnter ## entering insert mode
+InsertLeave ## leaving insert mode
+
+FileType ## when buffer filetype is set by vim
+
+VimEnter ## entering vim
+VimLeave ## leaving vim
 
 #? MACROS
 
 qj ## record a macro
 q ## quit recording
 @j ## run macro
+
+## macro are saved in registers
+registers ## see macros
+let @j="" ## delete macro
 
 #? WINDOWS
 
@@ -120,9 +208,10 @@ zM ## close all folds
 
 #? SAVE
 
-:w ## save
-:wq ## save and quit
-:q! ## quit without saving
+write ## save
+quit ## quit
+wq ## save and quit
+q! ## quit without saving
 ZZ ## save and quit
 ZQ ## quit without saving
 
@@ -138,9 +227,9 @@ ds" ## delete surround "
 
 #? EASYMOTION
 
-,,f ## easymotion
-,,j ## to line below
-,,k ## to line above
+<leader><leader>s ## easymotion
+<leader><leader>j ## to line below
+<leader><leader>k ## to line above
 4j ## four lines down
 4k ## four lines up
 4h ## four characters left
@@ -149,22 +238,25 @@ ds" ## delete surround "
 
 #? NEXT OCCURRENCE
 
-	* ## go to next identical word
+* ## go to next identical word
 # ## go to previous identical word
 
-:reg ## buffer of previously yanked or copied text
+reg ## buffer of previously yanked or copied text
 
 #? MARKS
 
 ## marks are persistent through files and exiting vim
+## they work in visual mode and operator pending mode
 
+## local marks
 ma ## set mark of the cursor position to letter a
 'a ## go to that line
 `a ## go to exact cursor position
 
-mA ## works through multiple files
-'A ## go to that line of the other file
-`A ## go to exact cursor position of the other file
+## global marks
+ma ## works through multiple files
+'a ## go to that line of the other file
+`a ## go to exact cursor position of the other file
 
 :## predefined special marks
 '' ## go to line of last position
@@ -174,29 +266,59 @@ mA ## works through multiple files
 
 ## command-line
 mark a ## set a mark
-:marks ## see all marks
-:delmarks a ## delete a mark
-:delmarks ! ## delete all marks
+marks ## see all marks
+delmarks a ## delete a mark
+delmarks ! ## delete all marks
 
-#? COMMAND-LINE MODE
+#? BUFFERS
 
-:2 ## go line 2
+## buffers are files loaded in vim - all modifications or configurations are temporary stored in buffers before the file is saved
+## buffers can be hidden, not showed on screen, but in vim memory
 
-:s/pattern/replacement ## replace first match of current line
-:s/pattern/replacement/g ## replace all matches of current line
-:1,10s/pattern/replacement/ ## replace all first matches of line 1 to 10
-:1,10s/pattern/replacement/g ## replace all matches of line 1 to 10
-:.s/pattern/replacement/g ## replace all matches of current line
-:%s/pattern/replacement/g ## replace all matches in the entire file
-:%s/pattern/replacement/gc ## ask confirmation for each replacement
-:s/\d/#/g ## works with regex - replace digits with hastags
-:/pattern/d ## delete current line if matches pattern
-:g/pattern/d ## delete all lines matching pattern
-:g/pattern/s/foo/bar/g ## replace if line matches pattern
+vim <file> ## open a buffer
+vim <file1> <file2> ## open two buffers at the same time
+e <file> ## open a buffer
 
-:normal iblop ## write bLOP where is the cursor
-:normal gocrac ## go last line, insert line, write crac
-:execute "/pattern" | normal dd ## chain commands
+ls ## display open buffers
+buffers ## display open buffers
+
+buffer 1 ## switch to buffer 1
+bnext ## switch to next buffer
+bprevious ## switch to previous buffer
+
+bdelete 1 ## unload buffer 1
+bdelete ## unload current buffer 
+
+map <buffer> h dd ## set a mapping only in current buffer - has priority over not buffer-specific mappings
+
+#? EX COMMANDS
+
+## substitution
+
+s/pattern/replacement ## replace first match of current line
+4s/pattern/replacement ## replace on line 4
+1,10s/pattern/replacement ## replace on lines 1 to 10
+%s/pattern/replacement ## replace on all file
+
+s/pattern/replacement/g ## replace all matches
+s/pattern/replacement/c ## ask confirmation
+
+s/\d/#/g ## works with regex - replace digits with hastags
+
+## deletion
+
+/pattern/d ## delete current line if matches pattern
+g/pattern/d ## delete all lines matching pattern
+g/pattern/s/foo/bar/g ## replace if line matches pattern
+
+#? COMMAND-LINE MISCELLANEOUS
+
+2 ## go line 2
+2p ## go to line 2
+
+normal iblop ## write bLOP where is the cursor
+normal gocrac ## go last line, insert line, write crac
+execute "/pattern" | normal dd ## chain commands
 
 vim -c 'normal Gocrac' -c 'wq' file ## edit from outside vim
 vim -c '/pattern' file ## search in file
