@@ -246,6 +246,7 @@ read !command ## insert output of a command
 
 c-n ## next match
 c-p ## previous match
+c-x ## accept selection
 c-x c-f ## auto complete file path
 c-x c-l ## auto complete line
 
