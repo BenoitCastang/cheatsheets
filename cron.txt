@@ -1,5 +1,8 @@
 ## cron is a time-based scheduler daemon allowing to run scripts automatically at specified intervals
+## it wakes up every minute to check a set of tables to find tasks to execute
 ## the set of cron configurations for a user is a crontab
+## the tasks to execute are cron jobs
+## output of cronjobs is sent by mail to the user
 
 crontab -l ## print crontab file of current user
 crontab -u username -l ## print crontab for another user
@@ -7,22 +10,56 @@ crontab -u username -l ## print crontab for another user
 crontab -e ## edit crontab file
 EDITOR=vim crontab -e ## edit crontab with specific editor
 
-## crontab has six fields separated by one space or tab spaces
-## MINUTES - from 0 to 59
-## HOUR - from 0 to 23
-## DAY OF MONTH - from 1 to 31
-## MONTH - from 1 to 12
-## DAY OF THE WEEK - from 1 to 7
-## COMMAND
+/var/spool/cron/ ## directory for user-specific crontab files
 
-* ## is used to indicate any minute, hour, day or month
+crontab -r ## remove the current crontab
+
+## crontab has six fields separated by one space or tab spaces
+MINUTES ## from 0 to 59
+HOUR ## from 0 to 23
+DAY OF MONTH ## from 1 to 31
+MONTH ## from 1 to 12 or jan, feb, mar etc.
+DAY OF THE WEEK ## 0 to 7 (0 and 7 are sunday) or mon, tue, wed etc.
+COMMAND ## the command to execute
+
+* ## indicate any minute, hour, day or month
+, ## specify a list of possible values
+- ## range of possible values
+/ ## stepped values
 
 0 0 * * * /usr/bin/apt update ## run apt update every day at midnight
+0,3,7,34 * * * * command ## at minute 0, 3, 7 and 34
+37-42 * * * * command ## every minute from 37 to 42
 */2 * * * * command ## run command every two minutes
+0-30/5 * * * * command ## every five minutes between 0 and 30 minutes
 
-#? FILES
+## shortcuts
+@reboot ## each reboot
+@hourly ## equals 0 * * * * - every hour
+@daily ## equals 0 0 * * * - once a day at midnight
+@midnight ## same as @daily
+@weekly ## equals 0 0 * * 0 - once a week on sunday
+@monthly ## equals 0 0 1 * * - once a month at midnight on the first day
+@yearly ## equals 0 0 1 1 * - once a year at midnight on January 1st
+@annually ## same as @yearly
 
-/var/spool/cron/ ## directory for user-specific crontab files
+@reboot command ## execute command at each reboot
+
+@hourly command > /dev/null ## redirect regular output to trash, still receive error output
+
+#? VARIABLES
+
+## cron has environment settings in the form of variables
+HOME=/path/to/directory ## directory from where the cron jobs are executed
+PATH=directories ## list of directories where the commands are searched for
+SHELL=/bin/bash ## shell used to execute the commands
+MAILTO=emailadress ## mail to send jobs output (/var/mail/user if no mail agent, no mail if empty value)
+LOGNAME ## username of user running the cron job, cant be changed
+CRON_TZ=UTC ## set a specific timezone for the cron jobs
+
+#? SYSTEM-WIDE CRONTABS
+
+## system-wide crontabs are edited directly through the text editor
 /etc/crontab ## system-wide crontab
 01 * * * * root run-parts /etc/cron.daily ## root executes all scripts in directory on the first minute of every hour
 /etc/cron.d ## system-wide cron individual files
@@ -31,3 +68,7 @@ EDITOR=vim crontab -e ## edit crontab with specific editor
 /etc/cron.daily ## system-wide scripts executed every day
 /etc/cron.weekly ## system-wide scripts executed every week
 /etc/cron.monthly ## system-wide scripts executed every month
+
+/etc/cron.deny ## set a list of user that cannot use the crontab program
+/etc/cron.allow ## set a list of user that can use the crontab program
+## cronjobs set before editing those lists still work
