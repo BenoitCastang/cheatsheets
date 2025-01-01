@@ -64,9 +64,11 @@ g ## delete all partition and create a new gpt partition table
 
 #? GDISK
 
-## equivalent of fdisk when dealing with gpt partitioned disks
-## gpt disks have a GUID, a unique disk identifier eliminating the need to use the device path like /dev/sda
+## equivalent of fdisk when dealing with gpt partitioned disks, incompatible with MBR
+## gpt disks receive a GUID, a unique disk identifier eliminating the need to use the device path like /dev/sda
 ## gpt disks can have up to 128 partitions
+## backkup partition tables are created, checking and repairing options are available
+## conversion between GPT and MBR and vice versa without data loss
 
 p ## print partition table
 n ## add new partition
@@ -74,9 +76,50 @@ l ## list partition types available for new partitions
 d ## delete a partition
 s ## sort partition number in case of gaps in numbering sequence
 
+#? PARTED
+
+## partition editor
+## makes changes immediately after the command is issued, without waiting for another command to write the changes to disk
+
+parted /dev/sda ## edit partitions
+select /dev/sdb ## edit another disk
+
+print ## print current disk information
+print devices ## print all block devices
+print all ## print info about all disks
+print free ## print free space of current disk
+
+mklabel msdos ## create new mbr partition table
+mklabel gpt ## create new gpt partition table
+
+mkpart ## create partition - start and end in 0%, 0M, 0B or 0s (sector)
+mkpart primary ext4 0% 200M ## partition creation in one command
+
+rm ## remove a partition
+
+rescue 100M 200M ## restore partition with begin and end
+## only detected if a filesystem was present on it
+
+## extend partition
+resizepart 2 5G ## extend partition 2 till 5G
+## partition must not be used and free space after partition must be available
+resize2fs /dev/sda2 ## filesystem must be resized after partition expansion
+
+## shrink partition
+umount /dev/sda2 ## unmount partition
+e2fsck -f /dev/sda2 ## ext2 file system check forced, mandatory before resizing
+resize2fs /dev/sda2 1G ## resize file system to 1G
+(parted) resizepart 2 2200M ## resize partition to 1G
+
 #? MKFS
 
 ## make file systems
+## any partition needs to be formatted with a filesystem before using it to store data
+ext ## extended filesystem, default for most Linux distributions
+xfs ## high performance, default for RHEL 7
+fat ## windows filesystem, limited in file and disk size
+exfat ## improved fat
+btrfs ## suse default filesystem
 
 sudo mkfs /dev/vdb1 ## format with default filesystem: ext2
 sudo mkfs.ext4 /dev/vdb1 ## specify filesystem type
@@ -117,6 +160,12 @@ dump ## determine whether the filesystem should be backed up, 0 is no, 1 is ye
 pass ## order in which fsck checks the filesystems in case of system failure - 0 is no check, 1 is first priority, 2 is second priority
 
 mount ## see all mounted partitions and their options
+
+#? SWAP
+
+## create a swap partition
+
+## create a swap file
 
 #? LVM
 
@@ -166,10 +215,6 @@ lvremove vg/mysnapshot ## confirm changes by deleting snapshot
 umount /dev/vg/lv ## unmount lv before rollback
 lvconvert --merge vg/mysnapshot ## cancel changes, roll back to snapshot
 mount /dev/vg/lv /mnt/lv ## remount lv
-
-#? PARTED
-
-parted ## newer partitionning tool
 
 #? BLOCKS
 

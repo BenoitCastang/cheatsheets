@@ -32,16 +32,20 @@ shared ## memory being used by tmpfs and other shared resources
 buff/cache ## memory used by the buffers and cache
 available ## memory free for applications to use
 
-#? SWAP 
+#? SWAP
 
-swap ## file in hard disk that acts like ram when server's memory is saturated - present by default in mosts systems
+## create a swap file
+
+swap ## file in hard disk that acts like ram when server's memory is saturated - present by default in most systems
 /etc/fstab ## see if swap is present
+
 sudo fallocate -l 4G /swapfile ## create a 4G file
 sudo chmod 0600 /swapfile ## set least permissions possible
 sudo mkswap /swapfile ## make it a swap file
 /swapfile none swap sw 0 0 ## fstab line to add
 sudo swapon -a ## activate swap file (mount and activate it from /etc/fstab)
 sudo swapoff -a ## deactivates swap file
+
 ## swapiness value indicate how frequently Linux utilizes swap - default is 60, meaning swap is used when approximately 60% ram is used
 cat /proc/sys/vm/swappiness ## see swapiness value
 sudo sysctl vm.swapiness=30 ## temporarily change swapiness value
