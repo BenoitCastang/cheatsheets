@@ -1,42 +1,141 @@
 #? DU
 
-du ## disk usage - give name and size of selected directories - by default selects all directories and all subdirectories
-## du gives real size of directories, while ls -l always display 4.0K
-du file ## show disk usage of file only
-du directory ## show disk usage of this directory only, with its subdirectories
-du -s directory ## show not subdirectories - result only one line
-du -h ## human-readable
-du -c ## provide in the end the total size of all elements selected
+## disk usage - give name and size of selected directories
+## du gives real size of directories, while ls -l always display wrong sizes like 4.0K
+## on the other hand du cant give precise size below 4K while ls -l can because ls show logical size (the number of bytes) while du shows disk usage, which has a minimum file size due to the filesystem
 
-du -hcs * ## show all elements without the subdirectories, human-readable and with total size
-du -hcs * .* ## show also hiddent files
+du ## show how many 1 Kilobyte blocks are being used by the current directory and all its subdirectories
+## first all subdirectories, then the total usage of the current directory including subdirectories
+## files are not showed by default but taken into account in the total
+## hidden files are neither showed nor taken into account in the total
+du directory ## show disk usage of specific directory, with its subdirectories
+
+du file ## show disk usage of a file - no total provided
+du file1 file2 ## show disk usage of a file
+du * ## show disk usage of every file and subdirectory in the directory
+du * . ## show also a line that makes the total for hidden files
+
+du -s directory ## show no subdirectory but only total size of the current directory
+du -h ## show human-readable size
+du -c ## provide in the end the total size of all elements selected
+du -a ## show an individual count for all files and subdirectories and files in it
+du -S ## last line will show a total size that does not include the size of subdirectories
+
+du -d1 ## control deep level of the output - here stop tree at the first level, the subdirectories, without fetching all subdirectories of subdirectories
+du --exclude=".bin" ## exclude of count and output the files and directories matching that pattern
 
 ncdu ## NCurses disk usage utility
 ncdu -x ## skip external and network storage
 
 #? DF
 
-df ## disk filesystem - list mounted volumes, print their size, usage and mount point
-## among them are tmpfs, temporary filesystesms that reside entirely in ram and swap memory and are useb by different processes
+## disk filesystem - list of all the available (already mounted) filesystems on the system and their metadata
+## among them are tmpfs, temporary filesystems that reside entirely in ram and swap memory and are used by different processes
+df ## show all filesystems, including virtual filesystems
 df -h ## human-readable
-df -i ## show inode counts
+df -T ## add a column about the filesystem to the output
+df -i ## show inodes information
+
+df -t ext4 ## show only one type
+df -t ext4 -t xfs ## show only multiple types
+df -x tmpfs ## exclude one type
+df -x tmpfs -x devtmpfs -x squashfs ## exclude multiple types
+
+df --output=source,fstype,size,used,avail,pcent,target ## choose which colums to display
+df --output=itotal,iused,iavail,ipcent ## inode colums
+
+## columns
+Filesystem ## device where the filesystem resides
+1k-blocks ## number of 1K-blocks - only when displaying info in bytes
+Size ## filesystem size - only when displaying info human-readable
+Used ## used space in the filesystem
+Avail ## free space available on the filesystem
+Use% ## usage percentage of filesystem
+Mounted on ## mountpoint
+Type ## filesystem type
+
+## -i option columns
+Inodes ## total of inodes of the filesystem
+IUsed ## used inodes of the filesystem
+IFree ## free inodes on the filesystem
+IUse% ## inode usage percentage of filesystem
 
 #? LSBLK
 
+## lsblk displays information about block devices
 lsblk ## show device names, types and mount points
+lsblk /dev/sda ## show info about a specific block device
+lsblk -f ## show info about filesystems on the partitions
+lsblk -m ## show ownerships and persmissions of device files
+lsblk -t ## topology - info about sectors and blocks
+
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS ## customize output columns
+lsblk -a ## display devices with no assigned partitions or mount points
+lsblk -p ## display full path of device files
+
+lsblk -P ## pairs - display in the form COLUMN="value" instead of normal columns
+lsblk -J ## get info in json format
+
+## columns by default
+NAME ## device name
+MAJ:MIN ## major and minor device numbers assigned by the Linux kernel to identify block devices
+## major number represents the device driver responsible for interacting with the block device - so it represents the type of device
+## 8 is forc SCSI/SATA devices, 7 for loopback devices, 4 for tty etc - number visible also doing ll /dev
+## minor number counts the number of this type of device from 0
+RM ## removable (1 it is, 0 its not)
+SIZE ## size of the device or partition
+RO ## read-only flag (1 if read-only, 0 otherwise)
+TYPE ## type of the block device (disk, part, rom etc)
+MOUNTPOINT ## the location where the device is mounted
+
+## colums with -f option
+FSTYPE ## filesystem type (ext4, xfs, swap, enpty or - for no filesystem etc)
+FSVER ## filesystem version
+LABEL ## labels put on filesystems
+UUID ## Unique Universal IDentifier - identify the filesystem through naming changes of block devices - useful in /etc/fstab
+FSSIZE ## filesystem size
+FSUSE% ## percentage of used place on the filesystem
+FSAVAIL ## space available on the filesystem
+MOUNTPOINTS ## mountpoints of the filesystem
+
+## other colums
+PHY-SEC
+LOG-SEC
+
 dmesg --follow ## see kernel hardware detection when the device is connected
+
+#? BLKID
+
+## block identifier
+blkid ## show all devices metadata
+blkid /dev/sda ## show one device metadata
+## shows colums UUID,TYPE,LABEL,PARTUUID,PARTLABEL
+
+#? BIOS AND UEFI
+
+## BIOS and UEFI are firmware interfaces in the motherboard that initialize hardware and start the bootloader (GRUB) which in turn starts the operating system
+
+## BIOS is Basic Input/Output System
+## When a system with BIOS boots, as it does not understand filesystems and partitions, it looks for a bootable device by checking the MBR (Master Boot Record) of each storage device
+## The MBR is the first 512 bytes of the disk, located at sector 0 of the drive, and it contains the first stage of the bootloader, that indicates where in the sisk the rest of the code is
+## The BIOS thus can now search for the second stage, usually located in /boot/, that contains the logic to load the operating system kernel
+
+## UEFI is Unified Extensible Firmware Interface
+## UEFI understands GPT (GUID Partition Table) and can directly access filesystems so it looks for a specific partition called the EFI System Partition (ESP) that contains the bootloader and can launch it
+## When UEFI meets MBR, it acts like a BIOS
 
 #? MBR AND GPT
 
+## the partition table is stored on the first sector of a disk, called the Boot Sector, along with a boot loader, the GRUB on Linux
 ## two ways of storing partition information (partition table) on hard disks
 
 MBR/DOS ## old partition type, max 4 primary partitions, max 2TB disks
-## extended partitions can be created that can contain logical partitions but they cant serve as boot partitions
-## partition table is stored on the first sector of a disk, called the Boot Sector, along with a boot loader, the GRUB on Linux
+## One extended partition can be created that can contain 128 logical partitions (used for swap partitions or separated /home or /dev partitions)
+## to make a disk bootable, the first partition must be a primary one
 ## MBR is for Master Boot Record
 ## DOS is for Disk Operating System
 
-GPT ## new partition type, max 128 primary partitions, no max 2TB disks
+GPT ## new partition type, max 128 primary partitions (extended and logical partitions don't exist), no max 2TB disks
 ## GPT is for GUID Partition Table
 
 #? FDISK
@@ -64,6 +163,7 @@ g ## delete all partition and create a new gpt partition table
 
 #? GDISK
 
+## GPT fdisk
 ## equivalent of fdisk when dealing with gpt partitioned disks, incompatible with MBR
 ## gpt disks receive a GUID, a unique disk identifier eliminating the need to use the device path like /dev/sda
 ## gpt disks can have up to 128 partitions
@@ -113,35 +213,125 @@ resize2fs /dev/sda2 1G ## resize file system to 1G
 
 #? MKFS
 
-## make file systems
+## make filesystems
+## without a filesystem, a partition is just raw, unstructured data
+## filesystems control how the data is stored and accessed on the disk
 ## any partition needs to be formatted with a filesystem before using it to store data
+
+## different filesystem types
 ext ## extended filesystem, default for most Linux distributions
-xfs ## high performance, default for RHEL 7
+xfs ## high performance, default for Red Hat
 fat ## windows filesystem, limited in file and disk size
 exfat ## improved fat
 btrfs ## suse default filesystem
+ntfs ## from Windows NT
 
-sudo mkfs /dev/vdb1 ## format with default filesystem: ext2
-sudo mkfs.ext4 /dev/vdb1 ## specify filesystem type
+swap ## swap partitions
+tmpfs ## temporary filesystem
+devtmpfs ## device temporary filesystem
+squashfs ## virtual loop filesystems for snap
+
+mkfs /dev/vdb1 ## format with default filesystem: ext2
+mkfs.ext4 /dev/vdb1 ## specify filesystem type
+
+mke2fs /dev/vdb1 ## alternate command
+mke2fs -t ext4 /dev/vdb1 ## specify filesystem type with alternate command
+
+mk2fs options
+
+#? FSCK
+
+## Filesystem Consistency Check - manual filesystem recovery
+
+fsck ## ckeck all filesystems
+fsck /dev/sda ## check a specific filesystem - gives filesystem "health" status - device must be unmounted first
+## fsck itself does not check the filesystem, it merely calls the appropriate utility for the filesystem type to do so
+## by default, fsck assumes filesystem type is ext, and calls e2fsck
+fsck -t vfat /dev/sda ## specify another filesystem
+fsck.vfat /dev/sda ## alternate syntax
+
+fsck -V ## verbose mode
+fsck -A ## check all filesystems listed in /etc/fstab
+fsck -R ## skip root filesystem
+fsck -C ## display a progress bar
+fsck -N ## print what would be done without doing it
+
+e2fsck ## ext2 filesystem check
+
+#? XFS_REPAIR
+
+## Equivalent of fsck for xfs filesystems
+
+xfs_repair ## show help
+xfs_repair /dev/sda ## repair filesystem
+xfs_repair -n /dev/sda ## no modify mode, just check filesystem for damage
+
+xfs_repair -l /path/to/logdev ## deal with external log device
+xfs_repair -r /path/to/rtdev ## deal with external real time section device
+## real time data is real time I/O workloads like multimedia etc - managing it seperately is a xfs special feature
+
+xfs_repair -m 100M ## set limit to xfs_repair memory usage - default scales with repair needs, up to 75% of the system's physical RAM
+
+xfs_repair -v ## verbose mode - add other v to be more verbose
+
+xfs_info ## equivalent to tune2fs -l for xfs filesystems
+xfs_db ## interactive advanced tool to inspect and manipulate xfs filesystems
+
+#? TUNE2FS
+
+## tune2fs - adjust tunable file system parameters on ext2/ext3/ext4 file systems
+tune2fs ## show software version and help
+tune2fs -l /dev/sda ## show all filesystem information
+
+## ext filesystems count how many times they have been mounted and can be configured to be checked automatically within mount counts or time intervals
+tune2fs -l /dev/sda | grep "mount count" ## display how many times the filesystem has been mounted
+tune2fs -l /dev/sda | grep "maximum mount count" ## display maximum mount count before check
+tune2fs -l /dev/sda | grep "check interval" ## display time interval between checks
+tune2fs -C 4 /dev/sda ## set mount count
+tune2fs -c 10 /dev/sda ## set the maximum mount count
+tune2fs -i 7d /dev/sda ## set check interval - can also bo 2m or 2y for months and years
+
+tune2fs -e continue ## ignore filesystem errors - default
+tune2fs -e remount-ro ## when filesystem errors are detected, filesystem goes read-only to protect data
+tune2fs -e panic ## provoke a kernel panic, shutting off the system
+
+## filesystems have a journal feature to make automatic recovery after a failure so manual recovery with fsck is not necessary anymore
+## information about changes is recorded so they can be replayed if they got interrupted
+## journaling can record only metadata, record new data etc
+tune2fs -j /dev/sda ## add a journal to ext2 filesystem, making it an ext3 filesystem (the disk must then be mounted as ext3 with mount -t ext3)
+tune2fs -J size=10 /dev/sda ## set journal size in magabytes
+tune2fs -J location=100M ## specify where the journal should be stored in the disk (a specific block or a position on the disk)
+tune2fs -J device=/dev/sdb ## put the journal on an external device
+tune2fs -J size=10 location=100M device=/dev/sdb ## specify multiple parameters
+
+tune2fs -f ## force operation even if errrors are found
+
+
+wipefs
+
+resize2fs + modify filesystem and partition sizes
 
 #? MOUNT
 
-sudo mkdir /mnt/vdb1 ## create directory to mount the partition to
-sudo mount /dev/sdb1 /mnt/vdb1 ## mount the partition
-sudo mount -t ext4 /dev/sdb1 /mnt/vdb1 ## specify filesystem type if needed
+## mounting is the process of making a filesystem accessible to the OS
+
+mkdir /mnt/vdb1 ## create directory to mount the partition to
+mount /dev/sdb1 /mnt/vdb1 ## mount the partition
+mount -t ext4 /dev/sdb1 /mnt/vdb1 ## specify filesystem type if needed
 /mnt ## directory to mount peristent storage
-/media ## directory to mount temporaty storage (flash drives, cd-rom, external hard drives etc.)
-sudo umount /mnt/vdb1 ## unmount volume
+/media ## directory to mount temporary storage (flash drives, cd-rom, external hard drives etc.)
+umount /mnt/vdb1 ## unmount volume
 ## Manual mounting is temporary - /etc/fstab must be edited to make it permanent
 
 #? FSTAB
 
-UUID ## Universally Unique Identifier - each filesystem has one
-blkid ## list UUIDs of all filesystems
-blkid /dev/sda ## get UUID of filesystem
+/etc/fstab ## read at each startup by the system, place for permanent mounting
 
-/etc/fstab ## read at each starup by the system, place for permanent mounting
-UUID=adsfew7r-34fas-sf4 /mnt/vdb1 ext4 rw,noauto 0 0 ## example
+/dev/sda /mnt/sda ext4 defaults 0 0 ## config line syntax
+
+LABEL=fslabel /mnt/label fstype options 0 0 ## with filesystem label
+UUID=adsfew7r-34fas-sf4 /mnt/vdb1 ext4 rw,noauto 0 0 ## with filesystem UUID
+
 file system ## device name or UUID (UUID is better because device name can change)
 mount point ## where volume will be mounted on the system
 type ## file system type: ext4, swap etc.
@@ -163,9 +353,22 @@ mount ## see all mounted partitions and their options
 
 #? SWAP
 
+swapon ## show swap files and partitions
+swapon file/partition ## enable swap file/partition
+swapoff file/partition ## disable swap file/partition
+
 ## create a swap partition
+mkswap /dev/sda1 ## make it a swap partition
+swapon /dev/sda1 ## enable it
+swapoff /dev/sda1 ## disable it
 
 ## create a swap file
+fallocate -l 40K swap_file ## create a file at least of 40Kib
+chown root swap_file ## file must belong to root
+chmod 600 swap_file ## file must have these permissions
+mkswap swap_file ## make it a swap file
+swapon ## enable it temporarily while the system is on
+swap_file none swap defaults 0 0 ## line to add to /etc/fstab to make swap file permanent
 
 #? LVM
 
@@ -237,6 +440,8 @@ bs=<size> ## block size, amount of data read and written at one time during th
 status=progress ## display progress during the operation
 /dev/zero ## pseudo-device, special file that provides infinite stream of null bytes, used to initialize data structures, create files of specific size, or overwrite disks or files with zeros
 
+## create a file of specific size (filled with zeros)
+dd if=/dev/zero of=1G_file bs=1M count=1024 ## 1024 x 1M = 1G
 ## create a bootable usb
 dd if=image.iso of=/dev/sda bs=4M status=progress
 ## backup a disk
@@ -245,5 +450,9 @@ dd if=/dev/sda of=backup.img bs=1M status=progress
 dd if=backup.img of=/dev/sda bs=1M status=progress
 ## wipe a disk (overwrite with zeros)
 dd if=/dev/zero of=/dev/sda bs=1M status=progress
-## create a file of specific size (filled with zeros)
-dd if=/dev/zero of=1G_file bs=1M count=1024 ## 1024 x 1M = 1G
+
+#? FALLOCATE
+
+## create empty files
+fallocate -l 2M file ## create file with forced size
+fallocate -l 2G file ## length option, mandatory

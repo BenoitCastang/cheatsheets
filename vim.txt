@@ -63,7 +63,8 @@ signcolumn=auto ## depends wether there is something to display or not
 
 map - dd ## set binding
 map <space> dd ## special characters
-map <C-d> dd ## ctrl key
+map <c-d> dd ## ctrl key
+map <s-tab> ## shift/maj key
 unmap - ## remove binding
 map - <nop> ## set key to no operation
 
@@ -353,6 +354,7 @@ buffers ## display open buffers
 buffer 1 ## switch to buffer 1
 bnext ## switch to next buffer
 bprevious ## switch to previous buffer
+buffer# ## swith to previous buffer
 
 bdelete 1 ## unload buffer 1
 bdelete ## unload current buffer

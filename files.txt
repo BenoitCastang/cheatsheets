@@ -1,4 +1,4 @@
-$? FILESYSTEM
+$? LINUX FILESYSTEM
 
 /sbin ## It contains essential binaries for system administration such as parted or ip
 /bin ## It contains essential binaries for all users such as ls, mv, or mkdir

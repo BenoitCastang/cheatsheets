@@ -25,6 +25,9 @@ grep crac$ ## if line ends with crac
 grep ^flop$ ## if the entire line is exactly flop
 grep ^fl.*op$ ## if line is fl then any character any number of times then op
 
+## escape needed
+grep "crac\|plouf" ## match crac or plouf
+
 . ## matches any single character
 [] ## matches any character withing the brackets
 [^abc] ## doesnt match characters within the brackets

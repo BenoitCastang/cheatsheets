@@ -267,7 +267,7 @@ let c++ ## increment variable
 ## expansions output nothing but return an int or a bool - uses $(()) for value substitution or capture the result
 ((expression)) ## arithmetic expansion
 
-echo $((4 + 2)) ## print result 
+echo $((4 + 2)) ## print result
 var=$((4+2)) ## redirect result
 ((var = 4+2)) ## can be done directly in the parentheses
 ## var exists outside of parentheses
@@ -393,7 +393,7 @@ cat ## user input is given to stdin for cat to read it
 echo file | cat ## cat only receives the string "file", not the file content, so it print "file"
 cat toast | cat ## command stdout can be given as stdin to cat
 echo < file ## wont work cause echo cant read from stdin, it needs command line arguments
-cat file | echo ## wont work cause echo cant read from stdin, it needs command line arguments 
+cat file | echo ## wont work cause echo cant read from stdin, it needs command line arguments
 echo $(cat file) ## echoes the file content
 
 #? custom file descriptors
@@ -414,7 +414,7 @@ tee -a ## append to the file instead of overwriting it
 echo "one two three" | echo ## outputs empty string
 echo "one two three" | xargs echo ## outputs one two three
 
-find -type d | xargs ls -ld ## long listing of directories only 
+find -type d | xargs ls -ld ## long listing of directories only
 
 #? ORDER OF EXECUTION
 
@@ -438,7 +438,7 @@ attente fin execution et recolte code retour
 
 ## tied to bash, those variables can only be referenced, not assigned
 parameter $? ## the exit status of the last command
-## 0 is for command success or true, 1 and more is for errors 
+## 0 is for command success or true, 1 and more is for errors
 parameter $1 ## first positionnal parameter when arguments are given to a script
 parameter $2 ## second positionnal parameter, and so on until $9
 parameter ${10} ## 10th positional parameter and more are in ${}
@@ -751,29 +751,25 @@ mapfile -t ## remove all trailing newlines (\n)
 
 #? READ
 
-read ## take value from standard input and put it by default in $REPLY
+read ## take value from standard input and put in $REPLY variable
+read var ## ## put value in specific variable
 read name surname ## read multiple variables, separated by space - last variable takes all the remaining text
 read -p "Write your name: " name ## add a message without echo
 read -s password ## hide the content being typed on the screen
+read -n 1 foo ## read only the first character and go on
+read -r name ## disables backslash escaping, useful for path reading
+read -t 3 value ## wait only 3 seconds for the input
 
 read < file ## take a file as input
-## by default seperates with spaces and ends with new line (cf ifs)
+## by default seperates with spaces and ends with new line (cf IFS)
 echo "hello what's up" > txt; read var1 var2 var3 < txt ## var1 is hello, var2 is what's, var3 is up
 ## parses in multiple variable as possible
 
-ifs=:
-while read login hash uid gid gecos home shell; do
-	echo "login = $login, shell = $home"
+IFS=: ## change separation of bits of text from default space to :
+## each time read meets a :, it put the value in a variable
+while read login hash uid gid gecos home shell; do ## while processes all line one by one
+	echo "login = $login, shell = $shell"
 done < /etc/passwd
-
-read name ## prompt the user for input and store that input in a specified variable
-read -p "give value" name ## make a prompt without the need of an echo
-read -n 1 foo ## read only the first character and go on
-read -s name ## silent the input to not display it
-read -r name ## disables backslash escaping, useful for path reading
-read firstname lastname ## read two values
-read txt < file ## store the first line of the file in the variable
-read -t 3 value ## wait only 3 seconds for the input
 
 read <<< $(ls) ## takes first result of ls
 
@@ -899,7 +895,7 @@ PS3="Select color:" ## PS3 is the prompt for select command
 select color in red green blue; do
 	echo $color ## value is red green or blue
 	echo $REPLY ## value is 1 2 or 3 ## print again the menue if $REPLY is empty
-	case $color in 
+	case $color in
 		red) echo "red" ;;
 		green) echo "green" ;;
 	 	blue) echo "blue" ;;

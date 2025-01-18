@@ -125,7 +125,15 @@ systemctl daemon-reload ## reload systemctl daemon - often necessary when modi
 systemctl start my-service ## execute service
 journalctl -u my-service ## see service logs
 
+#? DEVICES
+
+#? MOUNTS
+
+## replaces /etc/fstab
+
 #? TIMERS
+
+## replaces cron
 
 #? RUNLEVELS - TARGETS
 

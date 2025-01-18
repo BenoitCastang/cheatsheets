@@ -1,0 +1,73 @@
+#? ECHO
+
+## the echo command can use ANSI escape codes with the option -e
+\e[<color-code>m ## color syntax
+\e[0m ## stop usage of the color
+; ## multiple rules
+
+\e ## escape character
+[ ## start of the sequence - CSI (Control Sequence Introducer)
+<color-code> ## parameter
+m ## final command letter thah selects the mode
+\033 ## alternative of \e
+
+\[ and \] ## to place before and after non printing characters to handle line breaking and wrapping in prompts
+PS1="\[\e[32;1m\]\u@\h\[\e[0m\]:\[\e[34;1m\]\w\[\e[0m\]\$ " ## classic PS1 prompt
+
+echo -e "\e[31mText\e[0m" ## echo text in red, reset at the end of text
+echo -e "\e[31;43mText\e[0m" ## red text, yellow background
+echo -e "\e[31;43;3mText\e[0m" ## red text, yellow background, italic
+
+#? TEXT FORMATTING PARAMETERS
+
+## the m command toggles SGR - Select Graphic Rendition
+
+## text style
+0 ## reset
+1 ## bold
+2 ## dim/faint color
+3 ## italic
+4 ## underlined
+5 ## slow blink
+6 ## rapid blink
+7 ## reverse colors
+8 ## hidden
+9 ## strikethrough
+## text colors
+30 ## black
+31 ## red
+32 ## green
+33 ## yellow
+34 ## blue
+35 ## majenta
+36 ## cyan
+37 ## white
+## background colors
+40 ## black
+41 ## red
+42 ## green
+43 ## yellow
+44 ## blue
+45 ## majenta
+46 ## cyan
+47 ## white
+## intense/bright text colors
+90 ## black
+91 ## red
+92 ## green
+93 ## yellow
+94 ## blue
+95 ## majenta
+96 ## cyan
+97 ## white
+## intense/bright background colors
+100 ## black
+101 ## red
+102 ## green
+103 ## yellow
+104 ## blue
+105 ## majenta
+106 ## cyan
+107 ## white
+
+#? CURSOR CONTROL PARAMETERS

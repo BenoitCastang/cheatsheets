@@ -1,0 +1,27 @@
+#? DD
+
+## data duplicator - copy and conversion of data
+
+if=<path> ## input file, specify source file or device
+of=<path> ## output file, specify destination file or device
+count=<number> ## number of blocks
+bs=<size> ## block size, amount of data read and written at one time during the copying process
+status=progress ## display progress during the operation
+/dev/zero ## pseudo-device, special file that provides infinite stream of null bytes, used to initialize data structures, create files of specific size, or overwrite disks or files with zeros
+
+## create a file of specific size (filled with zeros)
+dd if=/dev/zero of=1G_file bs=1M count=1024 ## 1024 x 1M = 1G
+## create a bootable usb
+dd if=image.iso of=/dev/sda bs=4M status=progress
+## backup a disk
+dd if=/dev/sda of=backup.img bs=1M status=progress
+## restore a disk from backup
+dd if=backup.img of=/dev/sda bs=1M status=progress
+## wipe a disk (overwrite with zeros)
+dd if=/dev/zero of=/dev/sda bs=1M status=progress
+
+#? FALLOCATE
+
+## create empty files
+fallocate -l 2M file ## create file with forced size
+fallocate -l 2G file ## length option, mandatory
