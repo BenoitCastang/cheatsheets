@@ -62,6 +62,7 @@ CRON_TZ=UTC ## set a specific timezone for the cron jobs
 ## system-wide crontabs are edited directly through the text editor
 /etc/crontab ## system-wide crontab
 01 * * * * root run-parts /etc/cron.daily ## root executes all scripts in directory on the first minute of every hour
+## system-wide crontab must specify the user running the commands, while user-specific crontabs dont need it
 /etc/cron.d ## system-wide cron individual files
 
 /etc/cron.hourly ## system-wide scripts executed every hour

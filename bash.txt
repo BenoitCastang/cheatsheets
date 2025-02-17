@@ -15,6 +15,9 @@ non-login shell ## shell session started with a user already logged in, like ope
 interactive shell ## shell happening through keyboard and screen - not a script
 non-interactive shell ## no human interaction, i.e. scripts - output is log
 
+exit ## close any shell
+logout ## close only login shell
+
 #? BASH
 
 ## open a bash process

@@ -12,7 +12,7 @@ du directory ## show disk usage of specific directory, with its subdirectories
 
 du file ## show disk usage of a file - no total provided
 du file1 file2 ## show disk usage of a file
-du * ## show disk usage of every file and subdirectory in the directory
+du * ## show disk usage of every file in the directory
 du * . ## show also a line that makes the total for hidden files
 
 du -s directory ## show no subdirectory but only total size of the current directory
@@ -223,7 +223,7 @@ ext ## extended filesystem, default for most Linux distributions
 xfs ## high performance, default for Red Hat
 fat ## windows filesystem, limited in file and disk size
 exfat ## improved fat
-btrfs ## suse default filesystem
+btrfs ## butter filesystem - suse default filesystem
 ntfs ## from Windows NT
 
 swap ## swap partitions
@@ -237,11 +237,47 @@ mkfs.ext4 /dev/vdb1 ## specify filesystem type
 mke2fs /dev/vdb1 ## alternate command
 mke2fs -t ext4 /dev/vdb1 ## specify filesystem type with alternate command
 
-mk2fs options
+## mke2fs.ext4 options
+mke2fs -b 4096 ## set the size of the data blocks - can be 1024, 2048, or 4096 bytes per block
+mke2fs -c ## check for bad blocks
+mke2fs -c -c ## thorough but slower check
+## bad blocks are physical damage on the disk or data corruption in the filesystem
+mke2fs -d /path/to/dir ## copies the contents of the specified directory to the root of the new filesystem
+mke2fs -L label ## set volume label
+mke2fs -U ID ## set volume UUID
+mke2fs -n ## no modify - display what would be done
+mke2fs -V ## verbose mode
+mke2fs -q ## quiet mode - no output
+
+## mke2fs.xfs options
+mke2fs -b size=4096 ## set block size on the filesystem, in bytes - default is 4096, min is 1024, max is 65536
+mke2fs -m crc=1 ## enable metadata options (0 is disabled)
+## crc checks to verify the integrity of all metadata on the disk - enabled by default
+mke2fs -m uuid=value ## set uuid
+mke2fs -f ## force filesystem creation even if a filesystem is detected on it
+mke2fs -l logdev=/dev/sdb ## put journal section of the filesystem on specified device, instead of inside the data section
+mke2fs -l size=10M ## set journal section size
+mke2fs -q ## quiet mode
+mke2fs -L label ## set filesystem label
+mke2fs -N ## no modify
+
+## mke2fs.fat options
+mke2fs -F 32 ## select the size of the FAT (File Allocation Table) between 12, 16 or 32
+mke2fs -n name ## set volume label
+mke2fs -c ## check for bad blocks
+mke2fs -C /path/to/file block_count ## create a file and a FAT filesystem inside it, useful for making disk images
+mke2fs -v ## verbose mode
+
+## mke2fs.exfat options
+mke2fs -i vol_id ## set volume id
+mke2fs -n name ## set label
+mke2fs -p sector ## set first sector of first partition - default is 0
+mke2fs -s sectors ## set the number of physical sectors per cluster of allocation
 
 #? FSCK
 
 ## Filesystem Consistency Check - manual filesystem recovery
+## general purpose filesystem checker - calls e2fsck, xfs_repair or btrfs check
 
 fsck ## ckeck all filesystems
 fsck /dev/sda ## check a specific filesystem - gives filesystem "health" status - device must be unmounted first
@@ -250,13 +286,26 @@ fsck /dev/sda ## check a specific filesystem - gives filesystem "health" statu
 fsck -t vfat /dev/sda ## specify another filesystem
 fsck.vfat /dev/sda ## alternate syntax
 
+fsck -y ## assumes yes to all questions
+
 fsck -V ## verbose mode
 fsck -A ## check all filesystems listed in /etc/fstab
 fsck -R ## skip root filesystem
 fsck -C ## display a progress bar
 fsck -N ## print what would be done without doing it
 
-e2fsck ## ext2 filesystem check
+#? E2FSCK
+
+## e2fsck - ext2 filesystem check - works only with ext2, ext3 and ext4
+
+e2fsck ## display help
+e2fsck /dev/sda ## check specific filesystem
+
+e2fsck -p ## automatic repair (no questions)
+e2fsck -n ## assume "no" to all questions - make no changes to the filesystem
+e2fsck -y ## assume "yes" to all questions
+e2fsck -f ## force checking even if filesystem is marked clean
+e2fsck -v ## verbose mode
 
 #? XFS_REPAIR
 
@@ -306,10 +355,53 @@ tune2fs -J size=10 location=100M device=/dev/sdb ## specify multiple parameter
 
 tune2fs -f ## force operation even if errrors are found
 
+#? WIPEFS
 
-wipefs
+## wipefs - wipe filesystem signatures from devices
 
-resize2fs + modify filesystem and partition sizes
+wipefs /dev/sda ## display filesystems on the device
+wipefs -a /dev/sda ## erase all available signatures
+wipefs -q ## quiet mode - no output
+
+#? LOSETUP
+
+## losetup - loop devices setup - manage loopback devices
+## a loopback device is a pseudo devices that allows a file to be mounted and treated as if it were a block device
+
+losetup ## list all loop devices
+losetup /dev/loop0 ## show a specific loop device
+
+losetup /dev/loop0 disk.iso ## attach a file to a loop device
+losetup -f disk.iso ## let the system choose a free loop device for the file
+losetup -d /dev/loop0 ## detach loop device
+
+sudo losetup --set-capacity /dev/loop0 ## if the backing file of a loop device changes in size, update the loop device size
+
+#? RAID
+
+## RAID is Redundant Array of Independent Disks
+## RAID devices are virtual devices created from two or more real block devices - this allows multiple devices to be combined into a single device to hold a single filesystem
+## Performance is improved because reading and writing can be done frome and to multiple devices at the same time
+## Some RAID levels include redundancy and so can survive some degree of device failure
+
+RAID 0 ## STRIPING - combines disks for better performance and full capacity but no redundancy - min 2 disks
+RAID 1 ## MIRRORING - copies identical data to all disks for redundancy/fault tolerance but half capacity - min 2 disks
+RAID 5 ## STRIPING WITH PARITY - data is striped across all drives so it can tolerate one drive failure - min 3 disks
+## reads fast, writes slow - capacity = (number of drives - 1) × size of smallest drive
+RAID 6 ## STRIPING WITH DOUBLE PARITY - data is striped accross all drives so it can tolerate two drive failures - min 4 disks
+## reads fast, writes even slower because of parity blocks calculations - capacity = (Number of drives - 2) × size of smallest drive
+RAID 10 ## MIRRORING + STRIPING - drives are grouped into pairs, and data is mirrored inside each pair then striped accross those pairs so it tolerate on failure per pair - min 4 disks
+## good performance - capacity = (Number of drives / 2) × Size of smallest drive
+
+#? MDADM
+
+## In Linux, RAID is typically implemented using mdadm, the Multiple Device Administration tool
+## It does not deal with filesystems, only with block devices
+
+mdadm -C /dev/md0 -l 1 -n 2 /dev/sda /dev/sdb ## create level 1 raid array combining 2 devices
+mdadm -S /dev/md0 ## stop and delete raid array
+mdadm -D /dev/md0 ## get detailed information about raid disk
+/proc/mdstat ## raid devices status
 
 #? MOUNT
 
@@ -323,10 +415,13 @@ mount -t ext4 /dev/sdb1 /mnt/vdb1 ## specify filesystem type if needed
 umount /mnt/vdb1 ## unmount volume
 ## Manual mounting is temporary - /etc/fstab must be edited to make it permanent
 
+resize2fs + modify filesystem and partition sizes
+
 #? FSTAB
 
 /etc/fstab ## read at each startup by the system, place for permanent mounting
 
+/dev/sda /mnt/sda ext4 ## minimum config line
 /dev/sda /mnt/sda ext4 defaults 0 0 ## config line syntax
 
 LABEL=fslabel /mnt/label fstype options 0 0 ## with filesystem label
@@ -435,13 +530,15 @@ lsblk ## see all filesystems
 
 if=<path> ## input file, specify source file or device
 of=<path> ## output file, specify destination file or device
-count=<number> ## number of blocks
 bs=<size> ## block size, amount of data read and written at one time during the copying process
+count=<number> ## number of blocks
 status=progress ## display progress during the operation
-/dev/zero ## pseudo-device, special file that provides infinite stream of null bytes, used to initialize data structures, create files of specific size, or overwrite disks or files with zeros
+status=none ## display nothing but error messages
 
 ## create a file of specific size (filled with zeros)
 dd if=/dev/zero of=1G_file bs=1M count=1024 ## 1024 x 1M = 1G
+## create a file of random data
+dd if=/dev/random of=file bs=1K count=2
 ## create a bootable usb
 dd if=image.iso of=/dev/sda bs=4M status=progress
 ## backup a disk
@@ -456,3 +553,12 @@ dd if=/dev/zero of=/dev/sda bs=1M status=progress
 ## create empty files
 fallocate -l 2M file ## create file with forced size
 fallocate -l 2G file ## length option, mandatory
+
+#? SPECIAL DEVICES
+
+/dev/random ## provide random data - suitable for cryptographic keys - slower
+/dev/urandom ## provide pseudo-random data - suitable for random passwords - faster
+
+/dev/zero ## provide zero bytes
+/dev/null ## discards all data written to it
+/dev/full ## simulates full storage device

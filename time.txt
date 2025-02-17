@@ -1,3 +1,29 @@
+#? TIME
+
+## display time used by a command
+time ls ## show duration
+
+#? DATE
+
+date ## print date and local time
+date -u ## print UTC time
+date -I ## formation 2024/23/10
+
+date +"%m/%d/%Y" ## print date at format 08/18/2024
+date +"%H:%M" ## print hour at format 12:34
+
+%Y ## Year (e.g., 2024)
+%m ## Month (e.g., 08)
+%d ## Day of the month (e.g., 18)
+%H ## Hour (00–23)
+%M ## Minute (00–59)
+%S ## Second (00–59)
+%A ## Full weekday name (e.g., Monday)
+%B ## Full month name (e.g., August)
+%s ## Unix time: sseconds since epoch (January 1st 1970)
+
+#? TIMEDATECTL
+
 timedatectl ## Show current timezone
 timedatectl list-timezones ## Show all timezones
 sudo timedatectl set-timezone Europe/Paris ## Set timezone

@@ -1,5 +1,7 @@
 ## systemd is the init system of debian, responsible for lauching all the services
 
+#? COMMANDS
+
 systemctl ## list all services (it assumes the list-units option by default
 systemctl list-unit-files ## list units, indicating type and if enabled
 systemctl list-unit-files --type=service ## list only services
@@ -16,20 +18,8 @@ systemctl enable service ## enable service (make it start at server startup)
 systemctl enable --now service ## start service immediatly without waiting for next server startup
 systemctl disable service ## disable service (prevent it from starting at server startup)
 
-#? UNITS
-
-service ##
-target ##
-timer ##
-device ##
-mount ##
-automount ##
-path ##
-scope ##
-slice ##
-socket ##
-swap ##
-snapshot ##
+systemctl cat service ## cat unit file
+systemctl edit service ## add user-defined configuration to the unit file that will be writtent in /etc/systemd/system/service.d/override.conf
 
 #? LOGS
 
@@ -38,13 +28,21 @@ systemd-analayse verify /path/to/service-file
 systemctl list-dependencies
 systemd-run --unit=my-test.service /path/to/command
 
-#? SERVICES
+#? UNIT FILES
 
-## a service is a process or application managed by systemd that usually runs in the background (daemon)
-## services are defined and configured in unit files with the .service extension
-/usr/lib/systemd/system/ssh.service ## configuration file for the ssh service
+## unit config files locations
+/usr/lib/systemd/system/ ## distribution-provided unit files, installed by package managers, modified by updates
+/etc/systemd/system ## local system-specific configurations - customized or user-defined unit files
+## enabling a service creates here a link to the service in /usr/lib//systemd/systemd directory
+/run/systemd/system ## runtime unit files - created dynamically during runtime and cleared on reboot
 
-[Unit] ## metadata and dependencies for the service unit
+## unit files structure - 3 sections
+[Unit] ## metadata and dependencies for the unit - common to all unit types
+[Service/Target/Device/etc] ## specific unit type configuration
+[Install] ## defines how the service should be installed or enabled in relation to system targets - common to all unit types
+
+[Unit]
+
 Description=The description of the service ## description of the unit visible when doing systemctl status service
 Documentation=https://service.com/docs ## references to documentation, url or man page
 Requires=network.target ## hard dependencies, the unit will fail without them
@@ -56,7 +54,6 @@ Conflicts=network.target ## specifies unis that cannot run simultaneously with
 ## Condition and assert
 ConditionXxx ## skip unit if condition is not met
 AssertXxx ## unit fails if condition is not met
-
 ConditionPathExist=/path/ ## if path exist
 ConditionPathExistGlob=/path/*.txt ## if path exist using glob patterns
 ConditionPathIsDirectory=/path/ ## if path exists and is a directory
@@ -68,6 +65,23 @@ ConditionVirtualization=kvm ## if system runs in a virtualized environment (kv
 ConditionArchitecture=x86_64 ## if systems is of a particular architecture (x86_64, arm etc)
 ConditionKernelCommandLine ## if Kernel command line parameter is set
 ConditionSecurity=selinux ## if specific security feature is active on the system
+
+[Install]
+
+RequiredBy=multi-user.target ## specifies the target that the service must be included in when enabled
+WantedBy=graphical.target ## weaker dependency than RequiredBy
+## default.target can also be used that can be either graphical or multi-user
+Alias=Other name ## alternative name for the service
+
+#? SERVICES
+
+## a service is a process or application managed by systemd that usually runs in the background (daemon)
+
+## creating a custom service
+/etc/systemd/system/my-service.service ## create unit file and add config to it
+systemctl daemon-reload ## reload systemctl daemon - often necessary when modifying the unit file
+systemctl start my-service ## execute service
+journalctl -u my-service ## see service logs
 
 [Service] ## service behavior - how it is started, stopped, restarted and monitored
 
@@ -113,34 +127,30 @@ TimeoutStartSec=90 ## time in seconds systemd will wait for the service to rea
 TimeoutStopSec=90 ## time in seconds after which if process did not exit a SIGKILL signal is sent - 90 seconds is the default
 SendSIGKILL=no ## never send SIGKILL signal
 
-[Install] ## defines how the service should be installed or enabled in relation to system targets
-RequiredBy=multi-user.target ## specifies the target that the service must be included in when enabled
-WantedBy=graphical.target ## weaker dependency than RequiredBy
-## default.target can also be used that can be either graphical or multi-user
-Alias=Other name ## alternative name for the service
-
-## creating a custom service
-/etc/systemd/system/my-service.service ## create unit file and add config to it
-systemctl daemon-reload ## reload systemctl daemon - often necessary when modifying the unit file
-systemctl start my-service ## execute service
-journalctl -u my-service ## see service logs
-
 #? DEVICES
+
+## defines a device file recognized by the kernel: USB drives, network cards etc
+## works with udev, the device manager of the linux kernel
 
 #? MOUNTS
 
-## replaces /etc/fstab
+## defines a mountpoint int the filesystem like /etc/fstab
+
+#? AUTOMOUNTS
+
+## defines system automount point
 
 #? TIMERS
 
-## replaces cron
+## equivalent of cron
 
-#? RUNLEVELS - TARGETS
+#? TARGETS
 
-## runlevels are in SysVinit, targets in systemd
-## Predefined sets of services to be toggled with init command
-## REPLACED BY TARGETS IN SYSTEMD
-## were defined in /etc/inittab
+## group of system units - replaces traditional runlevels of SysVinit
+
+## a runlevel is an operating state determining which programs can execute after the OS boots up
+
+## in SysVinit, runlevels are controlled by the init command and defined in /etc/inittab
 init 0 ## halt mode
 init 1 ## rescue mode
 init 2 ## single-user mode
@@ -149,14 +159,39 @@ init 4 ## networked multi-user mode
 init 5 ## graphical mode
 init 6 ## reboot mode
 
-multi-user.target ## runlevel 3, non-graphical multi-user systems
+## in systemd, runlevels become target units
+poweroff.target ## runlevel 0
+rescue.target ## runlevel 1
+multi-user.target ## runlevels 2,3 and 4, non-graphical multi-user systems
 graphical.target ## runlevel 5, graphical environments
-default.target ## default target, multi-user or graphical
+reboot.target ## runlevel 6
 
-ll /usr/lib/systemd/system/*.target ## list available system targets
-cat /usr/lib/systemd/system/runlevel5.target ## see target definitions
-systemctl list-unit-files *.target ## list available system targets
-systemctl list-units --type=target --state=active ## see active modes
-systemctl isolate multi-user.target ## switch to runlevel
-systemctl get-default ## get default mode
-systemctl set-default graphical.target ## set default mode
+default.target ## default target on system boot
+
+systemctl isolate multi-user.target ## switch to a runlevel
+systemctl set-default graphical.target ## set default runlevel
+systemctl get-default ## get default runlevel
+
+$? PATH
+
+## a file of directory in the system
+
+$? SCOPE
+
+## an externally created process
+
+$? SLICE
+
+## defines a group of hierarchical units that manage system processes
+
+$? SOCKET
+
+## an inter-process communication socket
+
+$? SWAP
+
+## a swap device or swap file definition
+
+$? SNAPSHOT
+
+## temporary snapshot of the current state of the system
