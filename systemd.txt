@@ -5,6 +5,8 @@
 systemctl ## list all services (it assumes the list-units option by default
 systemctl list-unit-files ## list units, indicating type and if enabled
 systemctl list-unit-files --type=service ## list only services
+systemctl list-unit-files *.service ## list only services
+systemctl list-unit-files *apache* ## search apache string
 systemctl list-units ## list units, indicating type and if running
 systemctl list-units --type=target ## list only targets
 systemctl list-jobs ## print cronjobs
@@ -24,7 +26,7 @@ systemctl edit service ## add user-defined configuration to the unit file that
 #? LOGS
 
 journalctl -u <service>
-systemd-analayse verify /path/to/service-file
+systemd-analyse verify /path/to/service-file
 systemctl list-dependencies
 systemd-run --unit=my-test.service /path/to/command
 
@@ -68,6 +70,7 @@ ConditionSecurity=selinux ## if specific security feature is active on the sys
 
 [Install]
 
+## those are necessary to perform systemctl enable unit
 RequiredBy=multi-user.target ## specifies the target that the service must be included in when enabled
 WantedBy=graphical.target ## weaker dependency than RequiredBy
 ## default.target can also be used that can be either graphical or multi-user
@@ -143,6 +146,44 @@ SendSIGKILL=no ## never send SIGKILL signal
 #? TIMERS
 
 ## equivalent of cron
+## a timer unit works in conjunction with a corresponding service unit, triggering its execution at the specified time or interval
+
+[Timer]
+OnCalendar=daily ## task scheduling
+OnBootSec=5min ## trigger the service 5 minutes after the system boots
+AccuracySec=1s ## defines accuracy of the timer - default is 1min
+Persistent=true ## ensures missed events like during downtime are triggered after the system boots
+
+[Install]
+WantedBy=timers.target ## necessary to be enabled
+
+## OnCalendar
+OnCalendar=YYYY-MM-DD HH:MM:SS
+## YYYY - Year (e.g., 2025, * for any year)
+## MM - Month (01-12 or * for any month)
+## DD - Day (01-31 or * for any day)
+## HH - Hour (00-23 or * for any hour)
+## MM - Minute (00-59 or * for any minute)
+## SS - Second (00-59 or * for any second, usually omitted)
+OnCalendar=*-*-* *:*:* ## every second
+OnCalendar=*:*:* ## defaults to *-*-* *:*:*
+OnCalendar=*-*-* ## defaults to *-*-* 00:00:00
+
+OnCalendar=Fri 12:*:* ## each friday at 12pm
+OnCalendar=Mon..Fri ## monday to friday at 00:00:00
+OnCalendar=Mon,Fri ## every monday and friday
+OnCalendar=Mon *-*-1..7 ## on first monday of the month
+OnCalendar=*:0/10 ## every ten minutes
+OnCalendar=*:*:0/10 ## every ten seconds
+
+OnCalendar=hourly,daily,weekly,monthly,yearly,annually ## shorthand expressions
+
+systemd-analyse calendar '*-*-*' ## check timer and next run
+systemctl list-timers ## print timers with previous and next run
+
+systemctl daemon-reload ## reload systemd
+systemctl start unit.timer ## start the timer
+systemctl enable unit.timer ## enable the timer
 
 #? TARGETS
 

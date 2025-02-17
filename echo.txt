@@ -1,3 +1,5 @@
+#? ECHO
+
 echo <text> ## print text and go to the next line
 echo -n ## echo without new line
 
@@ -8,10 +10,37 @@ echo -e "blop\tcrac\nb\tcrac" ## tabs make colums align
 
 echo * ## file globbing: echo all files in current directory if there are, else echo *
 
-#? printf
+#? PRINTF
 
 printf "Hello, World!" ## print text without carriage return
 printf "Hello, World!\n" ## print text with carriage return
 
 printf "%d %s" "digit" "string" ## %d is placeholder for any digit, %s for any string
 num=5; str=foo; printf "%d %s" "$num" "$str" ## with variables
+
+#? PV
+
+## pipe viewer - monitor the progress of data through a pipe
+
+echo blop | pv ## print data transfer amount, time and rate
+
+pv -L 1 ## limit transfer rate to 1 bit per second
+pv -q ## quiet, print nothing
+
+echo blop | pv -qL 20 ## print text slowly
+
+#? LOLCAT
+
+## rainbow coloring effect for text console display
+## default is a slowly changing font color
+echo blop | lolcat
+
+lolcat -F 1 ## modify rainbow effect frequency - 0.1 is the default
+
+#? FORTUNE
+
+fortune ## get random text
+
+#? COWSAY
+
+echo blop | cowsay ## make text appear in bubble with cow drawing
