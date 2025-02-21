@@ -18,6 +18,23 @@ printf "Hello, World!\n" ## print text with carriage return
 printf "%d %s" "digit" "string" ## %d is placeholder for any digit, %s for any string
 num=5; str=foo; printf "%d %s" "$num" "$str" ## with variables
 
+#? COLUMN
+
+## format text input into aligned columns
+
+column file.txt ## display text from file
+echo crac | column ## display text from standard input
+
+column ## by default makes columns out of each line
+column -t ## make columns out of whitespace or tab separation
+column -ts : ## make columns out of custom separator
+
+column -to = ## use a custom output delimiter
+column -tR 2 ## right align column 2 - default is left-align
+column -tH 2 ## hide column 2
+
+echo -e "Name Age\nAlice 25\nBob 30" | column -t ## make a table out of space separated data
+
 #? PV
 
 ## pipe viewer - monitor the progress of data through a pipe

@@ -4,3 +4,13 @@ lsof ## print all open files
 ## command: command that opened the file
 ## user: user that opened the file
 ## node: inode of the file
+## name: file open
+
+lsof /path/to/file ## filter by file
+lsof -u porco ## filter by user
+lsof -c ssh ## filter by process
+lsof -p 1540 ## filter by pid
+lsof -i ## print network connections only
+lsof -i4 ## print only ipv4 connections
+lsof -i TCP ## tcp connections only
+lsof -i :80 ## port 80 only
