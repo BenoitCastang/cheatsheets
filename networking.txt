@@ -301,9 +301,50 @@ Peer Adress:Port ## address and port of the remote peer that the local process
 
 #? NMAP
 
+## network mapper
+
+nmap ## show options summary
 nmap example.com ## scan open ports on host
 nmap localhost ## scan open ports on localhost
-nmap -p 1-1024 example.com ## scan ports
+
+nmap -p 22 ## scan a specific port
+nmap -p 22,80,443 ## scan multiple ports
+nmap -p 1-1024 ## scan a range of ports
+nmap -p- ## scan all 65,535 ports
 
 #? TCPDUMP
 
+## dump traffic on a network
+
+tcpdump ## dump all packets without filter
+
+tcpdump icmp ## filter by protocol
+## valid values are icmp, tcp, udp, ip, ip6, arp, dns, http, https, ssh, ftp, smtp, pop3, imap, dhcp, gre, esp, ah, stp, igmp
+
+tcpdump port 22 ## filter by port
+
+tcmp host 10.0.0.1 ## filter by IP address
+tcpdump src 10.0.0.1 ## filter by source
+tcpdump dst 10.0.0.1 ## filter by destination
+
+tcpdump port 80 or port 443 ## combine filters with OR condition
+tcpdump port 22 and icmp ## combine filters with AND condition
+tmpdump not port 22 ## filter with NOT condition
+
+tcpdump -c 5 ## limit count of dumped packets
+
+tcpdump -i eth0 ## filter by network card
+
+tcpdump -A ## display packet contents in ASCII
+tcpdump -x ## display packet contents in hexadecimal
+tcpdump -X ## display packet contents in ASCII and hexadecimal
+
+tcpdump -n ## numeric - no resolve names
+tcpdump -f ## force resolve names
+
+tcpdump -e ## display mac adresses of hosts
+
+tcpdump -v ## get details
+tcpdump -vv ## get more details
+tcpdump -vvv ## get full details
+tcpdump -q ## quiet - less details
