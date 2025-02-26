@@ -312,6 +312,10 @@ $ ## go end of line
 
 reg ## buffer of previously yanked or copied text
 
+#? ROD13
+
+g? ## 13 letters offset to encrypt text
+
 #? MARKS
 
 ## marks are persistent through files and exiting vim
