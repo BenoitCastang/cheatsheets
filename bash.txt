@@ -52,6 +52,7 @@ touch -- -blop ## -blop is not considered as a list of options but as a string
 set -u ## activate u option
 set +u ## disable u option
 
+set -o ## list options and their status
 set -o <option-name> ## activate option by its name
 set +o <option-name> ## deactivate option by its name
 set -o verbose ## verbose mode

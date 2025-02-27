@@ -71,3 +71,17 @@ QUIT ## stop the SMTP session
 ## ESMTP - Extended SMTP
 EHLO ## start ESMTP session
 STARTTLS ## encrypted sessions
+
+#? POP3
+
+## Post Office Protocol Version 3
+
+telnet host 110 ## connect to pop3 server
+
+USER john ## connect as john
+PASS password ## enter password
+LIST ## list inbox emails
+RETR 2 ## read message number 2
+DELE 2 ## delete message number 2
+RSET ## reset deleted message if session has not been ended before
+QUIT ## end session and save changes

@@ -1,0 +1,9 @@
+#? IPTABLES
+
+#? UFW
+
+## uncomplicated firewall - frontend for iptables in debian-based distributions
+
+#? FIREWALLD
+
+## firewalld is the default firewall in RHEL-based distributions
