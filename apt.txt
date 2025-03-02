@@ -4,17 +4,24 @@
 
 apt-get update ## update local package index to get info and sources of new and updated packages
 apt update ## shorthand
+
 apt-get install package ## install package from online source
 apt install package ## shorthand
+apt-get install -f package ## fixing broken dependecies
+apt install -f package ## shorthand
+
 apt-get remove package ## uninstall package, leaving configuration files
 apt remove package ## shorthand
 apt-get remove --purge package ## remove also configuration files
 apt-get purge package ## same
 apt purge package ## shorthand
-apt-get install -f package ## fixing broken dependecies
-apt install -f package ## shorthand
+apt autoremove ## remove unnecessary packages that were installed as dependencies but are no longer needed
+apt autoremove --purge  ## purge also
+
 apt-get upgrade ## install all new version available of packages
 apt upgrade ## shorthand
+apt dist-upgrade ## upgrade the system while also handling dependencies intelligently
+
 /var/cache/apt/archives ## folder where .deb files are downloaded whent installing packages
 /var/cache/apt/archives/partial ## partially downloaded files
 apt-get clean ## remove content of archives directories
