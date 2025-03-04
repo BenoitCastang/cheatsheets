@@ -1,6 +1,9 @@
+$? SYNTAX
+
 awk 'pattern { action }' ## basic syntax
-## pattern can be omittted
-## awk will display only lines containing the pattern, then apply action on each line
+## pattern filters
+## action processes
+
 ll | awk 'pattern { action }' ## work with result of a command
 awk 'pattern { action }' filename ## work with a file
 

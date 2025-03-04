@@ -20,18 +20,15 @@ logout ## close only login shell
 
 #? BASH
 
-## open a bash process
-bash ## open an instance of the shell
-bash <script> ## execute a script with the bash shell - bash reads a file
-bash -c "echo blop" ## execute the command and exit - bash reads a string
+bash ## open a bash child process
+
+bash -c "echo blop" ## execute a command in child process
+bash <script> ## execute a script in child process
 echo "echo blop" | bash ## pass an instruction or a script to bash through a pipeline
 curl <script> | bash ## dowload a script and pass it to bash for direct execution
 
-env -i bash ## start a new bash session with as empty an environment as possible, clearing most variables
-env variable=value script ## run script providing specifc variable
-env BASH_ENV=/path/to/startup-file script ## execute script with specified BASH_ENV, which is the default startup config file
-
-exec <script> ## run script and exit process right after it
+exec ## replace shell - open a new shell that replaces the old shell, keeping its pid - when finished, it opens a new shell again
+exec zsh ## replace current shell with zsh
 
 bash -i ## start interactive shell session
 bash -l ## start a login shell
@@ -48,18 +45,6 @@ w ## all set options are available to use with the bash command
 
 bash -- ## the -- stops the list of options, everything after it is an argument, event if it begins with -
 touch -- -blop ## -blop is not considered as a list of options but as a string, so it create a -blop file
-
-set -u ## activate u option
-set +u ## disable u option
-
-set -o ## list options and their status
-set -o <option-name> ## activate option by its name
-set +o <option-name> ## deactivate option by its name
-set -o verbose ## verbose mode
-set -o vi ## vi mode
-set -C || set -o noclobber ## noclobber mode
-
-#? shopt -s nocase match
 
 echo $- ## list option flags
 echo $SHELLOPTS ## list options by name
@@ -97,6 +82,28 @@ sudo -u <user> -i <command> ## open interactive login shell as user, do command 
 rm -blop ## wont delete -blop file cause rm searches for options b, l, o , and p
 rm -- -blop ## delete -blop file, cause -- stop option reading
 
+#? ENV
+
+env -i bash ## start a new bash session with as empty an environment as possible, clearing most variables
+env variable=value script ## run script providing specifc variable
+env BASH_ENV=/path/to/startup-file script ## execute script with specified BASH_ENV, which is the default startup config file
+
+#? SET
+
+set -u ## activate u option
+set +u ## disable u option
+
+set -o ## list options and their status
+set -o <option-name> ## activate option by its name
+set +o <option-name> ## deactivate option by its name
+set -o verbose ## verbose mode
+set -o vi ## vi mode
+set -C || set -o noclobber ## noclobber mode
+
+unset
+
+#? SHOPT
+
 #? ALIAS
 
 alias ## get the list of set aliases
@@ -109,6 +116,7 @@ alias where="echo $PWD" ## double quotes make static variable expansion, so $P
 
 \ls ## overwrite alias
 'ls' ## overwrite alias
+apt \install htop ## overwrite alias in the middle of a sequence - the word aliased must be escaped
 ## if a function has the same name, the alias goes first
 
 alias func="pif() { echo plouf; unset -f pif; }; pif" ## function in an alias
@@ -441,24 +449,33 @@ attente fin execution et recolte code retour
 #? SPECIAL PARAMETERS
 
 ## tied to bash, those variables can only be referenced, not assigned
-parameter $? ## the exit status of the last command
+
+echo !! ## last command
+echo !* ## all arguments of last command
+echo !^ ## first argument of last command
+echo !$ ## last argument of last command
+echo !ls ## last ls command
+echo !ls:* ## all arguments of last ls command
+echo !ls:^ ## first argument of last ls command
+echo !ls:$ ## last argument of last ls command
+
+echo $? ## the exit status of the last command
 ## 0 is for command success or true, 1 and more is for errors
-parameter $1 ## first positionnal parameter when arguments are given to a script
-parameter $2 ## second positionnal parameter, and so on until $9
-parameter ${10} ## 10th positional parameter and more are in ${}
-parameter $0 ## shell type - name of the script if in a script
-parameter $_ ## last argument of the previous command (if the function executed a command before $_ will represent the last argument of that last command, not the last argument of the function)
-parameter $# ## the number of positional parameters
-parameter $* ## equals $1 $2 $3
-"$*" ## equals "$1 $2 $3" - one parameter
-parameter $@ ## equals $1 $2 $3
-"$@" ## equals "$1" "$2" "$3" - three parameters
+echo $1 ## first positionnal parameter when arguments are given to a script
+echo $2 ## second positionnal parameter, and so on until $9
+echo ${10} ## 10th positional parameter and more are in ${}
+echo $0 ## shell type - name of the script if in a script
+echo $_ ## last argument of previous command (if the function executed a command before $_ will represent the last argument of that last command, not the last argument of the function)
+echo $# ## the number of positional parameters
+echo $* ## equals $1 $2 $3
+echo "$*" ## equals "$1 $2 $3" - one parameter
+echo $@ ## equals $1 $2 $3
+echo "$@" ## equals "$1" "$2" "$3" - three parameters
 ## The difference can matter when providing as arguments strings with space that confuse the count of arguments: echo 3 "Sun Tzu" Bob
-parameter $$ ## the process ID of the current shell
-$PPID ## The process parent ID of the current shell
-parameter $! ## the process ID of the last background job
-parameter $- ## current options set for the shell
-parameter !$ ## last argument from the previous command
+echo $$ ## the process ID of the current shell
+echo $PPID ## The process parent ID of the current shell
+echo $! ## the process ID of the last background job
+echo $- ## current options set for the shell
 
 $BASH_COMMAND ## next command to be executed
 $LINENO ## current line number in the script
@@ -557,6 +574,10 @@ file1 -ef file2 ## file1 has same inode number than file2
 ! EXPR ## operator NOT
 EXPR1 -o EXPR2 ## operator OR
 EPXR1 -a EPXR2 ## operator AND
+
+if ! ls /roote ## not
+if ls /roote && echo crac ## and
+if ls /roote || echo crac ## or
 
 [ 1 -eq 0 ] && [ 1 -gt 2 ] ## logical operator and
 [ 1 -eq 0 ] || [ 1 -gt 2 ] ## logical operator or

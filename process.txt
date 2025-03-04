@@ -13,10 +13,17 @@ kill -9 $(jobs -p) ## kill all background processes - send sigkill
 #? DISPLAY PROCESSES
 
 ps ## static display of processes attached to the current shell
-## pid: process id
-## tty: terminal responsible for the command - tty are "real" terminal, pts are virtual terminal
-## time: cpu time taken by the process
-## cmd: command executed
+
+## output columns
+uid ## user running the process
+pid ## process id
+ppid ## process parent id
+c ## cpu priority
+stime ## start time
+tty ## terminal responsible for the command - tty are "real" terminal, pts are virtual terminal
+time ## cpu time taken by the process
+cmd ## command executed
+
 ps a ## prints also processes by other users, details more commands run and adds the stat column
 ## stat: status of the process
 ## r is running
