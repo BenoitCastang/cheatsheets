@@ -9,4 +9,4 @@ history -d 500 ## delete command from the history
 "\C-r": reverse-search-history
 "\C-g": abort
 space before a command ## command doesnt go into history
-HISTCONTROL=ignoreboth ## .baschrc conf line: command beginning with a space are not written in the history + duplicated commands are not written either
+HISTCONTROL=ignoreboth ## .bashrc conf line: command beginning with a space are not written in the history + duplicated commands are not written either

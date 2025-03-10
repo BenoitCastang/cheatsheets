@@ -1,28 +1,27 @@
 #? CONFIG KVM
 
 /var/lib/libvirt/images ## default directory for KVM VM images
-egrep -c '(vmx|svm)' /proc/cpuinfo ## 0 means cpu does not support virtualizaton
-sudo apt install bridge-utils libvirt-clients libvirt-daemon-system qemu- system-x86 ## libvirt packages to interface with KVM (Kernel-based VM) + qemu (Quick emulator)
-sudo systemctl stop libvirtd ## stop daemon to finish config
-sudo groupadd kvm
-sudo groupadd libvirt
-## groups must be added if not created by installion of packages
-sudo usermod -aG kvm username
-sudo usermod -aG libvirt username
-## user must be made member of the groups if not configured by installation of packages # dont forget to relog if modification has been done
-sudo chown :kvm /var/lib/libvirt/images ## give ownership of images directory to kvm group
-sudo chmod g+rw /var/lib/libvirt/images ## give read and write permission to the group
-sudo systemctl start libvirt ## to daemon can start again
-sudo apt install ssh-askpass virt-manager ## Virtual Machine Manager gives gui to administrate VMs
+rep -c '(vmx|svm)' /proc/cpuinfo ## 0 means cpu does not support virtualizaton
+
+sudo apt install bridge-utils libvirt-clients libvirt-daemon-system qemu-system-x86 ## libvirt packages to interface with KVM (Kernel-based VM) + qemu (Quick emulator)
+
+systemctl stop libvirtd ## stop daemon to finish config
+groupadd kvm; sudo groupadd libvirt ## groups must be added if not created by installation of packages
+usermod -aG kvm username; sudo usermod -aG libvirt username ## user must be made member of the groups if not configured by installation of packages # dont forget to relog if modification has been done
+chown :kvm /var/lib/libvirt/images ## give ownership of images directory to kvm group
+chmod g+rw /var/lib/libvirt/images ## give read and write permission to the group
+systemctl start libvirt ## to daemon can start again
+apt install virt-manager ## Virtual Machine Manager gives gui to administrate VMs
+
 ## Lauch VMM - ignore error "unable to connect to libvirt qemu:///system
-sudo chmod 666 /var/run/libvirt/libvirt-sock ## must be readable to the user who launches vmm to be able to use the localhost (QEMU/KVM) connection
+chmod 666 /var/run/libvirt/libvirt-sock ## must be readable to the user who launches vmm to be able to use the localhost (QEMU/KVM) connection
 ## Select QEMU/KVM connection, select storage, and select add pool (far bottom left)
 ## name ISO, type dir: Fileisystem Directory, path /var/lib/libvirt/images/ISO, then click finish to create the directory
-sudo chown root:kvm /var/lib/libvirt/images/ISO ## give ownership of ISO directory to kvm group
-sudo chmod g+rw /var/lib/libvirt/images/ISO ## give read and write permission to the group
+chown root:kvm /var/lib/libvirt/images/ISO ## give ownership of ISO directory to kvm group
+chmod g+rw /var/lib/libvirt/images/ISO ## give read and write permission to the group
 ## Finally copy ISO file to ISO directory
-sudo chmod 775 /var/lib/libvirt/images/ ## make kvm admin availavle to all
-sudo chmod 775 /var/lib/libvirt/images/iso/ ## make kvm admin availavle to all
+chmod 775 /var/lib/libvirt/images/ ## make kvm admin availavle to all
+chmod 775 /var/lib/libvirt/images/iso/ ## make kvm admin availavle to all
 
 #? VIRSH
 

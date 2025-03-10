@@ -27,3 +27,35 @@ date +"%H:%M" ## print hour at format 12:34
 timedatectl ## Show current timezone
 timedatectl list-timezones ## Show all timezones
 sudo timedatectl set-timezone Europe/Paris ## Set timezone
+
+#? CHRONY
+
+## chrony is a network time protocol (NTP) implementation used to synchronize the system clock of a computer with NTP servers
+
+chronyc tracking ## get overview of system clock's current state
+## reference ID - NTP server used for synchronization
+## stratum - number of hops from primary time source
+## ref time - last time chrony synced with NTP source
+## update interval - how often chrony updates the system time
+
+chronyc sources ## show the status of configured NTP sources
+## ^* - best source
+## ^+ - good source
+## ^- - unused source
+
+chronyc makestep ## force immediate time correction
+## by default chrony gradually adjusts the clock to avoid sudden jumps
+
+/etc/chrony/chrony.conf ## chrony configuration file
+
+## client
+server <NTP-server> iburst ## define NTP server to use - the iburst option speeds up initial sync
+pool <NTP-pool> ## use a pool of NTP servers
+makestep 1.0 3 ## allow a large time step if the system clock is off by more than 1 second, but only up to 3 times
+
+## server
+allow all ## allow NTP clients
+deny all ## deny NTP clients
+log /var/log/chrony/ ## specify log directory
+
+systemctl restart chronyd ## restart service after any config change

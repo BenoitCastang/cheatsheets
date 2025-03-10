@@ -7,3 +7,5 @@ dmesg ## read the kernel ring buffer
 ## the kernel ring buffer logs the boot messages
 ## it is circular and set to a predetermined size: as new messages are logged into the buffer, older messages are rotated out
 /var/log ## boot messages are also logged the /var/log folder, where files store the messages of individual previous boots
+
+/boot/grub/grub.cfg ## grub configuration

@@ -1,5 +1,0 @@
-## chrony is a network time protocol (NTP) implementation used to synchronize the system clock of a computer with NTP servers
-
-systemctl start chronyd
-chronyc tracking
-chronyc sources

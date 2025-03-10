@@ -114,12 +114,17 @@ ll ## invoke alias
 alias where='echo $PWD' ## single quotes make dynamic variable expansion, so $PWD will be evaluated when running alias
 alias where="echo $PWD" ## double quotes make static variable expansion, so $PWD will be evaluated when setting the alias and always be the same
 
-\ls ## overwrite alias
 'ls' ## overwrite alias
+\ls ## ignore alias
 apt \install htop ## overwrite alias in the middle of a sequence - the word aliased must be escaped
 ## if a function has the same name, the alias goes first
 
 alias func="pif() { echo plouf; unset -f pif; }; pif" ## function in an alias
+
+#? COMMAND
+
+command ls ## ignore shell functions and aliases
+command -v ls ## display the path to the executable or the alias definition of a specific command
 
 #? TYPE
 
