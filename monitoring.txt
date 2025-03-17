@@ -1,6 +1,7 @@
-cat /etc/os-release ## Show current Linux system info
-uname -a ## Show current Linux system info
+cat /etc/os-release ## show current linux system info
+uname -a ## show current linux system info
 hostnamectl status ## show hostname and system info
+neofetch ## print system info
 
 lscpu ## display processor info
 lsblk ## display disks and partitions

@@ -1,4 +1,25 @@
+#? /VAR/LOG
 
-logs files
-journalctl etc
-see chatgpt
+/var/log/ ## location for logs
+/var/log/messages ## system logs
+/var/log/secure ## authentication logs
+/var/log/boot ## boot logs
+/var/log/cron ## cron logs
+/var/log/apache2/ ## apache2 logs
+
+tail -f /var/log/secure | grep root ## grep with follow
+
+#? JOURNALCTL
+
+journalctl ## show all logs
+journalctl -r ## show in reverse order
+journalctl -f ## follow in real time
+
+journalctl -u sshd ## show logs for specific unit
+journalctl /dev/sda ## watch device
+journalctl /urb/bin/sudo ## watch command
+journalctl -k ## watch kernel - like dmesg
+journalctl _UID=1000 ## watch specific user
+journalctl _PID=30673 ## watch specific process
+journalctl -S yesterday ## watch since time
+journalctl -U today ## watch until time
