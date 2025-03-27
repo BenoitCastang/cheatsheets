@@ -23,3 +23,19 @@ journalctl _UID=1000 ## watch specific user
 journalctl _PID=30673 ## watch specific process
 journalctl -S yesterday ## watch since time
 journalctl -U today ## watch until time
+
+/etc/systemd/journald.conf ## journalctl config file
+  Storage=volatile ## logs are erased at each reboot
+  Storage=persistent ## logs are kept
+systemctl restart systemd-journald ## service must be restarted after any change
+
+#? LOGROTATE
+
+## logrotate allows automatic rotation, compression, removal, and mailing of log files
+
+/etc/logrotate.conf ## general config
+/etc/logrotate.d/ ## directory for per-application configs, included by /etc/logrotate.conf
+
+logrotate /etc/logrotate.conf ## manually logrotate
+## logrotate is typically run daily, as a cron job or with a systemd timer
+## both run the logrotate /etc/logrotate.conf command once a day
