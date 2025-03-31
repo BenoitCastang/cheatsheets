@@ -210,8 +210,8 @@ let @j="" ## delete macro
 
 #? REGISTERS
 
-"ay$ ## in register a copy till end of line
-"ap ## from register a paste text
+"ay$ ## in register "a", copy till end of line
+"ap ## from register "a", paste text
 
 #? WINDOWS
 

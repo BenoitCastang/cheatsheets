@@ -1,10 +1,12 @@
 MTA ## Mail Transfer Agent
 ## responsible for sending and routing emails between mail servers
 ## uses SMTP (Simple Mail Transfer Protocol) to transfer messages
+## receives emails, determines if they are destined for a local user and if so passes them to the MDA
 MDA ## Mail Delivery Agent
 ## takes the email from the MTA and delivers it to the recipient's mailbox
-## works with protocols like POP3 or IMAP for retrieving emails
-MUA ## the client application used by the end user to read, compose, and send emails
+## works with protocols like POP3 or IMAP
+MUA ## Mail User Agent
+## the user interface to read, compose, and send emails
 
 /var/spool/mail/user ## location for unread messages
 /home/user/mbox ## location for read messages
