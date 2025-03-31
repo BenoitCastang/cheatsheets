@@ -1,18 +1,18 @@
 sudo apt install telnetd ## install telnet daemon
 sudo systemctl start inetd ## start telnet daemon
 
-telnet ## enter telnet interactive mode
-open server-ip port ## connect to a server
-close ## close current connection
-quit ## exit telnet
+telnet ## enter telnet interactive mode
+open server-ip port ## connect to a server
+close ## close current connection
+quit ## exit telnet
 display ## show telnet parameters
-status ## show current connection parameters
-send ayt ## send commands: ayt is are you there, to ckeck connection status
+status ## show current connection parameters
+send ayt ## send commands: ayt is are you there, to ckeck connection status
 set option ## set telnet parameter
 unset option ## unset telnet parameter
 mode line|char ## switch mode
-## char mode sends each character to the server when you enter them
+## char mode sends each character to the server when you enter them
 ## line mode is legacy, it waits you press enter to send the whole line to the server, reducing network traffic which came in useful in earlier internet days
 
-telnet server-ip 23 ## connect to telnet port
-telnet web-server 80 ## establish a raw connection to the web server, where you can manually type the request
+telnet server-ip 23 ## connect to telnet port
+telnet web-server 80 ## establish a raw connection to the web server, where you can manually type the request

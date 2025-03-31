@@ -3,8 +3,8 @@ ls -l $(find . <pattern>) ## present files as in the ls command
 
 find -name <pattern> ## Search exact name pattern
 find -iname <pattern> ## case insensitive
-find -name "*.sh" ## every filename ending in .sh
-find -name "*foo*" ## every filename containing "foo"
+find -name "*.sh" ## every filename ending in .sh
+find -name "*foo*" ## every filename containing "foo"
 
 find -type f ## search files only
 find -type d ## search directories only
@@ -28,12 +28,12 @@ find -perm 755 ## matches exactly 755 permissions
 find -perm 444 ## matches at least 444 - 777 will work
 find -perm /222 ## matches when any of specified permission is there - 666 will work
 
-find -size -10k ## search below 10K size
-find -size 10M ## search 10M size only
-find -size +10G ## search above 10G size only
+find -size -10k ## search below 10K size
+find -size 10M ## search 10M size only
+find -size +10G ## search above 10G size only
 
-find -name "foo" -or -name "bar" ## find foo or bar
-find -name "foo" -o -name "bar" ## same
+find -name "foo" -or -name "bar" ## find foo or bar
+find -name "foo" -o -name "bar" ## same
 
 find -name "foo" -and -name "bar" ## find foo and bar
 find -name "foo" -a -name "bar" ## same 
@@ -41,14 +41,14 @@ find -name "foo" -a -name "bar" ## same
 find . -user porco ## matches files with specified owner
 find . -user 1000 ## matches files with specified owner uid
 
-find ! -name "foo" ## find not foo
+find ! -name "foo" ## find not foo
 find -not -name "foo" ## find not foo
 
 find . -maxdepth 2 ## matches files 2 levels deep
 
 find -delete ## delete found file
 find -exec command {} \; ## execute command on found files
-## {} represents the files
+## {} represents the files
 ## \; repredents the end of the command, escaped so bash won't interpret it as end of command
 find . -exec cat {} \; ## print contente of all found files
 

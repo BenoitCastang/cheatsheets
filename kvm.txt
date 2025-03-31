@@ -1,14 +1,14 @@
 #? CONFIG KVM
 
-/var/lib/libvirt/images ## default directory for KVM VM images
+/var/lib/libvirt/images ## default directory for KVM VM images
 rep -c '(vmx|svm)' /proc/cpuinfo ## 0 means cpu does not support virtualizaton
 
-sudo apt install bridge-utils libvirt-clients libvirt-daemon-system qemu-system-x86 ## libvirt packages to interface with KVM (Kernel-based VM) + qemu (Quick emulator)
+sudo apt install bridge-utils libvirt-clients libvirt-daemon-system qemu-system-x86 ## libvirt packages to interface with KVM (Kernel-based VM) + qemu (Quick emulator)
 
 systemctl stop libvirtd ## stop daemon to finish config
 groupadd kvm; sudo groupadd libvirt ## groups must be added if not created by installation of packages
-usermod -aG kvm username; sudo usermod -aG libvirt username ## user must be made member of the groups if not configured by installation of packages # dont forget to relog if modification has been done
-chown :kvm /var/lib/libvirt/images ## give ownership of images directory to kvm group
+usermod -aG kvm username; sudo usermod -aG libvirt username ## user must be made member of the groups if not configured by installation of packages # dont forget to relog if modification has been done
+chown :kvm /var/lib/libvirt/images ## give ownership of images directory to kvm group
 chmod g+rw /var/lib/libvirt/images ## give read and write permission to the group
 systemctl start libvirt ## to daemon can start again
 apt install virt-manager ## Virtual Machine Manager gives gui to administrate VMs
@@ -16,61 +16,61 @@ apt install virt-manager ## Virtual Machine Manager gives gui to administrate VM
 ## Lauch VMM - ignore error "unable to connect to libvirt qemu:///system
 chmod 666 /var/run/libvirt/libvirt-sock ## must be readable to the user who launches vmm to be able to use the localhost (QEMU/KVM) connection
 ## Select QEMU/KVM connection, select storage, and select add pool (far bottom left)
-## name ISO, type dir: Fileisystem Directory, path /var/lib/libvirt/images/ISO, then click finish to create the directory
+## name ISO, type dir: Fileisystem Directory, path /var/lib/libvirt/images/ISO, then click finish to create the directory
 chown root:kvm /var/lib/libvirt/images/ISO ## give ownership of ISO directory to kvm group
 chmod g+rw /var/lib/libvirt/images/ISO ## give read and write permission to the group
-## Finally copy ISO file to ISO directory
-chmod 775 /var/lib/libvirt/images/ ## make kvm admin availavle to all
-chmod 775 /var/lib/libvirt/images/iso/ ## make kvm admin availavle to all
+## Finally copy ISO file to ISO directory
+chmod 775 /var/lib/libvirt/images/ ## make kvm admin availavle to all
+chmod 775 /var/lib/libvirt/images/iso/ ## make kvm admin availavle to all
 
 #? VIRSH
 
-## virsh is a command-line interface to kvm
-/var/lib/libvirt/images ## directory for VM images, in the qcow2 format
-/var/lib/libvirt/images/ISO ## directory for VM ISO files
-virsh list ## show running VMs
+## virsh is a command-line interface to kvm
+/var/lib/libvirt/images ## directory for VM images, in the qcow2 format
+/var/lib/libvirt/images/ISO ## directory for VM ISO files
+virsh list ## show running VMs
 virsh list --all ## include non running VMs
 virsh start vm-name ## start VM
-virsh shutdown vm-name ## shutdown VM
+virsh shutdown vm-name ## shutdown VM
 virsh suspend vm-name ## suspend VM
 virsh resume vm-name ## resume suspended VM
 virsh destroy vm-name ## equivalent to pulling a power cable from a physical server, to use when shutdown wont work, during os installation for example
-virt-viewer --connect qemu:///system --wait vm-name ## launch the VM window to use VM in gui
+virt-viewer --connect qemu:///system --wait vm-name ## launch the VM window to use VM in gui
 
-#? DELETE A VM
+#? DELETE A VM
 
-## first shutdown or destroy VM
+## first shutdown or destroy VM
 virsh undefine vm-name ## delete the VM configuration
 rm vm-name.qcow2 ## remove VM
 
-#? CREATE A VM
+#? CREATE A VM
 
 virt-install --name vm-name --os-variant os-name --cdrom iso-file ## create a VM
 virt-install --name testvm --os-variant debian12 --cdrom /var/lib/libvirt/images/ISO/debian-12.0.0-amd64-netinst.iso ## example
 --ram 2048 ## specify the RAM
 --vcpus 2 ## specify number of cpus
 
-#? COPY A VM
+#? COPY A VM
 
 virsh shutdown src-vm
-cp src-vm.qcow2 dest-vm.qcow2 ## duplicate disk image to a new file
+cp src-vm.qcow2 dest-vm.qcow2 ## duplicate disk image to a new file
 virsh dumpxml src-vm > dest-vm.xml ## dump VM configuration
-## then replace in the .xml file the name value, the uuid using uuidgen and the source file link with the new VM name
-vim -c '/<name>' -c 'normal f>lct<dest-vm' -c '/<uuid>' -c 'normal f>ldt<' -c 'read !uuidgen' -c 'normal v$dkf>pJx' -c '/<source' -c 'normal 5f/lcedest-vm' -c 'wq' dest-vm.xml ## doing it with one command
-virsh define dest-vm.xml ## configure VM
+## then replace in the .xml file the name value, the uuid using uuidgen and the source file link with the new VM name
+vim -c '/<name>' -c 'normal f>lct<dest-vm' -c '/<uuid>' -c 'normal f>ldt<' -c 'read !uuidgen' -c 'normal v$dkf>pJx' -c '/<source' -c 'normal 5f/lcedest-vm' -c 'wq' dest-vm.xml ## doing it with one command
+virsh define dest-vm.xml ## configure VM
 virsh start dest-vm
 
-#? VIRTUAL DISKS
+#? VIRTUAL DISKS
 
 qemu-img create -f qcow2 /var/lib/libvirt/images/mydisk.qcow2 2G ## create virtual disk image
-## -f qcow2:  specify format
+## -f qcow2:  specify format
 virsh attach-disk vm-name /var/lib/libvirt/images/mydisk.qcow2 vdb --persistent ## attach disk to the vm
-## vdb: name of the disk in the vm
-## --persistent: make disk permanent
+## vdb: name of the disk in the vm
+## --persistent: make disk permanent
 virsh domblklist vm-name ## see all block devives attached to the vm
-fdisk /dev/vdb ## enter fdisk tool to format disk
-a ## add new partition
+fdisk /dev/vdb ## enter fdisk tool to format disk
+a ## add new partition
 w ## save changes
 sudo mkfs /dev/vdb1 ## format with default filesystem: ext4
 sudo mkdir /mnt/vdb1 ## create directory to mount the partition to
-sudo mount /dev/sdb1 /mnt/vdb1 ## mount the partition
+sudo mount /dev/sdb1 /mnt/vdb1 ## mount the partition

@@ -9,7 +9,7 @@ man 5 command ## man page 5
 
 #? INFO
 
-info ls ## helpful information
+info ls ## helpful information
 /usr/share/doc ## more information
 
 #? WHICH

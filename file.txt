@@ -1,9 +1,9 @@
-## get info about files
+## get info about files
 
 file <file> ## get file type and various information
-file <file1> <file2> ## get info about two files at the same time
+file <file1> <file2> ## get info about two files at the same time
 
-file -b ## brief mode, omits filename in the output
+file -b ## brief mode, omits filename in the output
 file -L ## follow links to determine the type of the file being pointed to
 file -s ## special files - get more info about special files (filesystem type, uuid and label for block devices for example)
-file -i ## MIME style description type/subtype - text/html, audio/mp3/, inode/directory etc.
+file -i ## MIME style description type/subtype - text/html, audio/mp3/, inode/directory etc.

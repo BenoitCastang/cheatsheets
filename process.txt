@@ -1,16 +1,16 @@
-#? BACKGROUND AND FOREGROUND
+#? BACKGROUND AND FOREGROUND
 
 c-z ## make a process go to the background
-htop & ## background process when executed - prints job id and process id
-jobs ## print background processes and their job id
+htop & ## background process when executed - prints job id and process id
+jobs ## print background processes and their job id
 jobs -p ## print process id of backgroud processes
 
 fg ## make most recent background process go back to the foreground
-fg %1 ## make job id 1 process go back to the foreground
-kill %1 ## kill job id 1 process go back to the foreground - send sigterm
+fg %1 ## make job id 1 process go back to the foreground
+kill %1 ## kill job id 1 process go back to the foreground - send sigterm
 kill -9 $(jobs -p) ## kill all background processes - send sigkill
 
-#? DISPLAY PROCESSES
+#? DISPLAY PROCESSES
 
 ps ## static display of processes attached to the current shell
 
@@ -25,32 +25,32 @@ time ## cpu time taken by the process
 cmd ## command executed
 
 ps a ## prints also processes by other users, details more commands run and adds the stat column
-## stat: status of the process
+## stat: status of the process
 ## r is running
 ## s is sleeping (waiting for user input)
 ## d is uninterruptible sleep (waiting for hardware request)
-## t is stopped
-## z is zombie (completed but parent process didn't read exit status yet, doesn't consume system resources anymore)
-## i is idle state
-## additional flags: additional information in status column
+## t is stopped
+## z is zombie (completed but parent process didn't read exit status yet, doesn't consume system resources anymore)
+## i is idle state
+## additional flags: additional information in status column
 ## < is high priority process
-## n is low priority process
-## l is locket in memory
-## s is session leader, first process in a session
+## n is low priority process
+## l is locket in memory
+## s is session leader, first process in a session
 ## l is multithreaded
 ## + is foreground process group, you see it on the screen if you look at its terminal
-ps au ## prints new colums: user, %cpu, %mem, vsz, rss and start
-## user is user responsible for the process
-## %cpu is cpu usage
+ps au ## prints new colums: user, %cpu, %mem, vsz, rss and start
+## user is user responsible for the process
+## %cpu is cpu usage
 ## %mem is memory usage
 ## vsz is virtual memory size in kb, i.e. memory + swap + shared libraries
 ## rss is resident set size in kb, i.e. only ram physical memory
-## start is start time of process
+## start is start time of process
 ps aux ## include system-level processes
 ps aux | grep nginx ## filter nging processes
-ps f ## forest view, represents visually hierarchy between processes
+ps f ## forest view, represents visually hierarchy between processes
 ps --sort=%cpu ## sort by cpu usage, ascending order
-ps --sort=-%mem ## sort by memory usage, descending order
+ps --sort=-%mem ## sort by memory usage, descending order
 ## other sorting criteria: user, pid, vsz, rss, tty, stat, start, time, cmd
 
 ps -l ## print threads of processes
@@ -68,40 +68,40 @@ pgrep -l <processname> ## display process id and name
 pgrep -a <processname> ## display process id and bin path
 pgrep -u <username> ## display processes of one user
 
-#? PRIORITY
+#? PRIORITY
 
-ps -l ## long format, new colums: f, s, uid, pid, ppid, c, pri, ni, addr, sz, wchan
+ps -l ## long format, new colums: f, s, uid, pid, ppid, c, pri, ni, addr, sz, wchan
 ## f is flags: 0 is no flag, 1 means processe has superuser privileges, 4 means process is forked by parent process but new process created by it isn't started yet
-## s is status, same thing as in ps a
-## uid is user id of the user who owns the process - 0 is root, 1000 is first non-system user
-## pid is process id
-## ppid is parent process id
-## c is cpu utilization
+## s is status, same thing as in ps a
+## uid is user id of the user who owns the process - 0 is root, 1000 is first non-system user
+## pid is process id
+## ppid is parent process id
+## c is cpu utilization
 ## pri is priority: 80 is normal, 60 is highest priority, 99 is lowest
-## ni is niceness, offset to the default priority: 0 is normal, -20 is highest, 19 is lowest
+## ni is niceness, offset to the default priority: 0 is normal, -20 is highest, 19 is lowest
 ## addr is memory address of the process's kernel stack (process involving the kernel)
 ## sz is size of the process in memory measured in pages (a page is 4kb, so to get the memory size in kilobytes, multiply this value by 4)
 
-## wcha is waiting channel, the name of the kernel function in which the process is sleeping (waiting for some resource):
-## "-" means running
+## wcha is waiting channel, the name of the kernel function in which the process is sleeping (waiting for some resource):
+## "-" means running
 ## poll_s means the process is waiting for a poll or select system call to finish
-## do_wait is waiting for child process to finish
+## do_wait is waiting for child process to finish
 ## do_sys means waiting for a system call to complete (opening file, executing program etc)
-## do_sig means waiting for signal processing or handling in the kernel (stopped program for instance)
+## do_sig means waiting for signal processing or handling in the kernel (stopped program for instance)
 ## do_select means process is waiting for a file descriptor to become ready for i/o operations
 
 renice -n 10 -p pid ## set niceness of a process
-## increase niceness is allowed to users, decrease nicecess needs root rights
+## increase niceness is allowed to users, decrease nicecess needs root rights
 nice -n 10 vim ## start process with specifix niceness value
 
-#? SIGNALS
+#? SIGNALS
 
-kill pid ## kill process giving its id - sends SIGTERM by default
-kill -9 pid ## kill process by sending SIGKILL
+kill pid ## kill process giving its id - sends SIGTERM by default
+kill -9 pid ## kill process by sending SIGKILL
 killall <processname> ## kill process giving its name
 killall -s <signal> <processname> ## send signal to a process giving its name
 
 SIGTERM ## ask a process to cleanly terminate - VALUE 15
-SIGKILL ## fore a process to terminate uncleanly - VALUE 9
+SIGKILL ## fore a process to terminate uncleanly - VALUE 9
 
 pkill -u <user> ## terminate all processes running under the user and log him out

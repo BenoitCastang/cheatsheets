@@ -10,12 +10,12 @@ sudo -g groupname command ## perform command as another group (and same user)
 sudo visudo ## edit /etc/sudoers file
 sudo update-alternatives --config editor ## edit visudo editor
 
-username ALL=(ALL) ALL ## rights for one user to user sudo
+username ALL=(ALL) ALL ## rights for one user to user sudo
 %sudo ALL=(ALL:ALL) ALL ## rights for the sudo group to use sudo 
 ## the % means its a group
 ## first ALL means all hosts
-%sudo tty1=(ALL) ALL ## restrict commands from tty1 only
-%sudo ubuntu=(ALL) ALL ## restrict commands from one machine only
+%sudo tty1=(ALL) ALL ## restrict commands from tty1 only
+%sudo ubuntu=(ALL) ALL ## restrict commands from one machine only
 ## second ALL means switching to all users is allowed
 ## third ALL means switching to all groups is allowed
 ## fourth ALL means executing all commands is allowed

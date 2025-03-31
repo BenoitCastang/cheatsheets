@@ -10,39 +10,39 @@ tar -xf archive.tar ## unpack file to current directory
 -x ## extract
 -f ## file: file to unpack
 
-tar -xf archive.tar -C <path> ## specify where to extract files
-tar -v ## verbose mode
+tar -xf archive.tar -C <path> ## specify where to extract files
+tar -v ## verbose mode
 
-## compressing with gzip (-z)
+## compressing with gzip (-z)
 tar -czf archive.tar.gz file1 file2 ## aggregate and compress in the same command
 tar -xzf archive.tar.gz ## unpack and decompress at the same time
-## compressing with bzip2 (-j)
+## compressing with bzip2 (-j)
 tar -cjf archive.tar.bz file1 file2 ## aggregate and compress in the same command
 tar -xjf archive.tar.bz ## unpack and decompress at the same time
 
-zcat archive.tar.gz ## print gz files content
+zcat archive.tar.gz ## print gz files content
 
-## divide file into smaller parts
+## divide file into smaller parts
 
 #? CPIO
 
-## copy in/out: deal with archives through stdin
+## copy in/out: deal with archives through stdin
 
 -o ## copy-out mode - create archive
-cpio -o > archive.cpio ## make archive from files through user input
-echo file | cpio -o > archive.cpio ## make archive from file
-ls | cpio -o > archive.cpio ## make archive from files piped
+cpio -o > archive.cpio ## make archive from files through user input
+echo file | cpio -o > archive.cpio ## make archive from file
+ls | cpio -o > archive.cpio ## make archive from files piped
 find . -name "*.sh" | cpio -o > archive.cpio ## with find
-cpio -o > archive.cpio < file ## file must be a list of files
-cpio -o < file > archive.cpio ## file must be a list of files
+cpio -o > archive.cpio < file ## file must be a list of files
+cpio -o < file > archive.cpio ## file must be a list of files
 
-cpio -o | gzip > archive.cpio.gz ## compress archive
+cpio -o | gzip > archive.cpio.gz ## compress archive
 
--i ## copy-in mode - extract archive
+-i ## copy-in mode - extract archive
 cpio -id < archive.cpio ## extract files - d flag enable support of directories
 
--p ## copy-pass mode - copy files
-find /home/user/source -print | cpio -pdm /home/user/destination ## d flag keeps directory structure and m flag keeps metadata
+-p ## copy-pass mode - copy files
+find /home/user/source -print | cpio -pdm /home/user/destination ## d flag keeps directory structure and m flag keeps metadata
 
-cpio -v ## verbose mode
-cat archive.cpio ## print archive text
+cpio -v ## verbose mode
+cat archive.cpio ## print archive text

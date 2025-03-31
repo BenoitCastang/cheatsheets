@@ -1,78 +1,78 @@
-MTA ## Mail Transfer Agent
-## responsible for sending and routing emails between mail servers
-## uses SMTP (Simple Mail Transfer Protocol) to transfer messages
+MTA ## Mail Transfer Agent
+## responsible for sending and routing emails between mail servers
+## uses SMTP (Simple Mail Transfer Protocol) to transfer messages
 ## receives emails, determines if they are destined for a local user and if so passes them to the MDA
-MDA ## Mail Delivery Agent
-## takes the email from the MTA and delivers it to the recipient's mailbox
-## works with protocols like POP3 or IMAP
-MUA ## Mail User Agent
+MDA ## Mail Delivery Agent
+## takes the email from the MTA and delivers it to the recipient's mailbox
+## works with protocols like POP3 or IMAP
+MUA ## Mail User Agent
 ## the user interface to read, compose, and send emails
 
-/var/spool/mail/user ## location for unread messages
-/home/user/mbox ## location for read messages
+/var/spool/mail/user ## location for unread messages
+/home/user/mbox ## location for read messages
 
-#? BINMAIL
+#? BINMAIL
 
-## text MUA
+## text MUA
 ## named so because located in /bin/mail
 
 mail ## read mails
-mail -f ## read mbox messages
+mail -f ## read mbox messages
 
-mail john ## send mail to john
+mail john ## send mail to john
 ## mail then prompts the user for the subject and the mail body
 ## ctrl-d to end writing mail body
 mail john@foobar.com ## send mail to another domain
 
 mail -s Subject john ## enter the subject non interactively
 echo hello | mail john ## enter the mail body non interactively
-mail john < file.txt ## send content of a file
+mail john < file.txt ## send content of a file
 
-## commands within binmail
+## commands within binmail
 
-ENTER ## read current message
-- ## read previous message
+ENTER ## read current message
+- ## read previous message
 2 ## read message 2
-h ## headers: get back to mail list
+h ## headers: get back to mail list
 
-x ## exit mails without saving changes
-q ## quit mails saving changes
+x ## exit mails without saving changes
+q ## quit mails saving changes
 
-d ## delete current message (not sent to mbox)
-d 2 ## delete message 2
-d 1 2 3 ## delete multiple messages
-d 1-3 ## delete range of mes
-u 2 ## undelete message 2 (works only before quitting)
+d ## delete current message (not sent to mbox)
+d 2 ## delete message 2
+d 1 2 3 ## delete multiple messages
+d 1-3 ## delete range of mes
+u 2 ## undelete message 2 (works only before quitting)
 
-s ## save current message to mail box
+s ## save current message to mail box
 s file.txt ## save current message to specific file
 
 mail ## send mail
-R ## reply to current mail
-r ## reply to all (sender include)
+R ## reply to current mail
+r ## reply to all (sender include)
 
-#? SMTP
+#? SMTP
 
-## Simple Mail Transfer Protocol
+## Simple Mail Transfer Protocol
 
 telnet host 25 ## open SMTP session with host
 
-## Sending a message with raw SMTP protocol
-HELO host ## opening greeting from client
-MAIL FROM:john@host ## identifies sender of message
+## Sending a message with raw SMTP protocol
+HELO host ## opening greeting from client
+MAIL FROM:john@host ## identifies sender of message
 RCPT TO:bob@host ## identifies recipient
 DATA ## identifies start of message
-Hello, World! ## content of message
-. ## dot alone on a line means the end of the message
-QUIT ## stop the SMTP session
+Hello, World! ## content of message
+. ## dot alone on a line means the end of the message
+QUIT ## stop the SMTP session
 
-## SMTP Response Codes
-200 ## ok
-500 ## error
+## SMTP Response Codes
+200 ## ok
+500 ## error
 
-## ESMTP - Extended SMTP
-EHLO ## start ESMTP session
-STARTTLS ## encrypted sessions
+## ESMTP - Extended SMTP
+EHLO ## start ESMTP session
+STARTTLS ## encrypted sessions
 
 #? POP3
 
@@ -80,10 +80,10 @@ STARTTLS ## encrypted sessions
 
 telnet host 110 ## connect to pop3 server
 
-USER john ## connect as john
-PASS password ## enter password
-LIST ## list inbox emails
-RETR 2 ## read message number 2
-DELE 2 ## delete message number 2
-RSET ## reset deleted message if session has not been ended before
-QUIT ## end session and save changes
+USER john ## connect as john
+PASS password ## enter password
+LIST ## list inbox emails
+RETR 2 ## read message number 2
+DELE 2 ## delete message number 2
+RSET ## reset deleted message if session has not been ended before
+QUIT ## end session and save changes

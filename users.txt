@@ -1,10 +1,10 @@
-#? WHO
+#? WHO
 
 whoami ## print effective username
 who ## list active logins on the system
 w ## list more information
 
-#? ID
+#? ID
 
 id ## get uid, gid and groups of current user
 id <user> ## get id of specific user
@@ -17,14 +17,14 @@ id -G ## print all group ids
 lsuser ## print all real users of the system - personal alias
 users ## print the user names of users currently logged in to the user host
 
-#? SU
+#? SU
 
 su [user] ## Switch user
 su - [user] ## Switch user resetting the environment
 su ## Switch to root
 logout ## Log out command
 
-#? USERADD
+#? USERADD
 
 useradd username ## create a user
 useradd -m username ## create the user's home directory at the same time
@@ -34,7 +34,7 @@ useradd -m -k skeldir username ## specify a skeldir other than the default one
 useradd -r username ## create a system user (that does not login directly but does background tasks etc + will be under uid 1000 so not shown in the login screen)
 useradd -c comment username ## add user info
 useradd -e YYYY-MM-DD username ## set the expiry date for the account - the user cannot login and must contact the system administrator
-useradd -f numberofdays username ## set grace period - user must change his password
+useradd -f numberofdays username ## set grace period - user must change his password
 useradd -g gid username ## set gid
 useradd -G group1,group2 username ## define supplementary groups
 useradd -s /bin/bash username ## set specific login shell
@@ -49,17 +49,17 @@ useradd -D ## show user creation default values
 
 UID_MIN and UID_MAX ## range of possible user id when using useradd
 GID_MIN and GID_MAX ## range of possible group id when using groupadd
-CREATE_HOME ## whether a home directory is created by default for new users
+CREATE_HOME ## whether a home directory is created by default for new users
 USERGROUPS_ENAB ## whether is created a private groupe for each new user - otherwise new users are put in the users group
-MAIL_DIR ## mail spool directory
-PASS_MAX_DAYS and PASS_MIN_DAYS ## max and min days of using a password
-PASS_MIN_LENGTH ## password minimum length
-PASS_WARN_AGE ## number of warning days before a password expires
+MAIL_DIR ## mail spool directory
+PASS_MAX_DAYS and PASS_MIN_DAYS ## max and min days of using a password
+PASS_MIN_LENGTH ## password minimum length
+PASS_WARN_AGE ## number of warning days before a password expires
 
 #? SKEL
 
 /etc/skel ## default content of home directory for new users for both useradd and adduser
-$SKEL ## variable whose value is absolute path to the skel directory - default is /etc/skel
+$SKEL ## variable whose value is absolute path to the skel directory - default is /etc/skel
 
 #? USERMOD
 
@@ -68,7 +68,7 @@ usermod -l user ## rename user login name
 usermod -d /path/to/new/home user ## define a new home directory (does not create the directory)
 usermod -d /path/to/new/home -m user ## rename home directory (define new one and mode content and delete old directory)
 usermod -s /bin/bash user ## change the login shell for the user
-usermod -c 'comment' user ## change comment
+usermod -c 'comment' user ## change comment
 usermod -u uid user ## change uid for the account
 usermod -g primarygroup user ## change primary group of a user
 usermod -G secondarygroup John ## set a new list of secondary groups for a user
@@ -76,25 +76,25 @@ usermod -G secondarygroup1,sedondarygroup2 John ## set multiple groups
 usermod -aG secondarygroup username ## append secondary group to a user
 usermod -aG secondarygroup1,secondarygroup2 username ## append multiple secondary groups
 usermod -e YYYY-MM-DD user ## change account expiration date
-usermod -f numberofdays username ## change grace period - user must change his password
+usermod -f numberofdays username ## change grace period - user must change his password
 usermod -L user ## lock user account - adds an exclamation mark in front of the encrypted password in the /etc/shadow file, thus disabling access with a password for the user
-usermod -U user ## unlock user acount - removes exclatmation mark of /etc/shadow
+usermod -U user ## unlock user acount - removes exclatmation mark of /etc/shadow
 
 #? USERDEL
 
 userdel user ## remove user
 userdel -r user ## remove user and delete home directory
 
-#? FINGER
+#? FINGER
 
-## show comments
+## show comments
 finger user ## show GECOS/comment field
 finger -l user ## long listing
 finger -s user ## short listing
 
-#? CHFN
+#? CHFN
 
-## change finger - modify comments
+## change finger - modify comments
 chfn user ## change GECOS/comment field info interactively
 chfn -f fullname user ## change full name
 chfn -r room user ## change room
@@ -102,13 +102,13 @@ chfn -w workphone user ## change work-phone
 chfn -h homephone user ## change home-phone
 chfn -o other user ## changer other info
 
-#? CHSH
+#? CHSH
 
 chsh ## change user shell interactively
 chsh -s /usr/bin/zsh ## change user's default shell, takes effect at next login
 /etc/shells ## list of available shells
 
-#? PASSWD
+#? PASSWD
 
 /ect/passwd ## List of users and info related to accounts: username, x for hidden password, uid, gid, GECOS/comment field, home directory, shell path
 vipw ## on redhat, ensure no other admin is editing it at the same time
@@ -126,7 +126,7 @@ passwd -x numberofdays user ## set maximum days
 passwd -w numberofdays user ## set warn days
 passwd -i numberofdays user ## set grace period (not standard, prefer chage -I)
 
-#? CHAGE
+#? CHAGE
 
 ## change age information of password
 chage username ## change info interactively
@@ -152,9 +152,9 @@ vigr ## on redhat, ensure no other admin is editing it at the same time
 
 /etc/gshadow ## list of groups: group name, encrypted password, group administrators (can modify the group password and the group members without being root with the gpasswd command), group members
 encrypted password ## possible value are:
-*, !, !* ## user outside of group cant access even with the password
-!! ## the group has no password yet, so it cant be accessed either by a user outside of the group
-hashed password ## user outside of group can access if he has the password
+*, !, !* ## user outside of group cant access even with the password
+!! ## the group has no password yet, so it cant be accessed either by a user outside of the group
+hashed password ## user outside of group can access if he has the password
 empty ## any user can access without a password
 
 pwck ## check consistency between /ect/group and /etc/gshadow and whether users have a home directory
@@ -181,20 +181,20 @@ groupmems -g groupname -l ## list secondary members of the group
 #? NEWGRP
 
 ## open new shell session with a specific group as user's primary group
-## hence all files created in this session are owned by this group
+## hence all files created in this session are owned by this group
 
 newgrp ## open session with default group
 newgrp users ## open session with specific primary group
-id ## see the new groups of the user
+id ## see the new groups of the user
 
 ## the group specified must be among secondary groups of the user, otherwise a password is asked
-gpasswd groupname ## change password for the group
+gpasswd groupname ## change password for the group
 ## if user is member of the group, no password is required, if user is not, he can connect to it with the password
 
-#? ADDUSER
+#? ADDUSER
 
 adduser username ## create user
-## perl script using useradd, prompt for password and personal info, automatically create home directory, copy conf files from /etc/skel, configure bash as shell, create a group with the name of the user and define it as primary group for him
+## perl script using useradd, prompt for password and personal info, automatically create home directory, copy conf files from /etc/skel, configure bash as shell, create a group with the name of the user and define it as primary group for him
 ## useradd is a package containing also addgroup, deluser and delgroup
 
 /etc/default/adduser.conf ## config file for adduser

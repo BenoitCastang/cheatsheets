@@ -1,7 +1,7 @@
 apt install nginx ## install nginx
 
 /etc/nginx/nginx.conf ## nginx conf main file
-/var/www/html ## default folder for site files
+/var/www/html ## default folder for site files
 
 /etc/nginx/sites-available/ ## directory where site configuration files are stored
 /etc/nginx/sites-enabled/ ## directory where enabled sites are stored

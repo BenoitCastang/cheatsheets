@@ -1,42 +1,42 @@
-#? VI MODE
+#? VI MODE
 
 set -o vi ## switch to vim mode in bash
 ## change vi mode commands in .inputrc
-set editing-mode vi ## set the default editing mode to vi
+set editing-mode vi ## set the default editing mode to vi
 set keymap vi-command ## set the default keymap to vi-command mode
 jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
 
-#? HELP
+#? HELP
 
 help {command} | only ## open help fullscreen
 CTRL-] ## jump to a subject
 
-#? ECHO
+#? ECHO
 =======
 
 echo "message" ## echo a message
 echomsg "message" ## echo a message that remains in the message-history
 messages ## show message-history
 
-#? OPTIONS
+#? OPTIONS
 ==========
 
-## two types of options, boolean options and options with value
-set number ## set boolean option
-set nonumber ## unset boolean option
-set numberwidth=4 ## set option with value
-set number! ## toggle option
-set number numberwidth=4 ## set multiple options at the same time
+## two types of options, boolean options and options with value
+set number ## set boolean option
+set nonumber ## unset boolean option
+set numberwidth=4 ## set option with value
+set number! ## toggle option
+set number numberwidth=4 ## set multiple options at the same time
 
-set number? ## check boolean option
-set numberwidth? ## check option with value
-set number? numberwidth? ## check multiple options at the same time
+set number? ## check boolean option
+set numberwidth? ## check option with value
+set number? numberwidth? ## check multiple options at the same time
 
-setlocal number ## set option only in current buffer
+setlocal number ## set option only in current buffer
 
-## options
+## options
 
-wrap ## lines extend on multiple lines
+wrap ## lines extend on multiple lines
 nowrap ## lines extend beyond horizontal limit of the screen
 
 number ## enable absolute line numbers
@@ -45,33 +45,33 @@ relativenumber ## enable relative line numbers
 norelativenumber ## disable relative line numbers
 
 ## enable list for debugging whitespace issues (displays a character for end of line, tab etc instead of a white space)
-list ## enable displaying listchars
-nolist ## disable listchars
+list ## enable displaying listchars
+nolist ## disable listchars
 listchars=tab:>-,trail:O,eol:$,space:⋅,nbsp:+$,extends:>,precedes:< ## customize listchars
 
 ## fillchars - characters that fill empty or non text areas in vim
 
-spell ## enable check for misspelled words
+spell ## enable check for misspelled words
 nospell ## disable check for misspelled words
-spelllang=eng ## set spell language
+spelllang=eng ## set spell language
 
-signcolumn=yes ## always show
+signcolumn=yes ## always show
 signcolumn=no ## never show
 signcolumn=auto ## depends wether there is something to display or not
 
-#? MAPPING
+#? MAPPING
 
-map - dd ## set binding
-map <space> dd ## special characters
-map <c-d> dd ## ctrl key
-map <s-tab> ## shift/maj key
-unmap - ## remove binding
+map - dd ## set binding
+map <space> dd ## special characters
+map <c-d> dd ## ctrl key
+map <s-tab> ## shift/maj key
+unmap - ## remove binding
 map - <nop> ## set key to no operation
 
-map ## create a key binding taking account of other custom bindings
+map ## create a key binding taking account of other custom bindings
 noremap ## create a key binding using default bindings
 
-map ## key binding from all modes but insert mode
+map ## key binding from all modes but insert mode
 nmap ## key binding from normal mode
 imap ## key binding from insert mode
 cmap ## key binding from command-line mode
@@ -79,150 +79,150 @@ vmap ## key binding from visual mode
 omap ## key binding from operator-pending mode (an operator has been entered and vim waits for a motion)
 
 nnoremap, inoremap, cnoremap, vnoremap, onoremap ## key binding from respective modes using default bindings
-nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective modes''
+nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective modes''
 
-## examples
+## examples
 ## operator-pending mode, after an operator (y, d, c) waits for a motion and execute operation between current cursor position and final cursor position (or selected text if visual mode)
 onoremap j ejela( ## complex movement
-onoremap j /fi<cr> ## dj will remove text till "fi" is found
+onoremap j /fi<cr> ## dj will remove text till "fi" is found
 
 ## leader key
 let mapleader="," ## set , as leader key
-let maplocalleader="," ## set , as local leader key - alternative leader key for specific file types and no conflict with global leader key
+let maplocalleader="," ## set , as local leader key - alternative leader key for specific file types and no conflict with global leader key
 
-## special characters
+## special characters
 
-<esc> ## escape
-<space> ## space bar
-<leader> ## leader key
+<esc> ## escape
+<space> ## space bar
+<leader> ## leader key
 <localleader> leader for a specific buffer
-<CR> ## enter
-<C-d> ## ctrl + d
+<CR> ## enter
+<C-d> ## ctrl + d
 <M-d> ## alt + d
 
-## unused or useless keys
+## unused or useless keys
 \ ## unused
-| ## go to begining of line or go to specific column with 5|
-? ## reverse / so useless
-M ## go to middle of the screen
+| ## go to begining of line or go to specific column with 5|
+? ## reverse / so useless
+M ## go to middle of the screen
 z
-K ## go to man page of current word
+K ## go to man page of current word
 s
 G
 [
 ]
 (
 )
-Y ## same as yy
+Y ## same as yy
 R
 Q
-+ ## next line
-- ## previous line
-_ ## beginning of line
++ ## next line
+- ## previous line
+_ ## beginning of line
 &
 %
 !
 ~
 `
 
-#? ABBREVIATIONS
+#? ABBREVIATIONS
 
-## define shortcuts for bits of text
-## the big difference with mappings is that the abbreviation is replaced only if followed by non-word character (space, enter, period, comma...)
+## define shortcuts for bits of text
+## the big difference with mappings is that the abbreviation is replaced only if followed by non-word character (space, enter, period, comma...)
 abbreviate ## print list of abbreviations
-i ## insert mode abbreviations
-c ## command-line mode abbreviations
-! ## global abbreviations (for both modes)
+i ## insert mode abbreviations
+c ## command-line mode abbreviations
+! ## global abbreviations (for both modes)
 iabbreviate ## print list of insert mode abbreviations
 cabbreviate ## print list of command-line mode abbreviations
 
-abbreviate teh the ## set global abbreviation
-iabbreviate teh the ## set insert mode abbreviation
-cabbreviate teh the ## set command-line mode abbreviation
+abbreviate teh the ## set global abbreviation
+iabbreviate teh the ## set insert mode abbreviation
+cabbreviate teh the ## set command-line mode abbreviation
 
 unabbreviate teh ## remove global abbreviation
 iunabbreviate teh ## remove insert mode abbreviation
 cunabbreviate teh ## remove command-line abbreviation
 
-abbreviate btw by the way ## abbreviation expands to multiple words
+abbreviate btw by the way ## abbreviation expands to multiple words
 
-#? AUTOCOMMANDS
+#? AUTOCOMMANDS
 
 ## autocommands run commands when events happen
 autocmd <event> <pattern> <command> ## set autocommand rule
-autocmd ## print active rules
+autocmd ## print active rules
 autocmd <event> ## print active rules for a specific event
 autocmd <event> <pattern> ## print active rules for a specific event and a specific filter
 
-autocmd BufWritePre * :normal gg=G ## before saving file, indent it automatically
-autocmd BufWritePost *.txt :echo "File saved successfully" ## filter pattern, command works only on .txt files 
+autocmd BufWritePre * :normal gg=G ## before saving file, indent it automatically
+autocmd BufWritePost *.txt :echo "File saved successfully" ## filter pattern, command works only on .txt files 
 
 autocmd BufReadPost,BufNewFile * :normal OHere is your file ! ## multiple events can trigger the command
 autocmd BufReadPost *.html,*.js :normal OHere is your html or js file ! ## multiple filter patterns
 
 autocmd FileType python nnoremap <buffer> <localleader>c I//<esc> ## automatic comment addition only for python files
-set filetype? ## print buffer's detected filetype
+set filetype? ## print buffer's detected filetype
 set filetype=python ## set buffer's filetype
-autocmd filetype python ## list set filetype autocommands
+autocmd filetype python ## list set filetype autocommands
 
 ## autocommand groups
 ## autocommand rules are duplicated each time they events are triggered or when vimrc is sourced: the same are added instead of replacing them
-## groups can be cleared with autocmd!, so previous commands in the same group are deleted
+## groups can be cleared with autocmd!, so previous commands in the same group are deleted
 augroup <groupname>
-	autocmd! ## clear autocommand group
-	autocmd BufLeave * :echo "Hello,"
-	autocmd BufLeave * :echo "World!"
+ autocmd! ## clear autocommand group
+ autocmd BufLeave * :echo "Hello,"
+ autocmd BufLeave * :echo "World!"
 augroup END
 
 ## events
 
 BufNewFile ## when is opened a buffer with a new file
 BufEnter ## when entering a buffer
-BufLeave ## when leaving a buffer
+BufLeave ## when leaving a buffer
 
 BufWritePre ## before saving file
-BufWriteCmd ## instead of saving file
+BufWriteCmd ## instead of saving file
 BufWritePost ## after saving file
 
-TextChanged ## text was changed
-InsertEnter ## entering insert mode
-InsertLeave ## leaving insert mode
+TextChanged ## text was changed
+InsertEnter ## entering insert mode
+InsertLeave ## leaving insert mode
 
 FileType ## when buffer filetype is set by vim
 
 VimEnter ## entering vim
 VimLeave ## leaving vim
 
-#? MACROS
+#? MACROS
 
 qj ## record a macro
-q ## quit recording
+q ## quit recording
 @j ## run macro
 
-5@j ## run macro 5 times
-2,5norm @j ## run same macro on lines 2 to 5
-%norm @j ## run macro on whole file
+5@j ## run macro 5 times
+2,5norm @j ## run same macro on lines 2 to 5
+%norm @j ## run macro on whole file
 g/pattern/norm @j ## run macro when pattern matches
 
 ## macro are saved in registers
-registers ## see macros
-let @j="" ## delete macro
+registers ## see macros
+let @j="" ## delete macro
 
 #? REGISTERS
 
-"ay$ ## in register "a", copy till end of line
-"ap ## from register "a", paste text
+"ay$ ## in register "a", copy till end of line
+"ap ## from register "a", paste text
 
 #? WINDOWS
 
 ## vim command-line window
 q: ## q: in normal mode allows editing history in vim mode
 
-#? REPEAT
+#? REPEAT
 
-. ## repeat the previous action
+. ## repeat the previous action
 ; ## repeat the previous f/F/t/T action
-, ## repeat the previous f/F/t/T action in reverse
+, ## repeat the previous f/F/t/T action in reverse
 
 #? INCREMENT
 
@@ -230,18 +230,18 @@ c-a ## increment by 1 next number
 c-x ## decrement by 1 next number
 5c-a ## increment by 5
 
-#? CASE
+#? CASE
 
 gUmotion ## make uppercase
 gu<motion> ## make lowercase
 u ## in visual mode, make selected text lowercase
 U ## in visual mode, make selected text uppercase
 
-#? READ
+#? READ
 
 read ## insert content from outsite
 read file ## insert content of a file
-read !command ## insert output of a command
+read !command ## insert output of a command
 
 #? AUTOCOMPLETION
 
@@ -249,23 +249,23 @@ c-n ## next match
 c-p ## previous match
 c-x ## accept selection
 c-x c-f ## auto complete file path
-c-x c-l ## auto complete line
+c-x c-l ## auto complete line
 
-#? FOLD
+#? FOLD
 
 zo ## unfold under the cursor
 zf ## fold under the cursor
 zR ## open all folds
 zM ## close all folds
 
-#? SAVE
+#? SAVE
 
-write ## save
-quit ## quit
-wq ## save and quit
-q! ## quit without saving
-ZZ ## save and quit
-ZQ ## quit without saving
+write ## save
+quit ## quit
+wq ## save and quit
+q! ## quit without saving
+ZZ ## save and quit
+ZQ ## quit without saving
 
 #? SWAPPING LETTERS
 
@@ -277,186 +277,186 @@ cs"' ## change surround " to '
 ysiw" ## you surround inner word with "
 ds" ## delete surround "
 
-#? MOTIONS
+#? MOTIONS
 
-2 ## go line 2
-2p ## go to line 2
+2 ## go line 2
+2p ## go to line 2
 
-e ## go end of word
-E ## go enf of WORD
+e ## go end of word
+E ## go enf of WORD
 
-w ## go begging of word
-W ## go begging of WORD
+w ## go begging of word
+W ## go begging of WORD
 
-b ## go beginning of previous word
-B ## go beginning of previous WORD
+b ## go beginning of previous word
+B ## go beginning of previous WORD
 
-^ ## go beginning of line
-$ ## go end of line
+^ ## go beginning of line
+$ ## go end of line
 
-#? EASYMOTION
+#? EASYMOTION
 
-<leader><leader>s ## easymotion
-<leader><leader>j ## to line below
-<leader><leader>k ## to line above
-4j ## four lines down
+<leader><leader>s ## easymotion
+<leader><leader>j ## to line below
+<leader><leader>k ## to line above
+4j ## four lines down
 4k ## four lines up
 4h ## four characters left
 4l ## four characters right
-4G ## go line 4
+4G ## go line 4
 
-#? NEXT OCCURRENCE
+#? NEXT OCCURRENCE
 
 * ## go to next identical word
-# ## go to previous identical word
+# ## go to previous identical word
 
-reg ## buffer of previously yanked or copied text
+reg ## buffer of previously yanked or copied text
 
-#? ROD13
+#? ROD13
 
-g? ## 13 letters offset to encrypt text
+g? ## 13 letters offset to encrypt text
 
-#? MARKS
+#? MARKS
 
-## marks are persistent through files and exiting vim
-## they work in visual mode and operator pending mode
+## marks are persistent through files and exiting vim
+## they work in visual mode and operator pending mode
 
-## local marks
-ma ## set mark of the cursor position to letter a
-'a ## go to that line
-`a ## go to exact cursor position
+## local marks
+ma ## set mark of the cursor position to letter a
+'a ## go to that line
+`a ## go to exact cursor position
 
 ## global marks
-ma ## works through multiple files
-'a ## go to that line of the other file
-`a ## go to exact cursor position of the other file
+ma ## works through multiple files
+'a ## go to that line of the other file
+`a ## go to exact cursor position of the other file
 
 :## predefined special marks
-'' ## go to line of last position
-'" ## go to line where vim was exited
-'^ ## go to line of last insert
-'. ## go to line of last change
+'' ## go to line of last position
+'" ## go to line where vim was exited
+'^ ## go to line of last insert
+'. ## go to line of last change
 
 ## command-line
-mark a ## set a mark
-marks ## see all marks
-delmarks a ## delete a mark
-delmarks ! ## delete all marks
+mark a ## set a mark
+marks ## see all marks
+delmarks a ## delete a mark
+delmarks ! ## delete all marks
 
-#? BUFFERS
+#? BUFFERS
 
-## buffers are files loaded in vim - all modifications or configurations are temporary stored in buffers before the file is saved
+## buffers are files loaded in vim - all modifications or configurations are temporary stored in buffers before the file is saved
 ## buffers can be hidden, not showed on screen, but in vim memory
 
-vim <file> ## open a buffer
-vim <file1> <file2> ## open two buffers at the same time
-e <file> ## open a buffer
+vim <file> ## open a buffer
+vim <file1> <file2> ## open two buffers at the same time
+e <file> ## open a buffer
 
-ls ## display open buffers
-buffers ## display open buffers
+ls ## display open buffers
+buffers ## display open buffers
 
-buffer 1 ## switch to buffer 1
-bnext ## switch to next buffer
-bprevious ## switch to previous buffer
-buffer# ## swith to previous buffer
+buffer 1 ## switch to buffer 1
+bnext ## switch to next buffer
+bprevious ## switch to previous buffer
+buffer# ## swith to previous buffer
 
-bdelete 1 ## unload buffer 1
-bdelete ## unload current buffer
+bdelete 1 ## unload buffer 1
+bdelete ## unload current buffer
 
 map <buffer> h dd ## set a mapping only in current buffer - has priority over not buffer-specific mappings
 
-#? EX COMMANDS
+#? EX COMMANDS
 
 ## substitution
 
 s/pattern/replacement ## replace first match of current line
 4s/pattern/replacement ## replace on line 4
 1,10s/pattern/replacement ## replace on lines 1 to 10
-%s/pattern/replacement ## replace on all file
+%s/pattern/replacement ## replace on all file
 
 s/pattern/replacement/g ## replace all matches
 s/pattern/replacement/c ## ask confirmation
 
 s/\d/#/g ## works with regex - replace digits with hastags
 
-## delete characters
+## delete characters
 
 s/pattern// ## replace match by nothing
-%s/\s\+$//e ## replace by nothing all whitespaces at the end of lines, without showing errors
+%s/\s\+$//e ## replace by nothing all whitespaces at the end of lines, without showing errors
 
-## delete lines
+## delete lines
 
 /pattern/d ## delete current line if matches pattern
 g/pattern/d ## delete all lines matching pattern
 g/pattern/s/foo/bar/g ## replace if line matches pattern
 
-#? COLORS
+#? COLORS
 
 ## change colors of vim
-highlight <group> <attribute> ## set rule
+highlight <group> <attribute> ## set rule
 highlight ## print rules of every group
-highlight <group> ## print rules of one group
+highlight <group> ## print rules of one group
 
 ## attributes
 
-ctermbg ## background color
+ctermbg ## background color
 ctermfg ## foregroud color
-cterm ## text-style attributes: bold, italic, underline, reverse (colors)
+cterm ## text-style attributes: bold, italic, underline, reverse (colors)
 
 ## groups
 
 Normal ## basic text
-NonText ## empty lines
+NonText ## empty lines
 
 ## gutter
-LineNr ## line numbers colum
-SignColumn ## Errors colums
+LineNr ## line numbers colum
+SignColumn ## Errors colums
 
 ## xtermcolors
 
-## system colors
-0	## Black
-1	## Maroon
-2	## Green
-3	## Olive
-4	## Navy
-5	## Purple
-6	## Teal
-7	## Silver
-8	## Grey
-9	## Red
-10 ##	Lime
-11 ##	Yellow
-12 ##	Blue
-13 ##	Fuchsia
-14 ##	Aqua
-15 ##	White
+## system colors
+0 ## Black
+1 ## Maroon
+2 ## Green
+3 ## Olive
+4 ## Navy
+5 ## Purple
+6 ## Teal
+7 ## Silver
+8 ## Grey
+9 ## Red
+10 ## Lime
+11 ## Yellow
+12 ## Blue
+13 ## Fuchsia
+14 ## Aqua
+15 ## White
 ## non-system colors
 16-255 ## shades of colors
 none ## transparency
 
-#? INTERACT THROUGH COMMAND LINE
+#? INTERACT THROUGH COMMAND LINE
 
 ## normal command to interact as in normal mode through command line - from autocommands or from outside vim
 normal G ## go last line
 normal iblop ## go insert mode, write blop
 normal viw ## go visual mode, select inside word
-normal :w ## impossible to use command-line mode through normal command
-normal /pattern ## impossible to use command-line mode through normal command
-normal! ## ignore custom mappings
+normal :w ## impossible to use command-line mode through normal command
+normal /pattern ## impossible to use command-line mode through normal command
+normal! ## ignore custom mappings
 
 1,10normal A; ## interact with multiple lines
-%normal A; ## interact with whole file
-g/pattern/normal A; ## interact with matching pattern
+%normal A; ## interact with whole file
+g/pattern/normal A; ## interact with matching pattern
 
-/blop ## search
-/ ## in normal mode, typing / goes directly to search mode, which is command-line but erverything begins automatically by /
+/blop ## search
+/ ## in normal mode, typing / goes directly to search mode, which is command-line but erverything begins automatically by /
 
-%s/pattern/replacement/gc ## ex commands
+%s/pattern/replacement/gc ## ex commands
 
-#? INTERACT WHILE OUTSIDE OF VIM
+#? INTERACT WHILE OUTSIDE OF VIM
 
 ## vim -c put you in vim in command-line mode - all interactions from command line is so valid
-vim -c 'normal iblop' ## do command through command line (and stay in vim)
+vim -c 'normal iblop' ## do command through command line (and stay in vim)
 vim -c 'normal Gocrac' -c 'wq' file ## chain commands, finish getting out of vim
 vim -c '/pattern' file ## search in file

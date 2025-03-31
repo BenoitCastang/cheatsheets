@@ -5,8 +5,8 @@
 apt-get update ## update local package index to get info and sources of new and updated packages
 apt update ## shorthand
 
-apt-get install package ## install package from online source
-apt install package ## shorthand
+apt-get install package ## install package from online source
+apt install package ## shorthand
 apt-get install -f package ## fixing broken dependecies
 apt install -f package ## shorthand
 
@@ -18,7 +18,7 @@ apt purge package ## shorthand
 apt autoremove ## remove unnecessary packages that were installed as dependencies but are no longer needed
 apt autoremove --purge  ## purge also
 
-apt-get upgrade ## install all new version available of packages
+apt-get upgrade ## install all new version available of packages
 apt upgrade ## shorthand
 apt dist-upgrade ## upgrade the system while also handling dependencies intelligently
 
@@ -30,13 +30,13 @@ apt list --installed ## echo list of installed packages
 
 #? APT-CACHE
 
-apt-cache ## operations on the package index
+apt-cache ## operations on the package index
 apt-cache search pattern ## output list of packages containing the pattern in either the name, description or files
 apt search pattern ## shorthand
 apt-cache show package ## get full info about a package
 apt show package ## shorthand
 
-/etc/apt/sources.list ## list of package sources
+/etc/apt/sources.list ## list of package sources
 /etc/apt/sources.list.d/ ## folder for additional source files
 /etc/apt/sources.list.d/file.list ## file example, source lines must be added in it
 deb http://us.archive.ubuntu.com/ubuntu/ jammy main restricted ## typical source line
@@ -45,41 +45,41 @@ archive-type url distribution components ## source line syntax
 deb ## binary packages archive type
 deb-src ## source packages archive type (containing only source code)
 ## Components :
-	## Ubuntu :
-		main ## contains officially supported, open-source packages.
-		restricted ## contains officially supported, closed-source software, like device drivers for graphic cards, for example.
-		universe ## contains community maintained open-source software.
-		multiverse ## contains unsupported, closed-source or patent-encumbered software.
-	## Debian
-		main ## consists of packages compliant with the Debian Free Software Guidelines (DFSG), which do not rely on software outside this area to operate and are considered to be part of the Debian distribution.
-		contrib ## contains DFSG-compliant packages, but which depend on other packages that are not in main.
-		non-free ## contains packages that are not compliant with the DFSG.
-		security ## contains security updates.
-		backports ## contains more recent versions of packages that are in main, not validated yet by debian stable version.
+ ## Ubuntu :
+  main ## contains officially supported, open-source packages.
+  restricted ## contains officially supported, closed-source software, like device drivers for graphic cards, for example.
+  universe ## contains community maintained open-source software.
+  multiverse ## contains unsupported, closed-source or patent-encumbered software.
+ ## Debian
+  main ## consists of packages compliant with the Debian Free Software Guidelines (DFSG), which do not rely on software outside this area to operate and are considered to be part of the Debian distribution.
+  contrib ## contains DFSG-compliant packages, but which depend on other packages that are not in main.
+  non-free ## contains packages that are not compliant with the DFSG.
+  security ## contains security updates.
+  backports ## contains more recent versions of packages that are in main, not validated yet by debian stable version.
 
-#? PERSONAL PACKAGE ARCHIVES
+#? PERSONAL PACKAGE ARCHIVES
 
 ## PPAs are mini-repositories, often including a single application
 sudo apt-add-repository ppa:username/software ## add ppa automaticaly to the sources list dir
 
-#? APT-FILE
+#? APT-FILE
 
 apt-file ## file research
-apt-file update ## update package cache (must be done after installation)
+apt-file update ## update package cache (must be done after installation)
 apt-file list package ## list files of a package
 apt list package ## shorthand
 apt-file search file ## search for package containing a file, even uninstalled packages
 
-#? BACKING UP AND RESTORING DEBIAN PACKAGES
+#? BACKING UP AND RESTORING DEBIAN PACKAGES
 
 dpkg --get-selections > packages.list ## print list of installed packages, put it into a file
 sudo apt update
 sudo apt install dselect ## provides additional features when managing Debian packages
 sudo dselect update
 sudo dpkg --set-selections < packages.list
-sudo apt-get dselect-upgrade ## install list of packages
+sudo apt-get dselect-upgrade ## install list of packages
 
-#? HARDWARE ENABLEMENT STACK
+#? HARDWARE ENABLEMENT STACK
 
-## HWE stack provides additional compatibility for released after the last version of Ubuntu
+## HWE stack provides additional compatibility for released after the last version of Ubuntu
 sudo apt install --install-recommends linux-generic-hwe-20.04

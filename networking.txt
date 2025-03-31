@@ -1,80 +1,80 @@
-#? OLD CONFIG FILES
+#? OLD CONFIG FILES
 
-## ubuntu before Ubuntu 18
+## ubuntu before Ubuntu 18
 /etc/network/interfaces ## config file
-	auto eth0 ## start interace at boot, even if no cable is connected
-	allow-hotplug eth0 ## starts interface when it is detected
-	iface eth0 inet dhcp ## ipv4 dhcp config
-	iface eth0 inet6 dhcp ## ipv6 dhcp config
-	iface eth0 inet static ## static config
-		address 192.168.1.100
-		netmask 255.255.255.0
-		gateway 192.168.1.1
-		dns-nameservers 8.8.8.8 8.8.4.4
-	iface lo inet loopback ## loopback interface
+ auto eth0 ## start interace at boot, even if no cable is connected
+ allow-hotplug eth0 ## starts interface when it is detected
+ iface eth0 inet dhcp ## ipv4 dhcp config
+ iface eth0 inet6 dhcp ## ipv6 dhcp config
+ iface eth0 inet static ## static config
+  address 192.168.1.100
+  netmask 255.255.255.0
+  gateway 192.168.1.1
+  dns-nameservers 8.8.8.8 8.8.4.4
+ iface lo inet loopback ## loopback interface
 systemct restart networking ## reload network config
 
-## redhat before RHEL 8
-/etc/sysconfig/network ## host config
+## redhat before RHEL 8
+/etc/sysconfig/network ## host config
   NETWORKING=yes
-	HOSTNAME=myserver
-	GATEWAY=192.168.1.1
-/etc/sysconfig/network-scripts/ifcfg-eth0 ## interface-specific file config
-  ## DHCP
+ HOSTNAME=myserver
+ GATEWAY=192.168.1.1
+/etc/sysconfig/network-scripts/ifcfg-eth0 ## interface-specific file config
+  ## DHCP
   DEVICE=eth0
-	BOOTPROTO=dhcp
-	ONBOOT=yes
+ BOOTPROTO=dhcp
+ ONBOOT=yes
   ## STATIC
   DEVICE=eth0
-	BOOTPROTO=static
-	ONBOOT=yes
-	IPADDR=192.168.1.100
-	NETMASK=255.255.255.0
-	GATEWAY=192.168.1.1
-	DNS1=8.8.8.8
-	DNS2=8.8.4.4
+ BOOTPROTO=static
+ ONBOOT=yes
+ IPADDR=192.168.1.100
+ NETMASK=255.255.255.0
+ GATEWAY=192.168.1.1
+ DNS1=8.8.8.8
+ DNS2=8.8.4.4
 
-#? HOSTNAME
+#? HOSTNAME
 
 hostname ## show current hostname
-hostnamectl status ## greater detail - show all host info
-hostnamectl set-hostname new-hostname ## temporarily change hostname
+hostnamectl status ## greater detail - show all host info
+hostnamectl set-hostname new-hostname ## temporarily change hostname
 
-/etc/hostname ## file to change hostname permanently
+/etc/hostname ## file to change hostname permanently
 /etc/hosts ## the hostname must me changed here too
 
-#? DNS
+#? DNS
 
 /etc/resolv.conf ## dns config file - now replaced by nmcli
-  domain example.com ## used if search is not set
-  search example.com ## will search host.example.com first
-	nameserver 8.8.8.8 ## dns server to use first
-	nameserver 1.1.1.1 ## dns server to use second
-	options timeout:2 ## wait 2 seconds before retrying a failed query
-	options attempts:3 ## retry up to 3 times
-	options rotate ## distrute queries across multiple nameservers
+  domain example.com ## used if search is not set
+  search example.com ## will search host.example.com first
+ nameserver 8.8.8.8 ## dns server to use first
+ nameserver 1.1.1.1 ## dns server to use second
+ options timeout:2 ## wait 2 seconds before retrying a failed query
+ options attempts:3 ## retry up to 3 times
+ options rotate ## distrute queries across multiple nameservers
 
-/etc/hosts ## manual entries of name resolutions - inux will check here before using dns servers
+/etc/hosts ## manual entries of name resolutions - inux will check here before using dns servers
   127.0.0.1 localhost
 
-#? NETPLAN
+#? NETPLAN
 
-## tool to define network configurations via YAML files - used by modern debian systems
-/etc/netplan/ ## location of configuration files
-netplan try ## check syntax and try new configuration
+## tool to define network configurations via YAML files - used by modern debian systems
+/etc/netplan/ ## location of configuration files
+netplan try ## check syntax and try new configuration
 netplan generate ## produce backend configuration files without applying the changes
-netplan apply ## apply changes permanently
+netplan apply ## apply changes permanently
 ## configuration file example
 network:
    version: 2
    renderer: NetworkManager
    ethernets:
      enp1s0:
-       dhcp4: no ## true for dhcp instead of static ip address
+       dhcp4: no ## true for dhcp instead of static ip address
        addresses:
          - 192.168.122.75/24
        routes:
-         - to: 0.0.0.0/0 ## default gateway
+         - to: 0.0.0.0/0 ## default gateway
            via: 192.168.122.1
        nameservers:
          addresses:
@@ -87,30 +87,30 @@ network:
 
 ## ifconfig deprecated command from net-tools package - temporary config
 
-ifconfig ## show ip address, netmask, broadcast adress and mac address, along with MTU and RX/TX stats for all interfaces
-ifconfig eth0 ## print only one interface
+ifconfig ## show ip address, netmask, broadcast adress and mac address, along with MTU and RX/TX stats for all interfaces
+ifconfig eth0 ## print only one interface
 
-ifconfig enp0s3 down ## bring interface down
+ifconfig enp0s3 down ## bring interface down
 ifconfig enp0s3 up ## bring interface up
 
-ifconfig eth0 192.168.0.5 ## change interface ip address
-ifconfig eth0 netmask 255.255.255.0 ## change interface netmask
-ifconfig eth0 192.168.0.5 netmask 255.255.255.0 ## change both
+ifconfig eth0 192.168.0.5 ## change interface ip address
+ifconfig eth0 netmask 255.255.255.0 ## change interface netmask
+ifconfig eth0 192.168.0.5 netmask 255.255.255.0 ## change both
 
-ifconfig -s ## short display - only MTU and RX/TX stats
+ifconfig -s ## short display - only MTU and RX/TX stats
 
-#? ROUTE
+#? ROUTE
 
-## deprecated command to show and manipulate the ip routing table - temporary config
+## deprecated command to show and manipulate the ip routing table - temporary config
 
-route ## show routing table
-route -n ## numeric - no resolve names
+route ## show routing table
+route -n ## numeric - no resolve names
 
-route add 10.10.10.10 gw 192.168.0.1 ## set a route to go to 10.10.10.10
-route add 10.10.10.10 gw 192.168.0.1 dev eth0 ## set a route via one interface only
-route add default gw 192.168.0.1 ## set default gateway
+route add 10.10.10.10 gw 192.168.0.1 ## set a route to go to 10.10.10.10
+route add 10.10.10.10 gw 192.168.0.1 dev eth0 ## set a route via one interface only
+route add default gw 192.168.0.1 ## set default gateway
 
-route del 10.10.10.10 ## delete route to 10.10.10.10
+route del 10.10.10.10 ## delete route to 10.10.10.10
 route del default ## delete default gateway
 
 $? IP
@@ -132,7 +132,7 @@ ip link show enp1s0 ## show specific interface
 ip link set enp0s3 down ## bring interface down
 ip link set enp0s3 up ## bring interface up
 ip link set enp1s0 address 52:54:00:b1:ee:60 ## set temporary mac address
-## nmcli or netplan for permanent change
+## nmcli or netplan for permanent change
 
 ## route object
 ip route list ## show current IPv4 routing table
@@ -144,10 +144,10 @@ ip route add default via 192.168.0.1 ## set temporary default route
 ip route add 10.10.10.0/24 via 192.168.0.10 ## add temporary static route
 ip route add 10.10.10.0/24 via 192.168.0.10 dev enp1s0 ## precise egress network interface
 
-#? NMCLI
+#? NMCLI
 
 ## Network Manager Command-Line Interface - modern solution for cli network configuration
-nmtui ## network manager text user intercace
+nmtui ## network manager text user intercace
 
 nmcli device show device-name ## complete info about device
 nmcli connection show ## show status of network connections
@@ -165,186 +165,186 @@ nmcli -g ipv4.gateway connection show connection-id ## get default gateway if se
 nmcli connection modify connection-id ipv4.gateway 192.168.122.1 ## set default gateway manually
 nmcli -g ipv4.method connection show connection-id ## get method of connection, auto being dhcp
 nmcli connection modify connection-id ipv4.method manual ## set method of connection
-nmcli connection modify connection-id +ipv4.routes "10.10.10.0/24 192.168.122.10" ## add permanent static route
+nmcli connection modify connection-id +ipv4.routes "10.10.10.0/24 192.168.122.10" ## add permanent static route
 nmcli connection up connection-id ## activate changes
 
 nmcli connection modify connection-id 802-3-ethernet.mtu 9000 ## change Message Transfer Unit value, default being 1500, 9000 being faster fo backups of vm migation, 512 being required by some applications
 
-nmcli connection edit type ethernet ## enter interactive nmcli mode
+nmcli connection edit type ethernet ## enter interactive nmcli mode
 print ## interactive equivalent to nmcli connection show connection-id
 
 nmcli connection modify Wired\ connection\ 1 802-3-ethernet.cloned-mac-address 52:54:00:b1:ee:61 ## set permanent mac address
 
-#? ARP
+#? ARP
 
 arp ## show arp table
-arp ip-address ## show arp entry for specific address
-arp -a ## show name and ip address
+arp ip-address ## show arp entry for specific address
+arp -a ## show name and ip address
 arp -d ip-address ## delete arp entry
 arp -s ip-address mac-address ## add static arp entry
-arp -n ## numeric - no resolve names
-/proc/sys/net/ipv4/neigh/default/gc_stale_time ## location for default stale time value, i.e. the number of seconds arp entries remain in the table
+arp -n ## numeric - no resolve names
+/proc/sys/net/ipv4/neigh/default/gc_stale_time ## location for default stale time value, i.e. the number of seconds arp entries remain in the table
 /proc/sys/net/ipv4/neigh/enp1s0/gc_stale_time ## location for enp1s0 stale time value
 
-#? PING
+#? PING
 
-## send test packets (ICMP packets) to known hosts
-ping 8.8.8.8 ## send test packets until interruption
-ping -c 4 8.8.8.8 ## count - send 4 test packets
+## send test packets (ICMP packets) to known hosts
+ping 8.8.8.8 ## send test packets until interruption
+ping -c 4 8.8.8.8 ## count - send 4 test packets
 
-#? TRACEROUTE
+#? TRACEROUTE
 
-## traceroute sends ICMP packets to a destination and lists all the router hops as well as the time it took
-traceroute google.com ## lists all intermediate steps
+## traceroute sends ICMP packets to a destination and lists all the router hops as well as the time it took
+traceroute google.com ## lists all intermediate steps
 
-mtr google.com ## my traceroute - combines ping and traceroute in real-time
+mtr google.com ## my traceroute - combines ping and traceroute in real-time
 
 #? NETCAT
 
-## concatenate and redirect sockets - allows to simulate both a server and a client from the command-line
+## concatenate and redirect sockets - allows to simulate both a server and a client from the command-line
 
 ## test if a port is open on a remote server
-nc example.com 80 ## connect to port 80 of server
-nc -z ip example.com ## Zero I/O : only test the connection
+nc example.com 80 ## connect to port 80 of server
+nc -z ip example.com ## Zero I/O : only test the connection
 
-## act as a server
+## act as a server
 nc -lp 1234 ## open port 1234 and listen on it
-## another system can then connect to that port as a client to exchange text
+## another system can then connect to that port as a client to exchange text
 
-## send data to listening server
-echo "hello" | nc example.com 1234 ## send text to port 1234 on listening server
+## send data to listening server
+echo "hello" | nc example.com 1234 ## send text to port 1234 on listening server
 
-## transfer a file
-nc -lp 1234 > file.txt ## received data goes into a file
-cat file.txt | nc example.com 1234 ## send content of a file
+## transfer a file
+nc -lp 1234 > file.txt ## received data goes into a file
+cat file.txt | nc example.com 1234 ## send content of a file
 
-#? HOST
+#? HOST
 
-## test hostnames via NDS queries
-host example.com ## get IP address associated to hostname
-host 10.1.1.1 ## find hostname associated to IP address
+## test hostnames via NDS queries
+host example.com ## get IP address associated to hostname
+host 10.1.1.1 ## find hostname associated to IP address
 
-#? DIG
+#? DIG
 
 ## display all DNS data records associated with a specific host or network
-dig example.com ## queries DNS records for the domain - default is A records
+dig example.com ## queries DNS records for the domain - default is A records
 
-dig example.com A ## get A records, i.e. IPv4
-dig example.com AAAA ## get AAAA records, i.e. IPv6
-dig example.com CNAME ## get CNAME records, i.e. alias for another domain
-dig example.com TXT ## get TXT records, i.e. text based DNS records used for email authentication (SPF, DKIM, DMARC)
-dig example.com NS ## get NS records, i.e. authoritative name servers for the domain
-dig example.com SOA ## get SOA records, i.e. Start of Authority (DNS server details and zone settings)
-dig example.com ANY ## get ANY records, i.e. all available DNS records
+dig example.com A ## get A records, i.e. IPv4
+dig example.com AAAA ## get AAAA records, i.e. IPv6
+dig example.com CNAME ## get CNAME records, i.e. alias for another domain
+dig example.com TXT ## get TXT records, i.e. text based DNS records used for email authentication (SPF, DKIM, DMARC)
+dig example.com NS ## get NS records, i.e. authoritative name servers for the domain
+dig example.com SOA ## get SOA records, i.e. Start of Authority (DNS server details and zone settings)
+dig example.com ANY ## get ANY records, i.e. all available DNS records
 
 $? NETSTAT
 
-## network statistics - legacy command
+## network statistics - legacy command
 
-netstat ## show all active connections
+netstat ## show all active connections
 netstat -l ## show only listening connections
 netstat -a ## show both
 
 netstat -t ## show only tcp connections
-netstat -u ## show only udp connections
+netstat -u ## show only udp connections
 netstat -x ## show only unix connnections
 
-netstat | grep :1234 ## print port 1234 connections
+netstat | grep :1234 ## print port 1234 connections
 netstat -n ## numeric - no name resolution
 
-netstat -s ## get statistics about packets transfers: ip, icmp, tcp, udp etc.
+netstat -s ## get statistics about packets transfers: ip, icmp, tcp, udp etc.
 
-nestat -rn ## show routing info
-route -n ## same as netstat -rn
+nestat -rn ## show routing info
+route -n ## same as netstat -rn
 
 #? SS
 
-## socket statistics
+## socket statistics
 
 ss ## show established connections
 ss -l ## show sockets listening for new connections
-ss -a ## show both established and listening connections
+ss -a ## show both established and listening connections
 
-ss sport 1234 ## filter by source port 1234 (client port)
-ss dport 1234 ## filter by destination port 1234 (server port)
+ss sport 1234 ## filter by source port 1234 (client port)
+ss dport 1234 ## filter by destination port 1234 (server port)
 
-ss -t ## show tcp sockets only
+ss -t ## show tcp sockets only
 ss -u ## show udp sockets only
 ss -4 ## show ipv4 only
 ss -6 ## show IPv6 only
 
-ss -x ## show unix sockets only
-ss -w ## show raw sockets only
+ss -x ## show unix sockets only
+ss -w ## show raw sockets only
 
-ss state ESTABLISHED ## filter by connection state
-## accepted values: established, syn-sent, syn-recv, fin-wait-1, fin-wait-2, time-wait, closed, close-wait, last-ack, listening and closing
+ss state ESTABLISHED ## filter by connection state
+## accepted values: established, syn-sent, syn-recv, fin-wait-1, fin-wait-2, time-wait, closed, close-wait, last-ack, listening and closing
 
-ss -n ## numeric - no name resolution
+ss -n ## numeric - no name resolution
 ss -s ## summary
 ss -p ## show process information
 
 ## output colums
-Netid ## socket type: unix (u_str, u_tgr, u_seq), raw, tpc or udp
-State ## current state of socket connection
-## UNCONN ## socket open but not connected - default state for UDP connections
-## LISTEN ## socket open and wainting for incoming connections
-## ESTAB ## connection established on socket and activerly transmitting data
-## TIME-WAIT ## recently closed connection not yet fully terminated
-## SYN-SENT	## the client has sent a connection request (SYN) and is waiting for a reply
-## SYN-RECV	## the server has received the client's SYN and responded, but is waiting for the final handshake step
-Local Adress:Port ## address and port where the local process is listening or connected - socket file path for sockets
-## 0.0.0.0:22 or *:22 ## indicates the local process listens from all its interfaces on port 22
-## 127.0.0.1:323 ## indicates the local process listens only from interface with 127.0.0.1 IP address on and only on port 323
-Peer Adress:Port ## address and port of the remote peer that the local process is communicating with - socket file path of the peer for sockets
-## 0.0.0.0:* or *:* ## the peer can be anything - default value when local process in listening for connections
-## 45.234.2.56:53642 ## a peer is connected, its public ip adress and the port it uses are indicated
+Netid ## socket type: unix (u_str, u_tgr, u_seq), raw, tpc or udp
+State ## current state of socket connection
+## UNCONN ## socket open but not connected - default state for UDP connections
+## LISTEN ## socket open and wainting for incoming connections
+## ESTAB ## connection established on socket and activerly transmitting data
+## TIME-WAIT ## recently closed connection not yet fully terminated
+## SYN-SENT ## the client has sent a connection request (SYN) and is waiting for a reply
+## SYN-RECV ## the server has received the client's SYN and responded, but is waiting for the final handshake step
+Local Adress:Port ## address and port where the local process is listening or connected - socket file path for sockets
+## 0.0.0.0:22 or *:22 ## indicates the local process listens from all its interfaces on port 22
+## 127.0.0.1:323 ## indicates the local process listens only from interface with 127.0.0.1 IP address on and only on port 323
+Peer Adress:Port ## address and port of the remote peer that the local process is communicating with - socket file path of the peer for sockets
+## 0.0.0.0:* or *:* ## the peer can be anything - default value when local process in listening for connections
+## 45.234.2.56:53642 ## a peer is connected, its public ip adress and the port it uses are indicated
 
-#? NMAP
+#? NMAP
 
-## network mapper
+## network mapper
 
 nmap ## show options summary
-nmap example.com ## scan open ports on host
-nmap localhost ## scan open ports on localhost
+nmap example.com ## scan open ports on host
+nmap localhost ## scan open ports on localhost
 
-nmap -p 22 ## scan a specific port
+nmap -p 22 ## scan a specific port
 nmap -p 22,80,443 ## scan multiple ports
-nmap -p 1-1024 ## scan a range of ports
-nmap -p- ## scan all 65,535 ports
+nmap -p 1-1024 ## scan a range of ports
+nmap -p- ## scan all 65,535 ports
 
-#? TCPDUMP
+#? TCPDUMP
 
-## dump traffic on a network
+## dump traffic on a network
 
-tcpdump ## dump all packets without filter
+tcpdump ## dump all packets without filter
 
-tcpdump icmp ## filter by protocol
-## valid values are icmp, tcp, udp, ip, ip6, arp, dns, http, https, ssh, ftp, smtp, pop3, imap, dhcp, gre, esp, ah, stp, igmp
+tcpdump icmp ## filter by protocol
+## valid values are icmp, tcp, udp, ip, ip6, arp, dns, http, https, ssh, ftp, smtp, pop3, imap, dhcp, gre, esp, ah, stp, igmp
 
-tcpdump port 22 ## filter by port
+tcpdump port 22 ## filter by port
 
-tcmp host 10.0.0.1 ## filter by IP address
-tcpdump src 10.0.0.1 ## filter by source
-tcpdump dst 10.0.0.1 ## filter by destination
+tcmp host 10.0.0.1 ## filter by IP address
+tcpdump src 10.0.0.1 ## filter by source
+tcpdump dst 10.0.0.1 ## filter by destination
 
-tcpdump port 80 or port 443 ## combine filters with OR condition
-tcpdump port 22 and icmp ## combine filters with AND condition
-tmpdump not port 22 ## filter with NOT condition
+tcpdump port 80 or port 443 ## combine filters with OR condition
+tcpdump port 22 and icmp ## combine filters with AND condition
+tmpdump not port 22 ## filter with NOT condition
 
-tcpdump -c 5 ## limit count of dumped packets
+tcpdump -c 5 ## limit count of dumped packets
 
-tcpdump -i eth0 ## filter by network card
+tcpdump -i eth0 ## filter by network card
 
-tcpdump -A ## display packet contents in ASCII
-tcpdump -x ## display packet contents in hexadecimal
-tcpdump -X ## display packet contents in ASCII and hexadecimal
+tcpdump -A ## display packet contents in ASCII
+tcpdump -x ## display packet contents in hexadecimal
+tcpdump -X ## display packet contents in ASCII and hexadecimal
 
-tcpdump -n ## numeric - no resolve names
-tcpdump -f ## force resolve names
+tcpdump -n ## numeric - no resolve names
+tcpdump -f ## force resolve names
 
-tcpdump -e ## display mac adresses of hosts
+tcpdump -e ## display mac adresses of hosts
 
-tcpdump -v ## get details
-tcpdump -vv ## get more details
-tcpdump -vvv ## get full details
-tcpdump -q ## quiet - less details
+tcpdump -v ## get details
+tcpdump -vv ## get more details
+tcpdump -vvv ## get full details
+tcpdump -q ## quiet - less details

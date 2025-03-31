@@ -1,2 +1,2 @@
-/etc/motd ## this text file contains a welcome message displayed to any user opening a shell session on the server
-/etc/update-motd.d/ ## other scripts serving the same purpose
+/etc/motd ## this text file contains a welcome message displayed to any user opening a shell session on the server
+/etc/update-motd.d/ ## other scripts serving the same purpose

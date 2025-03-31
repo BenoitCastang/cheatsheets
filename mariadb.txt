@@ -1,45 +1,45 @@
 #? INSTALLATION
 
-sudo apt install mariadb ## install mariadb
+sudo apt install mariadb ## install mariadb
 sudo systemctl enable --now mariadb ## enable and start mariadb
-sudo mysql_secure_installation ## set password for root
+sudo mysql_secure_installation ## set password for root
 
-#? CONFIG
+#? CONFIG
 
 /etc/mysql ## mariadb main config directory
 /etc/mysql/mariadb.cnf ## global defaults
 /etc/mysql/debian-start ## set mariadb environment variables, defines behaviour if mariadb process dies or exits, loads /ect/mysql/debian.cnf file
 /etc/mysql/debian.cnf ## sets client settings: default user and socket location
-/etc/mysql/conf.d/ ## loaded by mariadb.cnf - mysql compatible options
+/etc/mysql/conf.d/ ## loaded by mariadb.cnf - mysql compatible options
 /etc/mysql/mariadb.conf.d/ ## loaded by mariadb.cnf - mariadb-only options
 
-#? MANAGING DATABASES
+#? MANAGING DATABASES
 
 mariadb -u root -p ## connect with user root - prompted for password
-mariadb -u root -ppassword ## connect with user root with password clear - not secure
+mariadb -u root -ppassword ## connect with user root with password clear - not secure
 sudo mariadb ## connect with user root without password
 
-## user management requires being logged in as root
-FLUSH PRIVILEGES; ## reload privileges information - to do after each change
+## user management requires being logged in as root
+FLUSH PRIVILEGES; ## reload privileges information - to do after each change
 
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'password'; ## create user allowing connection for sole localhost: one must be connected to the server itself to connect to mariadb
-CREATE USER 'user'@'%' IDENTIFIED BY 'password'; ## allow connection from everywhere
-CREATE USER 'user'@'192.168.0.%' IDENTIFIED BY 'password'; ## allow connection from only 192.168.0.XXX network
-SELECT HOST, USER, PASSWORD FROM mysql.user; ## print list of users
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password'; ## create user allowing connection for sole localhost: one must be connected to the server itself to connect to mariadb
+CREATE USER 'user'@'%' IDENTIFIED BY 'password'; ## allow connection from everywhere
+CREATE USER 'user'@'192.168.0.%' IDENTIFIED BY 'password'; ## allow connection from only 192.168.0.XXX network
+SELECT HOST, USER, PASSWORD FROM mysql.user; ## print list of users
 
-GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost'; ## give access to all databases and all tables of these databases to user
-GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' IDENTIFIED BY 'password'; ## create user at the same time
-GRANT ALL PRIVILEGES ON database.* TO 'user'@'localhost'; ## give rights to one database only
-GRANT ALL PRIVILEGES ON database.table TO 'user'@'localhost'; ## give rights to one table from one database only
-GRANT SELECT ON *.* TO 'user'@'localhost'; ## give select rights only
-GRANT SELECT ON *.* TO 'user'@'localhost';
-GRANT SELECT ON *.* TO 'user'@'localhost';
-GRANT SELECT ON *.* TO 'user'@'localhost';
-SHOW GRANTS FOR 'user'@'localhost'; ## print user rights
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost'; ## give access to all databases and all tables of these databases to user
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' IDENTIFIED BY 'password'; ## create user at the same time
+GRANT ALL PRIVILEGES ON database.* TO 'user'@'localhost'; ## give rights to one database only
+GRANT ALL PRIVILEGES ON database.table TO 'user'@'localhost'; ## give rights to one table from one database only
+GRANT SELECT ON *.* TO 'user'@'localhost'; ## give select rights only
+GRANT SELECT ON *.* TO 'user'@'localhost';
+GRANT SELECT ON *.* TO 'user'@'localhost';
+GRANT SELECT ON *.* TO 'user'@'localhost';
+SHOW GRANTS FOR 'user'@'localhost'; ## print user rights
 
-CREATE DATABASE database; ## create a database
-SHOW DATABASES; ## print existing databases
-USE database; ## select a database to work with it
+CREATE DATABASE database; ## create a database
+SHOW DATABASES; ## print existing databases
+USE database; ## select a database to work with it
 
 #? ERRORS
 
@@ -49,6 +49,6 @@ sudo apt-get install php-mysql
 uncomment extension=pdo_mysql.so in /etc/php/8.2/apache2/php.ini
 sudo systemctl restart apache2
 
-SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost' ## means pdo connexion to database failed or user has no rights
+SQLSTATE[HY000] [1698] Access denied for user 'root'@'localhost' ## means pdo connexion to database failed or user has no rights
 
-SQLSTATE[HY000] [1049] Unknown database 'benoitc1_database' ## database is not there
+SQLSTATE[HY000] [1049] Unknown database 'benoitc1_database' ## database is not there

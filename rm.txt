@@ -1,4 +1,4 @@
-rm file ## remove file
+rm file ## remove file
 rm -i file ## interactive mode - ask confirmation before removal
 rm -f file ## force removal
-rm -r ## remove recursively
+rm -r ## remove recursively

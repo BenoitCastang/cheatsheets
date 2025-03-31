@@ -2,7 +2,7 @@
 
 #? COMMANDS
 
-systemctl ## list all services (it assumes the list-units option by default
+systemctl ## list all services (it assumes the list-units option by default
 systemctl list-unit-files ## list units, indicating type and if enabled
 systemctl list-unit-files --type=service ## list only services
 systemctl list-unit-files *.service ## list only services
@@ -20,81 +20,81 @@ systemctl enable service ## enable service (make it start at server startup)
 systemctl enable --now service ## start service immediatly without waiting for next server startup
 systemctl disable service ## disable service (prevent it from starting at server startup)
 
-systemctl cat service ## cat unit file
-systemctl edit service ## add user-defined configuration to the unit file that will be writtent in /etc/systemd/system/service.d/override.conf
+systemctl cat service ## cat unit file
+systemctl edit service ## add user-defined configuration to the unit file that will be writtent in /etc/systemd/system/service.d/override.conf
 
-#? LOGS
+#? LOGS
 
 journalctl -u <service>
 systemd-analyse verify /path/to/service-file
 systemctl list-dependencies
 systemd-run --unit=my-test.service /path/to/command
 
-#? UNIT FILES
+#? UNIT FILES
 
-## unit config files locations
-/usr/lib/systemd/system/ ## distribution-provided unit files, installed by package managers, modified by updates
-/etc/systemd/system ## local system-specific configurations - customized or user-defined unit files
+## unit config files locations
+/usr/lib/systemd/system/ ## distribution-provided unit files, installed by package managers, modified by updates
+/etc/systemd/system ## local system-specific configurations - customized or user-defined unit files
 ## enabling a service creates here a link to the service in /usr/lib//systemd/systemd directory
-/run/systemd/system ## runtime unit files - created dynamically during runtime and cleared on reboot
+/run/systemd/system ## runtime unit files - created dynamically during runtime and cleared on reboot
 
-## unit files structure - 3 sections
-[Unit] ## metadata and dependencies for the unit - common to all unit types
-[Service/Target/Device/etc] ## specific unit type configuration
+## unit files structure - 3 sections
+[Unit] ## metadata and dependencies for the unit - common to all unit types
+[Service/Target/Device/etc] ## specific unit type configuration
 [Install] ## defines how the service should be installed or enabled in relation to system targets - common to all unit types
 
 [Unit]
 
-Description=The description of the service ## description of the unit visible when doing systemctl status service
-Documentation=https://service.com/docs ## references to documentation, url or man page
-Requires=network.target ## hard dependencies, the unit will fail without them
-Wants=network.target ## weaker dependencies, the unit will still start without them
-Before=network.target ## ensures the unit starts before the specified units
-After=network.target ## ensures the unit starts after the specified units
-Conflicts=network.target ## specifies unis that cannot run simultaneously with this unit
+Description=The description of the service ## description of the unit visible when doing systemctl status service
+Documentation=https://service.com/docs ## references to documentation, url or man page
+Requires=network.target ## hard dependencies, the unit will fail without them
+Wants=network.target ## weaker dependencies, the unit will still start without them
+Before=network.target ## ensures the unit starts before the specified units
+After=network.target ## ensures the unit starts after the specified units
+Conflicts=network.target ## specifies unis that cannot run simultaneously with this unit
 
-## Condition and assert
-ConditionXxx ## skip unit if condition is not met
-AssertXxx ## unit fails if condition is not met
+## Condition and assert
+ConditionXxx ## skip unit if condition is not met
+AssertXxx ## unit fails if condition is not met
 ConditionPathExist=/path/ ## if path exist
 ConditionPathExistGlob=/path/*.txt ## if path exist using glob patterns
 ConditionPathIsDirectory=/path/ ## if path exists and is a directory
 ConditionPathIsReadWrite=/path/ ## if path exists and is writable
 ConditionPathIsMountPoint=/path/ ## if path is a mount point (where lies a filesystem etc)
 ConditionHost=debian2 ## if hostname matches
-ConditionEnvironment ## if environment variable is set
-ConditionVirtualization=kvm ## if system runs in a virtualized environment (kvm, vmware, none etc)
-ConditionArchitecture=x86_64 ## if systems is of a particular architecture (x86_64, arm etc)
-ConditionKernelCommandLine ## if Kernel command line parameter is set
-ConditionSecurity=selinux ## if specific security feature is active on the system
+ConditionEnvironment ## if environment variable is set
+ConditionVirtualization=kvm ## if system runs in a virtualized environment (kvm, vmware, none etc)
+ConditionArchitecture=x86_64 ## if systems is of a particular architecture (x86_64, arm etc)
+ConditionKernelCommandLine ## if Kernel command line parameter is set
+ConditionSecurity=selinux ## if specific security feature is active on the system
 
 [Install]
 
-## those are necessary to perform systemctl enable unit
+## those are necessary to perform systemctl enable unit
 RequiredBy=multi-user.target ## specifies the target that the service must be included in when enabled
-WantedBy=graphical.target ## weaker dependency than RequiredBy
-## default.target can also be used that can be either graphical or multi-user
-Alias=Other name ## alternative name for the service
+WantedBy=graphical.target ## weaker dependency than RequiredBy
+## default.target can also be used that can be either graphical or multi-user
+Alias=Other name ## alternative name for the service
 
-#? SERVICES
+#? SERVICES
 
 ## a service is a process or application managed by systemd that usually runs in the background (daemon)
 
-## creating a custom service
-/etc/systemd/system/my-service.service ## create unit file and add config to it
-systemctl daemon-reload ## reload systemctl daemon - often necessary when modifying the unit file
-systemctl start my-service ## execute service
-journalctl -u my-service ## see service logs
+## creating a custom service
+/etc/systemd/system/my-service.service ## create unit file and add config to it
+systemctl daemon-reload ## reload systemctl daemon - often necessary when modifying the unit file
+systemctl start my-service ## execute service
+journalctl -u my-service ## see service logs
 
-[Service] ## service behavior - how it is started, stopped, restarted and monitored
+[Service] ## service behavior - how it is started, stopped, restarted and monitored
 
 ## ExecStart
-ExecStart=touch file ## the command or executable that will be run to start the service - only mandatory value of the file
-## the service is considered as started only when the ExecStart command has finished its execution
-## the ExecStart command is performed in the root directory by default
-## the value of ExecStart can be a command, a script, or any executable
-## ExecStart does not invoke a shell so it does not interpret shell features like redirection, substitution etc - a workaround is /bin/bash -c "date >> /path/to/file"
-## ExecStart placeholders
+ExecStart=touch file ## the command or executable that will be run to start the service - only mandatory value of the file
+## the service is considered as started only when the ExecStart command has finished its execution
+## the ExecStart command is performed in the root directory by default
+## the value of ExecStart can be a command, a script, or any executable
+## ExecStart does not invoke a shell so it does not interpret shell features like redirection, substitution etc - a workaround is /bin/bash -c "date >> /path/to/file"
+## ExecStart placeholders
 %n ## name of the unit (without .service)
 %N ## full name of the unit (with .service)
 %u ## user under which the service runs
@@ -103,93 +103,93 @@ ExecStart=touch file ## the command or executable that will be run to start th
 %H ## hostname of the machine
 %t ## runtime directory (/run by default)
 
-ExecStartPre=command ## command executed before ExecStart, if it fails ExecStart wont be executed - multiple can be used to perform preparatory actions
-ExecStartPost=command ## command executed after ExecStart - multiple can be used to perform follow-up actions after the service starts
-ExecStop=command ## command executed when the service is stopped, either naturally, either by systemctl stop service - if this command does not stop the service, systemd sends it a SIGTERM signal
+ExecStartPre=command ## command executed before ExecStart, if it fails ExecStart wont be executed - multiple can be used to perform preparatory actions
+ExecStartPost=command ## command executed after ExecStart - multiple can be used to perform follow-up actions after the service starts
+ExecStop=command ## command executed when the service is stopped, either naturally, either by systemctl stop service - if this command does not stop the service, systemd sends it a SIGTERM signal
 ExecReload=command ## by default a service cant reload - this command is executed when performing systemctl reload service - Exec commands are not performed again
 
-## Restart - determines when systemd should attempt to restart a service
-Restart=always ## always restarts when finished, except when stopped with systemctl stop service
-Restart=no ## never restarts
-Restart=on-failure ## restarts on service or process failure
-Restart=on-success ## restarts on service or process failure
+## Restart - determines when systemd should attempt to restart a service
+Restart=always ## always restarts when finished, except when stopped with systemctl stop service
+Restart=no ## never restarts
+Restart=on-failure ## restarts on service or process failure
+Restart=on-success ## restarts on service or process failure
 RestartSec=1 ## time in seconds before restarting the service - default is 0.1s - possible values in ms, s, min, h
 
 ## Type
-Type=simple ## default type, the process is started directly and the service is stopped at the end of the process
+Type=simple ## default type, the process is started directly and the service is stopped at the end of the process
 Type=oneshot ## multiple ExecStart commands can be specified and run sequentially
 Type=forking ## the main service is forked into a child process and exits while the child process continue
-Type=idle ## starts the service after all other jobs are finished
+Type=idle ## starts the service after all other jobs are finished
 
-Workingdirectory=/home/user ## specify the working directory for the service
-User ## specify the user under which the server should run
+Workingdirectory=/home/user ## specify the working directory for the service
+User ## specify the user under which the server should run
 Group ## specify the group under which the server should run
-Environment="VAR=value" ## set environment variables for the service
-RemainAfterExit=true ## the service continues running even if the main command is finished - a manual systemctl stop service is needed
-TimeoutStartSec=90 ## time in seconds systemd will wait for the service to reach the "running" state before considering its a failure - 90 seconds is the default
-TimeoutStopSec=90 ## time in seconds after which if process did not exit a SIGKILL signal is sent - 90 seconds is the default
-SendSIGKILL=no ## never send SIGKILL signal
+Environment="VAR=value" ## set environment variables for the service
+RemainAfterExit=true ## the service continues running even if the main command is finished - a manual systemctl stop service is needed
+TimeoutStartSec=90 ## time in seconds systemd will wait for the service to reach the "running" state before considering its a failure - 90 seconds is the default
+TimeoutStopSec=90 ## time in seconds after which if process did not exit a SIGKILL signal is sent - 90 seconds is the default
+SendSIGKILL=no ## never send SIGKILL signal
 
 #? DEVICES
 
-## defines a device file recognized by the kernel: USB drives, network cards etc
+## defines a device file recognized by the kernel: USB drives, network cards etc
 ## works with udev, the device manager of the linux kernel
 
-#? MOUNTS
+#? MOUNTS
 
-## defines a mountpoint int the filesystem like /etc/fstab
+## defines a mountpoint int the filesystem like /etc/fstab
 
 #? AUTOMOUNTS
 
-## defines system automount point
+## defines system automount point
 
-#? TIMERS
+#? TIMERS
 
 ## equivalent of cron
-## a timer unit works in conjunction with a corresponding service unit, triggering its execution at the specified time or interval
+## a timer unit works in conjunction with a corresponding service unit, triggering its execution at the specified time or interval
 
 [Timer]
-OnCalendar=daily ## task scheduling
+OnCalendar=daily ## task scheduling
 OnBootSec=5min ## trigger the service 5 minutes after the system boots
-AccuracySec=1s ## defines accuracy of the timer - default is 1min
-Persistent=true ## ensures missed events like during downtime are triggered after the system boots
+AccuracySec=1s ## defines accuracy of the timer - default is 1min
+Persistent=true ## ensures missed events like during downtime are triggered after the system boots
 
 [Install]
-WantedBy=timers.target ## necessary to be enabled
+WantedBy=timers.target ## necessary to be enabled
 
 ## OnCalendar
 OnCalendar=YYYY-MM-DD HH:MM:SS
-## YYYY - Year (e.g., 2025, * for any year)
-## MM - Month (01-12 or * for any month)
-## DD - Day (01-31 or * for any day)
-## HH - Hour (00-23 or * for any hour)
-## MM - Minute (00-59 or * for any minute)
-## SS - Second (00-59 or * for any second, usually omitted)
-OnCalendar=*-*-* *:*:* ## every second
-OnCalendar=*:*:* ## defaults to *-*-* *:*:*
-OnCalendar=*-*-* ## defaults to *-*-* 00:00:00
+## YYYY - Year (e.g., 2025, * for any year)
+## MM - Month (01-12 or * for any month)
+## DD - Day (01-31 or * for any day)
+## HH - Hour (00-23 or * for any hour)
+## MM - Minute (00-59 or * for any minute)
+## SS - Second (00-59 or * for any second, usually omitted)
+OnCalendar=*-*-* *:*:* ## every second
+OnCalendar=*:*:* ## defaults to *-*-* *:*:*
+OnCalendar=*-*-* ## defaults to *-*-* 00:00:00
 
-OnCalendar=Fri 12:*:* ## each friday at 12pm
+OnCalendar=Fri 12:*:* ## each friday at 12pm
 OnCalendar=Mon..Fri ## monday to friday at 00:00:00
 OnCalendar=Mon,Fri ## every monday and friday
-OnCalendar=Mon *-*-1..7 ## on first monday of the month
+OnCalendar=Mon *-*-1..7 ## on first monday of the month
 OnCalendar=*:0/10 ## every ten minutes
 OnCalendar=*:*:0/10 ## every ten seconds
 
-OnCalendar=hourly,daily,weekly,monthly,yearly,annually ## shorthand expressions
+OnCalendar=hourly,daily,weekly,monthly,yearly,annually ## shorthand expressions
 
 systemd-analyse calendar '*-*-*' ## check timer and next run
 systemctl list-timers ## print timers with previous and next run
 
-systemctl daemon-reload ## reload systemd
-systemctl start unit.timer ## start the timer
-systemctl enable unit.timer ## enable the timer
+systemctl daemon-reload ## reload systemd
+systemctl start unit.timer ## start the timer
+systemctl enable unit.timer ## enable the timer
 
 #? TARGETS
 
-## group of system units - replaces traditional runlevels of SysVinit
+## group of system units - replaces traditional runlevels of SysVinit
 
-## a runlevel is an operating state determining which programs can execute after the OS boots up
+## a runlevel is an operating state determining which programs can execute after the OS boots up
 
 ## in SysVinit, runlevels are controlled by the init command and defined in /etc/inittab
 init 0 ## halt mode
@@ -202,12 +202,12 @@ init 6 ## reboot mode
 
 ## in systemd, runlevels become target units
 poweroff.target ## runlevel 0
-rescue.target ## runlevel 1
-multi-user.target ## runlevels 2,3 and 4, non-graphical multi-user systems
-graphical.target ## runlevel 5, graphical environments
-reboot.target ## runlevel 6
+rescue.target ## runlevel 1
+multi-user.target ## runlevels 2,3 and 4, non-graphical multi-user systems
+graphical.target ## runlevel 5, graphical environments
+reboot.target ## runlevel 6
 
-default.target ## default target on system boot
+default.target ## default target on system boot
 
 systemctl isolate multi-user.target ## switch to a runlevel
 systemctl set-default graphical.target ## set default runlevel
@@ -219,15 +219,15 @@ $? PATH
 
 $? SCOPE
 
-## an externally created process
+## an externally created process
 
 $? SLICE
 
-## defines a group of hierarchical units that manage system processes
+## defines a group of hierarchical units that manage system processes
 
 $? SOCKET
 
-## an inter-process communication socket
+## an inter-process communication socket
 
 $? SWAP
 
@@ -235,4 +235,4 @@ $? SWAP
 
 $? SNAPSHOT
 
-## temporary snapshot of the current state of the system
+## temporary snapshot of the current state of the system

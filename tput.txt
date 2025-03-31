@@ -12,7 +12,7 @@ tput cup $(($(tput lines) / 2)) $((($(tput cols) / 2) - 1)) ## center of screen
 tput civis ## make cursor invisible
 tput cnorm ## restore cursor to its normal state
 tput cub1 ## moves the cursor one character to the left
-tput cud1 ## Moves the cursor down one line in the same column
+tput cud1 ## Moves the cursor down one line in the same column
 tput cuf1 ## Moves the cursor one character to the right
 tput cuu1 ## Moves the cursor up one line in the same column
 tput cvvis ## Makes the cursor very visible

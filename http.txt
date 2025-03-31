@@ -1,4 +1,4 @@
-#? GET
+#? GET
 
 ## method to retrieve data from a server, who sends back asked resource : webpage, image, api response etc.
 ## can transmit data via the url, can be cached, can be bookmarked (since it's in the URL) and should not change the server state
@@ -9,4 +9,4 @@ curl https://server ## to get https resources
 
 #? POST
 
-#? DELETE
+#? DELETE

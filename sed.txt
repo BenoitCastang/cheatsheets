@@ -1,5 +1,5 @@
 sed ## stream editor - goes through all lines and perform action each time
-sed 'command' filename ## syntax with file
+sed 'command' filename ## syntax with file
 command | sed 'command' ## syntax with command output
 
 ## substitution sed 's/old/new/g' ## g means all occurrences are substituted
@@ -25,19 +25,19 @@ sed -i ## directly modify file and save it
 sed -i.backup ## crete also a backup file
 
 ## changing
-sed 'c\new text' ## replace all lines by new text
-sed '3c\new text' ## replace only line 3
+sed 'c\new text' ## replace all lines by new text
+sed '3c\new text' ## replace only line 3
 
 ## append
-sed 'a\new text' ## append new line of text after each line
-sed '3a\new text' ## append new line of text after line 3
+sed 'a\new text' ## append new line of text after each line
+sed '3a\new text' ## append new line of text after line 3
 
 ## prepend
-sed 'i\new text' ## insert new line of text before each line
-sed '3i\new text' ## insert new line of text before line 3
+sed 'i\new text' ## insert new line of text before each line
+sed '3i\new text' ## insert new line of text before line 3
 
 ## logical operators
-sed -n '/blop\|crac/p' ## escape characters are needed
-sed -n '/crac/p' | sed -n '/blop/p'  ## no AND logical operator like &&, two sed commands are needed
+sed -n '/blop\|crac/p' ## escape characters are needed
+sed -n '/crac/p' | sed -n '/blop/p'  ## no AND logical operator like &&, two sed commands are needed
 
 sed 's/blop/crac; s/flip/plouf' ## do two commands

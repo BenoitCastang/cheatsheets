@@ -2,9 +2,9 @@ history ## show every command of the history
 history 2 ## show two last commands
 .bash_history ## history of command written each time session is exited
 
-sudo !! ## execute previous command as sudo - !! is previous command
+sudo !! ## execute previous command as sudo - !! is previous command
 !500 ## execute command number 500 of the history
-history -d 500 ## delete command from the history
+history -d 500 ## delete command from the history
 "\C-f": forward-search-history
 "\C-r": reverse-search-history
 "\C-g": abort

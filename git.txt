@@ -19,18 +19,18 @@ git commit ## make a commit
 git commit -m "message" ## make a commit with message
 git commit -a ## add files then commit
 git stash ## drop local changes
-git revert ## 
+git revert ## 
 git revert <hash> ## hash from git log --oneline
 
 
-#? BRANCH MANAGEMENT
+#? BRANCH MANAGEMENT
 
 git branch ## list branches in local repository
 git checkout master  ## switch to a branch
 git checkout -b master ## create branch
-git branch -d master ## delete branch
+git branch -d master ## delete branch
 
-## changes are done on all local branches if no commit is done
+## changes are done on all local branches if no commit is done
 
 $? GITHUB
 

@@ -1,24 +1,24 @@
 ## gives all details and metadata about files
 
-stat file ## show stats:
-## file name, size, blocks, i/o blocks, type, device number, inode, links, access rights, owner uid, owner gid, last access time, last content modification time, last change of metadata time, birth time
+stat file ## show stats:
+## file name, size, blocks, i/o blocks, type, device number, inode, links, access rights, owner uid, owner gid, last access time, last content modification time, last change of metadata time, birth time
 stat -f file ## show filesystem info
-## file name, fileesystem ID, name length, filesystem type, block size, total of blocks, free blocks, available blocks, total inodes and free inodes
+## file name, fileesystem ID, name length, filesystem type, block size, total of blocks, free blocks, available blocks, total inodes and free inodes
 
 stat -c ## custom output
-stat -c "%n" file ## show name
-stat -c "%n %s" file ## show name and size
+stat -c "%n" file ## show name
+stat -c "%n %s" file ## show name and size
 
-stat -c "%i" file ## show inode number
-stat -c "%h" file ## show number of hard links to the file
-stat -c "%a" file ## show octal access rights
-stat -c "%A" file ## show human readable access rights
-stat -c "%u" file ## show user id
-stat -c "%U" file ## show user name
-stat -c "%g" file ## show group id
-stat -c "%G" file ## show group name
-stat -c "%F" file ## show file type
-stat -c "%x" file ## show last access time
-stat -c "%y" file ## show last content modification time
-stat -c "%z" file ## show metadata change time
-stat -c "%w" file ## show birth time
+stat -c "%i" file ## show inode number
+stat -c "%h" file ## show number of hard links to the file
+stat -c "%a" file ## show octal access rights
+stat -c "%A" file ## show human readable access rights
+stat -c "%u" file ## show user id
+stat -c "%U" file ## show user name
+stat -c "%g" file ## show group id
+stat -c "%G" file ## show group name
+stat -c "%F" file ## show file type
+stat -c "%x" file ## show last access time
+stat -c "%y" file ## show last content modification time
+stat -c "%z" file ## show metadata change time
+stat -c "%w" file ## show birth time

@@ -8,41 +8,41 @@ lsblk ## display disks and partitions
 
 uptime ## state of the host ## The three last digits indicate the system’s load average for the last minute, the last five minutes and the last fifteen minutes, respectively. Each of these numbers indicates how many processes were waiting either for CPU resources or for input/output operations to complete. This means that these processes were ready to run if they had received the respective resources.
 
-load average ## series of numbers representing the server's trend in CPU utilization
+load average ## series of numbers representing the server's trend in CPU utilization
 cat /proc/loadavg ## see load average
 0.36, 0.39, 0.31 ## typical load average - for last minute, last 5 minutes and last 15 minutes
 ## the number of cpu is the 100% usage: if the server has 4 cpus virtual included, a load average of 4 is 100% usage for the given time period
 
 top ## Dynamic display running processes
 htop ## colored and fancier version
-u ## filter by user
+u ## filter by user
 t ## tree view of processes
-htop -d 10 ## call htop with refresh every second - default is 20, every two seconds
+htop -d 10 ## call htop with refresh every second - default is 20, every two seconds
 
-#? FREE
+#? FREE
 
 free ## show ram usage
 free -b ## Bytes
 free -m ## Mebibytes
 free -g ## Gibibytes
 free -h ## human-readable format
-total ## total amount of memory installed on the server
-used ## memory not being used by anything, neither shared or buffers or cache
+total ## total amount of memory installed on the server
+used ## memory not being used by anything, neither shared or buffers or cache
 free ## memory not being used by anything
 shared ## memory being used by tmpfs and other shared resources
-buff/cache ## memory used by the buffers and cache
+buff/cache ## memory used by the buffers and cache
 available ## memory free for applications to use
 
-#? SWAP
+#? SWAP
 
-## create a swap file
+## create a swap file
 
-swap ## file in hard disk that acts like ram when server's memory is saturated - present by default in most systems
+swap ## file in hard disk that acts like ram when server's memory is saturated - present by default in most systems
 /etc/fstab ## see if swap is present
 
 sudo fallocate -l 4G /swapfile ## create a 4G file
 sudo chmod 0600 /swapfile ## set least permissions possible
-sudo mkswap /swapfile ## make it a swap file
+sudo mkswap /swapfile ## make it a swap file
 /swapfile none swap sw 0 0 ## fstab line to add
 sudo swapon -a ## activate swap file (mount and activate it from /etc/fstab)
 sudo swapoff -a ## deactivates swap file

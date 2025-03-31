@@ -1,12 +1,12 @@
-## search a pattern and return lines matching it - works with stdin and files
-grep foo ## search pattern in stdin, here user input
-ls -l | grep foo ## search pattern in stdin, here redirected command output
-grep foo <files> ## search pattern in file
+## search a pattern and return lines matching it - works with stdin and files
+grep foo ## search pattern in stdin, here user input
+ls -l | grep foo ## search pattern in stdin, here redirected command output
+grep foo <files> ## search pattern in file
 
 grep -v ## reverted grep, show no match entries
 grep -c ## display only number of matches
 grep -i ## ignore case
-grep -r ## recursive
+grep -r ## recursive
 grep -l ## show file name only, the line line matching the pattern
 grep -L ## show file name when not matchin
 grep -c ## show number of matches per file
@@ -25,7 +25,7 @@ grep crac$ ## if line ends with crac
 grep ^flop$ ## if the entire line is exactly flop
 grep ^fl.*op$ ## if line is fl then any character any number of times then op
 
-## escape needed
+## escape needed
 grep "crac\|plouf" ## match crac or plouf
 
 . ## matches any single character

@@ -25,7 +25,7 @@ docker exec <image> echo blop ## execute a command inside the container and prin
 
 docker attach <image> ## attach to the primary running process inside the container
 exit ## terminate primary session - container stops
-c-p c-q ## detach from attached session - container keeps running
+c-p c-q ## detach from attached session - container keeps running
 
 docker run -e ENV_VAR=value <image> ## set environment variables inside the container
 
@@ -41,10 +41,10 @@ docker inspect <image-id> ## list attributes that will define the container, lik
 #? MANAGE CONTAINERS
 
 c-d or exit ## disconnect or exit the container, meaning it is stopped
-docker ps ## print running containers
+docker ps ## print running containers
 docker ps -a ## print all existing containers
 docker stop container-id ## stop a container
-docker start container-id ## restart stopped container
+docker start container-id ## restart stopped container
 docker attach container-id ## enter running container
 docker rm container-id ## remove container
 
@@ -70,10 +70,10 @@ CMD ["echo","Hello World"] ## default initialization command at container creati
 ENTRYPOINT ["echo","Hello"] ## default initialization command, we can't override it using command-line parameters   parameters
 CMD ["World"] ## parameters for entrypoint command
 
-?# RUN APACHE IN CONTAINER
+?# RUN APACHE IN CONTAINER
 
 docker run -dit debian /bin/bash ## create container detach mode, without entering it
-docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 on the host is redirected to port 80 within the container
+docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 on the host is redirected to port 80 within the container
 apt update ## must be done to install any package, cause source index is outdated
 apt install apache2 
 /etc/init.d/apache2 start ## start apache2 service - systemv style

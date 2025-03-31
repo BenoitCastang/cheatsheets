@@ -1,10 +1,10 @@
-$? SHELL TYPES
+#? SHELL TYPES
 
 ## startup files
 /etc/profile ## all-user profile - only loaded by login shells
 ## configures PATH variable (different if user is root or not)
-## if shell is interactive (if PS1 is set), loads /etc/bash.bashrc if shell is bash and defines PS1 to "$ " and "# " if shell is not bash
-## if /etc/profile.d exists, load files in it
+## if shell is interactive (if PS1 is set), loads /etc/bash.bashrc if shell is bash and defines PS1 to "$ " and "# " if shell is not bash
+## if /etc/profile.d exists, load files in it
 /etc/bash.bashrc ## all-user bashrc - loaded by login and non-login shells
 /home/user/.bashrc ## user-specific bashrc - loaded by login and non-login shells
 /home/user/.profile ## user-specific profile - only loaded by login shells
@@ -15,24 +15,24 @@ non-login shell ## shell session started with a user already logged in, like ope
 interactive shell ## shell happening through keyboard and screen - not a script
 non-interactive shell ## no human interaction, i.e. scripts - output is log
 
-exit ## close any shell
-logout ## close only login shell
+exit ## close any shell
+logout ## close only login shell
 
 #? BASH
 
-bash ## open a bash child process
+bash ## open a bash child process
 
-bash -c "echo blop" ## execute a command in child process
-bash <script> ## execute a script in child process
-echo "echo blop" | bash ## pass an instruction or a script to bash through a pipeline
-curl <script> | bash ## dowload a script and pass it to bash for direct execution
+bash -c "echo blop" ## execute a command in child process
+bash <script> ## execute a script in child process
+echo "echo blop" | bash ## pass an instruction or a script to bash through a pipeline
+curl <script> | bash ## dowload a script and pass it to bash for direct execution
 
 exec ## replace shell - open a new shell that replaces the old shell, keeping its pid - when finished, it opens a new shell again
 exec zsh ## replace current shell with zsh
 
-bash -i ## start interactive shell session
-bash -l ## start a login shell
-bash -n ## noexec mode
+bash -i ## start interactive shell session
+bash -l ## start a login shell
+bash -n ## noexec mode
 bash -x ## xtrace mode
 bash -v ## verbose mode
 bash -r ## restricted mode
@@ -44,29 +44,29 @@ bash -o vi ## vi-style line editing interface
 w ## all set options are available to use with the bash command
 
 bash -- ## the -- stops the list of options, everything after it is an argument, event if it begins with -
-touch -- -blop ## -blop is not considered as a list of options but as a string, so it create a -blop file
+touch -- -blop ## -blop is not considered as a list of options but as a string, so it create a -blop file
 
-echo $- ## list option flags
-echo $SHELLOPTS ## list options by name
+$- ## list option flags
+$SHELLOPTS ## list options by name
 
 ## shell options or flags, contained in $-
 i ## interactive shell
 u ## nounset mode: strict mode, unset variables throw an error and exit the script
-v ## verbose mode: shows the exact commands
+v ## verbose mode: shows the exact commands
 x ## xtrace mode: debugging mode, shows commands as they are after expansions etc.
 r ## restricted mode: disable cd, bash completion, modifying key environment variables, file redirection etc.
-B ## braceexpand mode: brance expansion is enabled
-H ## histexpand mode: history expansion enabled
-n ## noexec mode: syntax checking mode for scripts
-f ## noglob mode: filename expansion is disabled
-a ## allexport: from activation, all assigned variables are exported
+B ## braceexpand mode: brance expansion is enabled
+H ## histexpand mode: history expansion enabled
+n ## noexec mode: syntax checking mode for scripts
+f ## noglob mode: filename expansion is disabled
+a ## allexport: from activation, all assigned variables are exported
 e ## errexit: exit the shell if any command fails
-b ## notify mode: asynchronous jobs (commands in the background like sleep 5 &) send completion notification the terminal
-h ## hashall mode: automatically remembers (hashes) full path of executed commands - the shell caches command location after first execution so it reduces its need to search the $PATH, improving performances
-m ## monitor mode: enables job control, i.e. usage of &, jobs, fg and bg, ctrl-Z etc.
-C ## noclobber mode: prevents overwriting of files with > redirection
+b ## notify mode: asynchronous jobs (commands in the background like sleep 5 &) send completion notification the terminal
+h ## hashall mode: automatically remembers (hashes) full path of executed commands - the shell caches command location after first execution so it reduces its need to search the $PATH, improving performances
+m ## monitor mode: enables job control, i.e. usage of &, jobs, fg and bg, ctrl-Z etc.
+C ## noclobber mode: prevents overwriting of files with > redirection
 
-echo $0 ## print shell type
+$0 ## shell type
 ## -bash is the output for an interactive login shell - default
 ## bash is the output for an interactive non-login shell - bash child process
 ## <name_of_script> is the output for a script
@@ -78,7 +78,7 @@ sudo -u <user> -s ## interactive non login-login shell as user
 sudo -i ## interavtive login shell as root
 sudo -u <user> -i <command> ## open interactive login shell as user, do command and return to the original user
 
--- ## end of options marker
+-- ## end of options marker
 rm -blop ## wont delete -blop file cause rm searches for options b, l, o , and p
 rm -- -blop ## delete -blop file, cause -- stop option reading
 
@@ -90,15 +90,15 @@ env BASH_ENV=/path/to/startup-file script ## execute script with specified BASH_
 
 #? SET
 
-set -u ## activate u option
+set -u ## activate u option
 set +u ## disable u option
 
-set -o ## list options and their status
+set -o ## list options and their status
 set -o <option-name> ## activate option by its name
 set +o <option-name> ## deactivate option by its name
 set -o verbose ## verbose mode
-set -o vi ## vi mode
-set -C || set -o noclobber ## noclobber mode
+set -o vi ## vi mode
+set -C || set -o noclobber ## noclobber mode
 
 unset
 
@@ -108,16 +108,16 @@ unset
 
 alias ## get the list of set aliases
 alias ll='ls -Ahl --color=auto' ## ll does now the long ls command
-unalias ll ## remove alias
-ll ## invoke alias
+unalias ll ## remove alias
+ll ## invoke alias
 
-alias where='echo $PWD' ## single quotes make dynamic variable expansion, so $PWD will be evaluated when running alias
-alias where="echo $PWD" ## double quotes make static variable expansion, so $PWD will be evaluated when setting the alias and always be the same
+alias where='echo $PWD' ## single quotes make dynamic variable expansion, so $PWD will be evaluated when running alias
+alias where="echo $PWD" ## double quotes make static variable expansion, so $PWD will be evaluated when setting the alias and always be the same
 
 'ls' ## overwrite alias
-\ls ## ignore alias
+\ls ## ignore alias
 apt \install htop ## overwrite alias in the middle of a sequence - the word aliased must be escaped
-## if a function has the same name, the alias goes first
+## if a function has the same name, the alias goes first
 
 alias func="pif() { echo plouf; unset -f pif; }; pif" ## function in an alias
 
@@ -128,91 +128,91 @@ command -v ls ## display the path to the executable or the alias definition of a
 
 #? TYPE
 
-type command ## describe how its arguments would be interpreted if used as command names, possible re    sults are listed below
-type -a command ## show all locations for a command: ls goes /bin/ls and /usr/bin/ls
+type command ## describe how its arguments would be interpreted if used as command names, possible results are listed below
+type -a command ## show all locations for a command: ls goes /bin/ls and /usr/bin/ls
 
 shell builtin ## built-in-shell command, executed directly by the shell itself without creating a sub process, rather than by an external program, part of the shell's internal binary
 ## Examples: cd, echo, exit, pwd, alias, set
 alias ## if bash alias
-/bin/ls ## external executable searched through the PATH environment variable
+/bin/ls ## external executable searched through the PATH environment variable
 ## Examples: ls, cat, grep, find
 function ## not commands but functions written in bash, defined by the user or the distribution
 
-man ## external executable manuals
-help ## shell builtins help
+man ## external executable manuals
+help ## shell builtins help
 
-#? VARIABLES
+#? VARIABLES
 
 local_variable=value ## create a local or shell variable, available only in the same bash process
 export GLOBAL_VARIABLE=value ## create a global or environment variable available in child processes
 
-export local_variable ## make a local variable a global variable
+export local_variable ## make a local variable a global variable
 export -n GLOBAL_VARIABLE ## make a global variable a local variable
 export ## print global variables
-declare -x ## same as export
-env ## print environment variables
-printenv ## print environment variables
-printenv var ## echo variable
+declare -x ## same as export
+env ## print environment variables
+printenv ## print environment variables
+printenv var ## echo variable
 
 set ## display all of the currently assigned shell variables and functions
 set -- blop crac boum && echo $1 $2 $3
-## set -- allows to assign values to positionnal parameters, so the echo command will print blop crac boom
+## set -- allows to assign values to positional parameters, so the echo command will print blop crac boom
 
 unset -v var ## removes shell variable from current bash process, making it unset
 unset -f function ## removes function form current bash process
 unset var/function ## without switch, unset will try to unset a variable first and then a function
 
 readonly constant=value ## create variable that cant be changed or unset
-readonly variable ## make existing variable a constant
-readonly ## list all readonly variables of current shell
+readonly variable ## make existing variable a constant
+readonly ## list all readonly variables of current shell
 
-echo $ls ## echo variable ls
-echo ${ls} ## echo variable ls
-echo $blopbip ## prints nothing cause searches for variable blopcrac
-echo ${blop}bip ## prints cracbip
-echo $(ls) ## echo output of ls command
+$ls ## echo variable ls
+${ls} ## echo variable ls
+$blopbip ## prints nothing cause searches for variable blopcrac
+${blop}bip ## prints cracbip
+$(ls) ## echo output of ls command
 ${#blop} ## variable length
 
-$PATH ## list of directories where bash looks for executable files when told to run any program
-$HOME ## the current user's home directory
-$USER ## the name of the logged-in user
+$PATH ## list of directories where bash looks for executable files when told to run any program
+$HOME ## the current user's home directory
+$USER ## the name of the logged-in user
 $HOSTNAME ## network name of the host computer
-$HOSTTYPE ## architecture of the host's processor
-$SHELL ## the default shell
-$SHELLOPTS ## shell options by name
-$SHLVL ## shell deep level - default is 1, subshell is 2 etc.
-$IFS ## Internal Field separator for word splitting - default is space, tab, newline: $' \t\n')
-$PWD ## the current working directory
+$HOSTTYPE ## architecture of the host's processor
+$SHELL ## the default shell
+$SHELLOPTS ## shell options by name
+$SHLVL ## shell deep level - default is 1, subshell is 2 etc.
+$IFS ## Internal Field separator for word splitting - default is space, tab, newline: $' \t\n')
+$PWD ## the current working directory
 $OLDPWD ## the previous working directory (cd -)
-$LANG ## the current language and locale settings
-$EDITOR ## the default text editor
-$LOGNAME ## the name of the current user
-$TERM ## the type of the terminal
-$DISPLAY ## related to X server - :0 is default one-screen config for gui
-$HISTCONTROL ## what commands are saved: ignorespace wont save commands starting with a space, ignoredups wont save command if the same as the previous one, ignoreboth wont save any
+$LANG ## the current language and locale settings
+$EDITOR ## the default text editor
+$LOGNAME ## the name of the current user
+$TERM ## the type of the terminal
+$DISPLAY ## related to X server - :0 is default one-screen config for gui
+$HISTCONTROL ## what commands are saved: ignorespace wont save commands starting with a space, ignoredups wont save command if the same as the previous one, ignoreboth wont save any
 $HISTSIZE ## sets the number of commands to be stored in memory while the shell session lasts
-$HISTFILE ## name of the file which stores all commands as they are typed - default is /home/user/.bash_history
-$HISTFILESIZE ## sets the number of commands to be saved in HISTFILE
-$HISTCMD ## number of current running command
-$LD_LIBRARY_PATH ## shared libraries, usually /usr/local/lib
-$MAIL ## file in wich bash searches for email - usually /var/mail/user or /var/spool/mail/user
-$MAILCHECK ## frequency in seconds with which bash ckecks for new email - default is 60
+$HISTFILE ## name of the file which stores all commands as they are typed - default is /home/user/.bash_history
+$HISTFILESIZE ## sets the number of commands to be saved in HISTFILE
+$HISTCMD ## number of current running command
+$LD_LIBRARY_PATH ## shared libraries, usually /usr/local/lib
+$MAIL ## file in wich bash searches for email - usually /var/mail/user or /var/spool/mail/user
+$MAILCHECK ## frequency in seconds with which bash ckecks for new email - default is 60
 $OSTYPE ## operating system type
 
 #? DECLARE
 
-## set and inspect variables and functions
-declare ## list all variables and functions
-declare -p ## list all variables
-declare -a ## list all indexed arrays
-declare -A ## list all associative arrays
-declare -f ## list all functions
+## set and inspect variables and functions
+declare ## list all variables and functions
+declare -p ## list all variables
+declare -a ## list all indexed arrays
+declare -A ## list all associative arrays
+declare -f ## list all functions
 
 declare var=value ## declare and define a variable
-declare -- var=value ## declare and define a variable, -- indicates the end of options
-declare var ## declare empty variable
+declare -- var=value ## declare and define a variable, -- indicates the end of options
+declare var ## declare empty variable
 
-declare -r var ## make a variable readonly
+declare -r var ## make a variable readonly
 declare -r VAR=value ## declare a readonly variable, i.e. a constant
 
 declare -a array=(1 2 3) ## declare indexed array
@@ -223,18 +223,18 @@ declare -i var=$a+$b ## with variables
 var+=1 ## works if integer declared ; if not, it adds 1 at the end of the variable as in a string
 
 declare -x VAR=value ## export variable for child processes like the export command
-declare -f function ## display definition of the function
+declare -f function ## display definition of the function
 declare -g var=value ## declare global variable - default is local variable
-declare -n ref=original_var ## declare name reference, i.e. alias to another variable
+declare -n ref=original_var ## declare name reference, i.e. alias to another variable
 
 
 #? EXPR
 
-expr expression ## evaluate expressions - allow arithmetic, comparison, logical and string operations
+expr expression ## evaluate expressions - allow arithmetic, comparison, logical and string operations
 1 + 1 ## is interpreted as text by bash
 num=1; num=$num+1 ## $num is now "1+1"
 
-expr 4 + 2 ## performing additions
+expr 4 + 2 ## performing additions
 expr 4 - 2 ## substractions
 expr 4 / 2 ## divisions - integer only: 9 / 4 returns 2
 expr 4 \* 2 ## multiplications - needs to escape asterisk
@@ -251,15 +251,15 @@ expr 4 \< 2
 expr 4 \<= 2
 epxr 4 \>= 2
 
-expr 4 == 2 \& 1 == 3 ## logical AND
-expr 4 == 2 \| 1 == 3 ## logical OR
+expr 4 == 2 \& 1 == 3 ## logical AND
+expr 4 == 2 \| 1 == 3 ## logical OR
 
 expr length string ## return string length
 expr index string n ## return position of n - 0 is not found and returns only first appearance
-expr substr string 1 2 ## return from position 1 2 characters
+expr substr string 1 2 ## return from position 1 2 characters
 expr match string str ## return number of characters found if string is found, return 0 if string is not found
 
-#? LET
+#? LET
 
 ## let is not used to print result, it can only perform calculations and store it to data
 let 4+2 ## does the calculation but no output
@@ -284,18 +284,18 @@ let c++ ## increment variable
 ## expansions output nothing but return an int or a bool - uses $(()) for value substitution or capture the result
 ((expression)) ## arithmetic expansion
 
-echo $((4 + 2)) ## print result
+echo $((4 + 2)) ## print result
 var=$((4+2)) ## redirect result
 ((var = 4+2)) ## can be done directly in the parentheses
 ## var exists outside of parentheses
 echo $((var = 1+3)) ## var is changed and printed at the same time
 
-((4 + 2)) ## return result of additions - needs use of echo to be printed
+((4 + 2)) ## return result of additions - needs use of echo to be printed
 ((4+3)) ## works without spaces
-((4 - 2)) ## substractions
-((4 / 2)) ## divisions - integer only: 9 / 4 returns 2
-((4 * 2)) ## multiplications
-((4 % 2)) ## modulus
+((4 - 2)) ## substractions
+((4 / 2)) ## divisions - integer only: 9 / 4 returns 2
+((4 * 2)) ## multiplications
+((4 % 2)) ## modulus
 ((4 ** 2)) ## exponentiation
 ((-4 + 2)) ## handle relative numbers
 ((5 + (3 *2))) ## complex operations
@@ -316,10 +316,10 @@ echo $((var = 1+3)) ## var is changed and printed at the same time
 
 #? BC
 
-## Basic Calculator - allow to perform calculations beyond bash capabilities
+## Basic Calculator - allow to perform calculations beyond bash capabilities
 bc ## enter bc interactive mode
-scale=2 ## define number after zero precision - 0 is the default
-10 / 3 ## returns 3 by default
+scale=2 ## define number after zero precision - 0 is the default
+10 / 3 ## returns 3 by default
 10 / 3 ## returns 3.3 with scale=1
 
 echo 4 / 2 | bc ## pass expression to bc from the command line
@@ -331,99 +331,99 @@ sqrt(9) ## allow square root functions
 ## has also a math library, and capabilities to use conditions, loops and functions
 
 bc <<< 2+4 ## command-line mode
-bc <<< "scale=1; 1/2" ## multi commands on command-line mode
+bc <<< "scale=1; 1/2" ## multi commands on command-line mode
 
 #? COMMAND SUBSTITUTION
 
 ## capture output of a command to use it as a argument in another command or assign it to a variable
-var=`date` ## using backticks, old fashion
+var=`date` ## using backticks, old fashion
 var=$(date) ## using $(), new fashion
-echo "The system uptime is $(uptime -p)" ## in a command
+echo "The system uptime is $(uptime -p)" ## in a command
 
-#? PROCESS SUBSTITUTION
+#? PROCESS SUBSTITUTION
 
-## process substitution redirects the output of a command so it appears like a file or file descriptor, useful with commands working with files only and avoid creating temporary files
-cat <(ls) ## cat output of ls like if was from a file
+## process substitution redirects the output of a command so it appears like a file or file descriptor, useful with commands working with files only and avoid creating temporary files
+cat <(ls) ## cat output of ls like if was from a file
 ls | cat ## same as cat <(ls)
-cat $(ls) ## concatenates the content of all files listed by ls
+cat $(ls) ## concatenates the content of all files listed by ls
 
 #? REDIRECTION
 
 ## processes receive input and send output through data streams
 ## the method of file descriptors allows to dynamically associate integer numbers with data channels
 ## the bash shell has the ability to reassign the communication channels when loading a program to chande default behavior: this is the redirection
-stdin ## standard input channel, file descriptor 0: keyboard, file, output of another command
-stdout ## standard output channel, file descriptor 1: screen, file
-stderr ## standard error channel, file descriptor 2: screen, file
-## data channels are also accessible through the special devices /dev/stdin, /dev/stdout/ and /dev/stderr
+stdin ## standard input channel, file descriptor 0: keyboard, file, output of another command
+stdout ## standard output channel, file descriptor 1: screen, file
+stderr ## standard error channel, file descriptor 2: screen, file
+## data channels are also accessible through the special devices /dev/stdin, /dev/stdout/ and /dev/stderr
 
 > ## standard output is redirected to a file
 1> ## same as >
-echo blop > file ## blop goes into the file instead of being printed into screen
+echo blop > file ## blop goes into the file instead of being printed into screen
 
 2> ## standard error is redirected to a file
-ls /roote 2> file ## error is written to the file
+ls /roote 2> file ## error is written to the file
 
-&> ## both stdout and stderr are redirected to a file
->& ## both stdout and stderr are redirected to a file
+&> ## both stdout and stderr are redirected to a file
+>& ## both stdout and stderr are redirected to a file
 
 ## a redirection must be to a file or to a file descriptor (&1, &2, &3 etc.)
-ls /root >&2 ## sdtout is redirected to stderr
-ls /root 1>&2 ## sdtout is redirected to stderr
-ls /roote 2>&1 ## stderr is redirected to stdout
-ls /root > file 2>&1 ## redirect both to the same file without &> that is bash-specific
+ls /root >&2 ## sdtout is redirected to stderr
+ls /root 1>&2 ## sdtout is redirected to stderr
+ls /roote 2>&1 ## stderr is redirected to stdout
+ls /root > file 2>&1 ## redirect both to the same file without &> that is bash-specific
 
 ## pipe redirects only stdin, not stdout, so dealing with error messages needs redirection of stderr to stdout
-ls foo 2>&1 | grep file ## check is pattern is found in the errors of the command
+ls foo 2>&1 | grep file ## check is pattern is found in the errors of the command
 
-## command output can be discarded by redirecting it to special file /dev/null
-ls foo &> /dev/null ## discard any output so it does not appear on screen
+## command output can be discarded by redirecting it to special file /dev/null
+ls foo &> /dev/null ## discard any output so it does not appear on screen
 
-set +o noclobber ## noclobber prevents from erasing a file when redirection is performed
+set +o noclobber ## noclobber prevents from erasing a file when redirection is performed
 >> ## this redirection appends content to the end of the file instead of erasing it
-echo foo >> file ## append text at the end of the file
-ls foo 2>> file ## append stderr
-ls foo &>> file ## append both stdout and sdterr
-ls foo >>& file ## wont work
+echo foo >> file ## append text at the end of the file
+ls foo 2>> file ## append stderr
+ls foo &>> file ## append both stdout and sdterr
+ls foo >>& file ## wont work
 ls foo >> file 2>&1 ## append both stdout and sdterr
 
-< ## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
+< ## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
 cat < file ## file content redirected to standard input, cat doesnt know the file's name, it only reads its stdin
 cat 0< file ## same as cat < file
 
 ## Heredocuments and herestrings allow to use only-input commands with command-line arguments
-<<< string ## herestring - string is sent
-wc -c <<< blop ## work directly with my string, while wc -c blop seaches for a file called blop and it takes echo blop | wc -c otherwise or direct user input
-<< EOF ## heredocument - user input is waited on multiple line until "EOF" string is written
-wc -l << eof ## returns number of line before entering eof
+<<< string ## herestring - string is sent
+wc -c <<< blop ## work directly with my string, while wc -c blop seaches for a file called blop and it takes echo blop | wc -c otherwise or direct user input
+<< EOF ## heredocument - user input is waited on multiple line until "EOF" string is written
+wc -l << eof ## returns number of line before entering eof
 
-| ## pipe: a first process sends its output to stdout and a second process takes it as its stdin
+| ## pipe: a first process sends its output to stdout and a second process takes it as its stdin
 |&
 >\
 named pipe
 
-< ## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
+< ## input redirection: shell opens the file (only one file) and gives its content to the stdin of the command - one process only is involved
 cat < file ## file content redirected to standard input, cat doesnt know the file's name, it only reads its stdin
 cat 0< file ## same as cat < file
-cat file ## file argument passed directly to the command, cat reads the file content and outputs it to stdout
-cat ## user input is given to stdin for cat to read it
+cat file ## file argument passed directly to the command, cat reads the file content and outputs it to stdout
+cat ## user input is given to stdin for cat to read it
 echo file | cat ## cat only receives the string "file", not the file content, so it print "file"
-cat toast | cat ## command stdout can be given as stdin to cat
-echo < file ## wont work cause echo cant read from stdin, it needs command line arguments
-cat file | echo ## wont work cause echo cant read from stdin, it needs command line arguments
-echo $(cat file) ## echoes the file content
+cat toast | cat ## command stdout can be given as stdin to cat
+echo < file ## wont work cause echo cant read from stdin, it needs command line arguments
+cat file | echo ## wont work cause echo cant read from stdin, it needs command line arguments
+echo $(cat file) ## echoes the file content
 
-#? custom file descriptors
+#? custom file descriptors
 <>
 <&
 3>&-
 
-#? TEE
+#? TEE
 
 ## write output to a file and display it in the terminal at the same time
 ## named upond the T-splitter in plumbery that direct water flow in two directions
 echo "Hello, World!" | tee output.txt
-tee -a ## append to the file instead of overwriting it
+tee -a ## append to the file instead of overwriting it
 
 #? XARGS
 
@@ -433,7 +433,7 @@ echo "one two three" | xargs echo ## outputs one two three
 
 find -type d | xargs ls -ld ## long listing of directories only
 
-#? ORDER OF EXECUTION
+#? ORDER OF EXECUTION
 
 script sh, bash -c, $... (readline)
 tokenisation en mots et operateurs
@@ -451,102 +451,102 @@ redirections
 execution
 attente fin execution et recolte code retour
 
-#? SPECIAL PARAMETERS
+#? SPECIAL PARAMETERS
 
 ## tied to bash, those variables can only be referenced, not assigned
 
-echo !! ## last command
-echo !* ## all arguments of last command
-echo !^ ## first argument of last command
-echo !$ ## last argument of last command
-echo !ls ## last ls command
-echo !ls:* ## all arguments of last ls command
-echo !ls:^ ## first argument of last ls command
-echo !ls:$ ## last argument of last ls command
+!! ## last command
+!* ## all arguments of last command
+!^ ## first argument of last command
+!$ ## last argument of last command
+!ls ## last ls command
+!ls:* ## all arguments of last ls command
+!ls:^ ## first argument of last ls command
+!ls:$ ## last argument of last ls command
 
-echo $? ## the exit status of the last command
+$? ## the exit status of the last command
 ## 0 is for command success or true, 1 and more is for errors
-echo $1 ## first positionnal parameter when arguments are given to a script
-echo $2 ## second positionnal parameter, and so on until $9
-echo ${10} ## 10th positional parameter and more are in ${}
-echo $0 ## shell type - name of the script if in a script
-echo $_ ## last argument of previous command (if the function executed a command before $_ will represent the last argument of that last command, not the last argument of the function)
-echo $# ## the number of positional parameters
-echo $* ## equals $1 $2 $3
-echo "$*" ## equals "$1 $2 $3" - one parameter
-echo $@ ## equals $1 $2 $3
-echo "$@" ## equals "$1" "$2" "$3" - three parameters
+$1 ## first positionnal parameter when arguments are given to a script
+$2 ## second positionnal parameter, and so on until $9
+${10} ## 10th positional parameter and more are in ${}
+$0 ## shell type - name of the script if in a script
+$_ ## last argument of previous command (if the function executed a command before $_ will represent the last argument of that last command, not the last argument of the function)
+$# ## the number of positional parameters
+$* ## equals $1 $2 $3
+"$*" ## equals "$1 $2 $3" - one parameter
+$@ ## equals $1 $2 $3
+"$@" ## equals "$1" "$2" "$3" - three parameters
 ## The difference can matter when providing as arguments strings with space that confuse the count of arguments: echo 3 "Sun Tzu" Bob
-echo $$ ## the process ID of the current shell
-echo $PPID ## The process parent ID of the current shell
-echo $! ## the process ID of the last background job
-echo $- ## current options set for the shell
+$$ ## the process ID of the current shell
+$PPID ## The process parent ID of the current shell
+$! ## the process ID of the last background job
+$- ## current options set for the shell
 
-$BASH_COMMAND ## next command to be executed
-$LINENO ## current line number in the script
+$BASH_COMMAND ## next command to be executed
+$LINENO ## current line number in the script
 $BASH_SOURCE ## absolute name of the script being executed
 
-#? QUOTING AND ESCAPING
+#? QUOTING AND ESCAPING
 
-echo '$var' ## preserve literal value of all characters
-echo "$var" ## preserve literal value of all characters except for $, \ and `
+'$var' ## preserve literal value of all characters
+"$var" ## preserve literal value of all characters except for $, \ and `
 
 #? IF
 
 ## basic syntax
 if condition; then
-	command
+ command
 elif other_conditon; then
-	command
+ command
 else
-	command
+ command
 fi
 
 ## Conditions can be commands, comparisons or tests
-## Bash evaluates the exit status: 0 is true, non-zero is false
+## Bash evaluates the exit status: 0 is true, non-zero is false
 
 if ls /roote ## ls /roote returns exit 1 so the condition is false
 if ls 1> /dev/null 2>&1; then echo true; else echo false; fi ## output of ls is sent away
-/dev/null ## bit bucket, to send away unwanted output
-if [ -z "$(ls -A /path/to/dir)" ] ## use command substitution to check if directory is empty
+/dev/null ## bit bucket, to send away unwanted output
+if [ -z "$(ls -A /path/to/dir)" ] ## use command substitution to check if directory is empty
 
-test condition ## condition with test command
+test condition ## condition with test command
 if test 4 -eq 4; then echo true; else echo false; fi ## example
-[ condition ] ## shortcut for test command
+[ condition ] ## shortcut for test command
 if [ 4 -eq 4 ]; then echo true; else echo false; fi ## example
 
 ## unset or null is false, else is true
-if [ ]; then echo ok; else echo false; fi ## returns false
-if [ blop ]; then echo ok; else echo false; fi ## returns true
-if [ "string" ]; then echo ok; else echo false; fi ## returns true
-if [ "" ]; then echo ok; else echo false; fi ## returns false
-if [ $unset_var ]; then echo ok; else echo false; fi ## returns false
-if [ "$null_var" ]; then echo ok; else echo false; fi ## returns false
-var=blop; if [ "$var" ]; then echo ok; else echo false; fi ## returns true
+if [ ]; then echo ok; else echo false; fi ## returns false
+if [ blop ]; then echo ok; else echo false; fi ## returns true
+if [ "string" ]; then echo ok; else echo false; fi ## returns true
+if [ "" ]; then echo ok; else echo false; fi ## returns false
+if [ $unset_var ]; then echo ok; else echo false; fi ## returns false
+if [ "$null_var" ]; then echo ok; else echo false; fi ## returns false
+var=blop; if [ "$var" ]; then echo ok; else echo false; fi ## returns true
 
-## numbers
+## numbers
 
--eq ## number is equal
--ne ## number is not equal
--lt ## number is less than
--le ## number is less than or equal
--gt ## number is greater than
--ge ## number is greater than or equal
+-eq ## number is equal
+-ne ## number is not equal
+-lt ## number is less than
+-le ## number is less than or equal
+-gt ## number is greater than
+-ge ## number is greater than or equal
 
-## strings
+## strings
 
 string1 = string2 ## strings are equal
 string1 == string 2 ## strings are equal
 string1 != string 2 ## strings are not equal
-string \< string 2 ## string come before in alphabetical order
-string \> string 2 ## string come after in alphabetical order
+string \< string 2 ## string come before in alphabetical order
+string \> string 2 ## string come after in alphabetical order
 
 test "foo" ## true
 test "" ## false
 -z ## string is empty
 -n ## string is not empty
 
-## files
+## files
 
 -e ## file exists
 -f ## file is a regular file
@@ -555,30 +555,30 @@ test "" ## false
 -w ## file is writable
 -x ## file is executable
 
--O ## file is owned by effective user id
+-O ## file is owned by effective user id
 -G ## file is owned by effective group id
 -u ## file has suid permission
 -g ## file has sgid permission
--k ## file has sticky bit permission
+-k ## file has sticky bit permission
 -b ## file is a block file (storage)
--c ## file is a character file (terminal)
--S ## file is a socket
--h ## file is a symbolic link
+-c ## file is a character file (terminal)
+-S ## file is a socket
+-h ## file is a symbolic link
 -L ## file is a symbolic link
--s ## file is not empty (< 0 byte in size)
+-s ## file is not empty (< 0 byte in size)
 -p ## file is a named pipe
--t ## file descriptor is connected to a terminal so shell is interactive (file descriptor is 0 1 or 2)
--N ## file as been modified since last read (mtime is more recent than atime)
+-t ## file descriptor is connected to a terminal so shell is interactive (file descriptor is 0 1 or 2)
+-N ## file as been modified since last read (mtime is more recent than atime)
 
-file1 -nt file2 ## file1 is newer than file2 (mtime)
+file1 -nt file2 ## file1 is newer than file2 (mtime)
 file1 -ot file2 ## file1 is older than file2 (mtime)
 file1 -ef file2 ## file1 has same inode number than file2
 
 ## logical operators
 
-! EXPR ## operator NOT
+! EXPR ## operator NOT
 EXPR1 -o EXPR2 ## operator OR
-EPXR1 -a EPXR2 ## operator AND
+EPXR1 -a EPXR2 ## operator AND
 
 if ! ls /roote ## not
 if ls /roote && echo crac ## and
@@ -590,7 +590,7 @@ if ls /roote || echo crac ## or
 $? isolation with parentheses exists with you escape them \(
 
 [ "$var" = "string" ] ## quotes are needed cause if $var is empty, it compares an empty string instead of producing a syntax error
-[ $var ] ## bash checks if value is empty or not, not if its equal to zero or not
+[ $var ] ## bash checks if value is empty or not, not if its equal to zero or not
 
 ((1 > 0)) ## works also with arithmetic expressions
 if (( 1 < 2 )); then echo ok; fi
@@ -613,24 +613,24 @@ ls /home && echo success ## does echo if ls succeeds
 
 case $var in
     1)
-			echo "$var = 1"
+   echo "$var = 1"
       ;;
-		2) echo "$var =2";;
+  2) echo "$var =2";;
     "red")
       echo "$var = red"
       ;;
-		*.txt)
-			echo "$var is a text file"
-			;;
-		?.sh)
-			echo "$var is a shell script with a single-character name"
-			;;
-		[a-z]*)
-			echo "$var starts with an uppercase letter"
-			;;
-		"monday"|"tuesday")
-			echo "$var is either monday or tuesday"
-			;;
+  *.txt)
+   echo "$var is a text file"
+   ;;
+  ?.sh)
+   echo "$var is a shell script with a single-character name"
+   ;;
+  [a-z]*)
+   echo "$var starts with an uppercase letter"
+   ;;
+  "monday"|"tuesday")
+   echo "$var is either monday or tuesday"
+   ;;
     *) ## fallback option, default is no other option is met
       echo "$var is something else"
       ;;
@@ -638,21 +638,21 @@ esac
 
 case $i in 2) echo 2 ;; 5) echo 5 ;; esac ## one-line case
 
-## when a pattern is matched, code block is executed
-;; ## default - executes the code block of the first match, then skips other tests and exits the cas statement
-;;& ## does not skip other tests, allow to mactch multiple tests and execute multiple code blocks
+## when a pattern is matched, code block is executed
+;; ## default - executes the code block of the first match, then skips other tests and exits the cas statement
+;;& ## does not skip other tests, allow to mactch multiple tests and execute multiple code blocks
 ;& ## executes the code block of the first match
 
 #? FOR
 
 ## the for construct walks through a given list of items
 for i in 1 2 3; do
-	echo $i
+ echo $i
 done
-## for separates values with word splitting, depending on $IFS value
+## for separates values with word splitting, depending on $IFS value
 
-for in in {1..5} ## list of numbers
-for i in $(seq 1 5) ## list of numbers
+for in in {1..5} ## list of numbers
+for i in $(seq 1 5) ## list of numbers
 for i in *.sh ## echoes list of files ending in .sh
 for i in file.txt ## echoes only file.txt
 for i in file[123] ## echoes file1, file2, file3 if they exist
@@ -665,20 +665,20 @@ until EXPR; do command; done ## executes command until condition is met
 #? WHILE
 
 while EXPR; do command; done ## executes command as long as condition is met
-## example
+## example
 i=0
 while [[ $i < 5 ]]; do
-	echo $i
-	((i++))
+ echo $i
+ ((i++))
 done
 
-$? FUNCTIONS
+#? FUNCTIONS
 
-## defining a function
+## defining a function
 sayhello() {
-	echo "hello"
+ echo "hello"
 }
-sayhello ## run the function
+sayhello ## run the function
 
 function sayhello() ## classic syntax
 function sayhello ## alternative syntax
@@ -692,53 +692,53 @@ hello() { echo crac; } ## write function on a single line
 
 ## return command deals with exit status so to return a value, use echo
 double() {
-	arg="$1"
-	echo $(( arg * 2 ))
+ arg="$1"
+ echo $(( arg * 2 ))
 }
-double 3 ## echo result
-foo=$(double 3) ## assign to a variable
+double 3 ## echo result
+foo=$(double 3) ## assign to a variable
 
-## variable scope
-var=value ## var is global by default, so it erases every var in the process with the same name and is accesible from everywhere in the process
+## variable scope
+var=value ## var is global by default, so it erases every var in the process with the same name and is accesible from everywhere in the process
 local var=value ## var exists only in the function, cant be acessed outside of it neither in nested functions
 
-## escaping functions is not possible, if a function has the same name as a command, the function goes first - the command can still be used these ways:
-/bin/ls ## full path
-command ls ## command command
-builtin ls ## command builtin
+## escaping functions is not possible, if a function has the same name as a command, the function goes first - the command can still be used these ways:
+/bin/ls ## full path
+command ls ## command command
+builtin ls ## command builtin
 
 ## readonly
-readonly function ## make function readonly, impossible to modify or unset
-readonly -f fucntion ## 
-declare -r function ## make function readonly, impossible to modify or unset
-readonly -f ## show functions that have received readonly -f
+readonly function ## make function readonly, impossible to modify or unset
+readonly -f fucntion ## 
+declare -r function ## make function readonly, impossible to modify or unset
+readonly -f ## show functions that have received readonly -f
 
-readonly ## print readonly variables and functions
-readonly -f ## print readonly functions
+readonly ## print readonly variables and functions
+readonly -f ## print readonly functions
 
 #? ARRAYS
 
 ## index array
 
 index_array=(1 2 3) ## declare an indexed array
-declare -a index_array=(1 2 3) ## declare an indexed array
-declare -a index_array; index_array=(1 2 3) ## in two commands
+declare -a index_array=(1 2 3) ## declare an indexed array
+declare -a index_array; index_array=(1 2 3) ## in two commands
 
 index_array[3]=4 ## add a value
-index_array+=4 ## add text to the first element
-index_array[3]+=4 ## add text to the third element
+index_array+=4 ## add text to the first element
+index_array[3]+=4 ## add text to the third element
 index_array+=(4) ## add element at the end of the array - index is automatic
 unset array[1] ## make element 1 empty, but does not remove the index neither change order of elements
 
-echo $index_array ## access element 0 of array
-echo ${index_array[0]} ## print index 0
-echo ${index_array[@]} ## print all values, separated by spaces
-echo ${index_array[*]} ## print all values, separated by spaces
-echo ${#index_array} ## echo length of first element of array
-echo ${#index_array[@]} ## print array length
-echo ${!array[@]} ## print all keys
+$index_array ## access element 0 of array
+${index_array[0]} ## print index 0
+${index_array[@]} ## print all values, separated by spaces
+${index_array[*]} ## print all values, separated by spaces
+${#index_array} ## echo length of first element of array
+${#index_array[@]} ## print array length
+${!array[@]} ## print all keys
 
-for i in ${index_array[@]}; do echo $i; done ## iterate over array values
+for i in ${index_array[@]}; do echo $i; done ## iterate over array values
 for i in ${!index_array[@]}; do echo $i; done ## iterate over array keys
 for i in ${!index_array[@]}; do echo $i = ${index_array[$i]}; done ## iterate over array keys and values
 
@@ -748,44 +748,44 @@ assoc_array=([key1]=value1 [key2]=value2) ## wont work alone, declare is needed
 declare -A assoc_array=([key1]=value1 [key2]=value2) ## declare and define an associative array
 declare -A assoc_array; assoc_array=([key1]=value1 [key2]=value2) ## in two commands
 
-assoc_array[key3]=value3 ## add key and value - change value if key exists
-assoc_array+=4 ## add text to the first element: key 0 - and add key 0 to the table at the same time
-assoc_array[key2]+=4 ## add text to key2
+assoc_array[key3]=value3 ## add key and value - change value if key exists
+assoc_array+=4 ## add text to the first element: key 0 - and add key 0 to the table at the same time
+assoc_array[key2]+=4 ## add text to key2
 assoc_array+=(4) ## add new key named 4
-unset assoc_array[key1] ## remove key-pair value
+unset assoc_array[key1] ## remove key-pair value
 
-echo $assoc_array ## unbound variable
-echo ${assoc_array[key1]} ## print key1
-echo ${assoc_array[@]} ## print all values, separated by spaces
-echo ${assoc_array[*]} ## sprint all values, separated by space
-echo ${#assoc_array} ## unbound variable
-echo ${#assoc_array[@]} ## print array length
-echo ${!assoc_array[@]} ## print all keys
+$assoc_array ## unbound variable
+${assoc_array[key1]} ## print key1
+${assoc_array[@]} ## print all values, separated by spaces
+${assoc_array[*]} ## sprint all values, separated by space
+${#assoc_array} ## unbound variable
+${#assoc_array[@]} ## print array length
+${!assoc_array[@]} ## print all keys
 
-for i in ${assoc_array[@]}; do echo $i; done ## iterate over array values
-for i in ${!assoc_array[@]}; do echo $i; done ## iterate over array keys
-for i in ${!assoc_array[@]}; do echo "$i = ${assoc_array[$i]}"; done ## iterate over array keys and values
+for i in ${assoc_array[@]}; do echo $i; done ## iterate over array values
+for i in ${!assoc_array[@]}; do echo $i; done ## iterate over array keys
+for i in ${!assoc_array[@]}; do echo "$i = ${assoc_array[$i]}"; done ## iterate over array keys and values
 
 #? MAPFILE / READARRAY
 
 ## mapfile or readarray make an indexed array from standard input or from lines of a file
-mapfile ## reads from user input and fill the the $MAPFILE variable by default
+mapfile ## reads from user input and fill the the $MAPFILE variable by default
 mapfile array ## specify array name
-mapfile array < file ## make array from lines of a file
-mapfile array < <(ls) ## make array from output of a command
+mapfile array < file ## make array from lines of a file
+mapfile array < <(ls) ## make array from output of a command
 
-mapfile -n 3 ## limit to 3 lines of input
-mapfile -s 3 ## skip first 3 lines of input
-mapfile -O 5 array < file ## input lines are stored in array starting at index 5, leaving indices 0-4 empty
-mapfile -t ## remove all trailing newlines (\n)
+mapfile -n 3 ## limit to 3 lines of input
+mapfile -s 3 ## skip first 3 lines of input
+mapfile -O 5 array < file ## input lines are stored in array starting at index 5, leaving indices 0-4 empty
+mapfile -t ## remove all trailing newlines (\n)
 
 #? READ
 
 read ## take value from standard input and put in $REPLY variable
-read var ## ## put value in specific variable
+read var ## ## put value in specific variable
 read name surname ## read multiple variables, separated by space - last variable takes all the remaining text
-read -p "Write your name: " name ## add a message without echo
-read -s password ## hide the content being typed on the screen
+read -p "Write your name: " name ## add a message without echo
+read -s password ## hide the content being typed on the screen
 read -n 1 foo ## read only the first character and go on
 read -r name ## disables backslash escaping, useful for path reading
 read -t 3 value ## wait only 3 seconds for the input
@@ -795,18 +795,18 @@ read < file ## take a file as input
 echo "hello what's up" > txt; read var1 var2 var3 < txt ## var1 is hello, var2 is what's, var3 is up
 ## parses in multiple variable as possible
 
-IFS=: ## change separation of bits of text from default space to :
-## each time read meets a :, it put the value in a variable
+IFS=: ## change separation of bits of text from default space to :
+## each time read meets a :, it put the value in a variable
 while read login hash uid gid gecos home shell; do ## while processes all line one by one
-	echo "login = $login, shell = $shell"
+ echo "login = $login, shell = $shell"
 done < /etc/passwd
 
 read <<< $(ls) ## takes first result of ls
 
-#? SOURCE
+#? SOURCE
 
-source filepath ## execute bashscript in same process - include file in another script
-. filepath ## shortcut
+source filepath ## execute bashscript in same process - include file in another script
+. filepath ## shortcut
 ## sourcing files containing variable defitions allows to use them:
 . /etc/os-release ## source os info file
 echo $pretty_name ## echo variable
@@ -814,37 +814,37 @@ echo $pretty_name ## echo variable
 #? SUBSHELLS
 
 ## parentheses create a separate instance of the shell that inherits the environment of the parent shell (variables, functions etc.), but any creation done or any change made to the environment within the subshell do not affect the parent shell
-(cd /var/www/ && ls -la) ## the subshell performs cd and ls, but when back to parent shell, nothing changed, pwd is as before
+(cd /var/www/ && ls -la) ## the subshell performs cd and ls, but when back to parent shell, nothing changed, pwd is as before
 (hostname; date) >> file ## combine output: execute two commands in a subshell and send result to file
-ls | grep pattern ## each command in a pipeline is executed in its own subshell
+ls | grep pattern ## each command in a pipeline is executed in its own subshell
 var=$(ls) ## command substitutions uses subshell
-vim & ## command in the background uses a subshell
+vim & ## command in the background uses a subshell
 
-#? GROUPING COMMANDS
+#? GROUPING COMMANDS
 
 ## braces dont create a separate instance, but group the commands together to redirect the output of multiple commands to a single stream
-{ echo file1; echo file2; echo file3; } > file ## group commands and send everything to the file
+{ echo file1; echo file2; echo file3; } > file ## group commands and send everything to the file
 
-#? FILE GLOBBING
+#? FILE GLOBBING
 
 ## file globbing allows to represent multiple file names
-## wildcards are used that represent one or more characters
+## wildcards are used that represent one or more characters
 * ## represents zero, one or more occurrences of any character
 ## ? represents one occurence of any character
 [] ## represents one occurrence of th characters enclosed in the square brackets
-echo * ## prints every file in working directory
-echo *.txt ## prints every file ending in .txt
+echo * ## prints every file in working directory
+echo *.txt ## prints every file ending in .txt
 echo l?st ## prints every file in working directory matching pattern
-echo l[abc]st.txt ## matches only last.txt, lbst.txt and lcst.txt
+echo l[abc]st.txt ## matches only last.txt, lbst.txt and lcst.txt
 echo [a-z][a-z].txt ## matches only file names of one lower case letter and one capital then .txt
 echo l[0-9] ## matches only a file name composed of l and a number
 echo ? ## ouput ? cause didnt find file matching pattern
 ls ? ## ouput no such file in directory
 
-#? BRACE EXPANSION
+#? BRACE EXPANSION
 
 echo {a,b,c,d} ## list expansion: echo a b c d
-echo {a..d} ## sequence expansion: echo a b c d
+echo {a..d} ## sequence expansion: echo a b c d
 echo {a..q..4} ## step increment: echo aeimq
 
 echo {a,b,c}{1,2,3} ## nested expansion: echo a1 a2 a3 b1 b2 b3 c1 c2 c3
@@ -854,82 +854,82 @@ echo file{1..3} ## prefix and suffix expansion: echo file1.txt, file2.txt and fi
 echo {ca,co}.txt ## matches ca.txt and co.txt
 ls {p*,*.txt} ## matches files beginning with p or ending with .txt
 
-#? PARAMETER EXPANSION
+#? PARAMETER EXPANSION
 
 ## the shell replaces variable reference by its value during execution of a command
-echo $var ## basic variable expansion
-echo ${var} ## alternative syntax
+$var ## basic variable expansion
+${var} ## alternative syntax
 
-echo ${var}text ## better delimitation of the variable name
-echo ${#var} ## string length expansion
+${var}text ## better delimitation of the variable name
+${#var} ## string length expansion
 
-## unset variable: undeclared, unbound variable
-## null variable: empty string variable
+## unset variable: undeclared, unbound variable
+## null variable: empty string variable
 ## unset var: make variable unset
 ## var="": set null variable
 
-## default values
-echo ${var-default} ## expands to default if var is unset
-echo ${var-} ## expands to empty string if var is unset
-echo ${var:-default} ## expands to default is var is unset or null
+## default values
+${var-default} ## expands to default if var is unset
+${var-} ## expands to empty string if var is unset
+${var:-default} ## expands to default is var is unset or null
 
-## assign if unset
-echo ${var=default} ## expands to default if var is unset and set var plus assign it default value
-echo ${var=} ## expands to empty string if var is unset and set var plus assign it default value
-echo ${var:=default} ## expands to default is var is unset or null and set var plus assign it default value
+## assign if unset
+${var=default} ## expands to default if var is unset and set var plus assign it default value
+${var=} ## expands to empty string if var is unset and set var plus assign it default value
+${var:=default} ## expands to default is var is unset or null and set var plus assign it default value
 
-## alternate value
-echo ${var+alt} ## expands to alt if var is set even if null, return empty string if var is unset
-echo ${var:+alt} ## expands to alt if var is set and not null, return empty string if var is unset or null
+## alternate value
+${var+alt} ## expands to alt if var is set even if null, return empty string if var is unset
+${var:+alt} ## expands to alt if var is set and not null, return empty string if var is unset or null
 
-## error handling
-echo ${var?errormessage} ## if var is unset, throw an error with the error message and exit the scipt
-echo ${var:?errormessage} ## if var is unset or null, throw an error with the error message and exit the scipt
+## error handling
+${var?errormessage} ## if var is unset, throw an error with the error message and exit the scipt
+${var:?errormessage} ## if var is unset or null, throw an error with the error message and exit the scipt
 
 ## substring extraction
-echo ${var:2} ## return the substring of var after character 2
-echo ${var:2:3} ## return the substring of var, three characters after character 2
+${var:2} ## return the substring of var after character 2
+${var:2:3} ## return the substring of var, three characters after character 2
 
 ## string replacement
-echo ${var/pattern/replacement} ## replace the first match of pattern by replacement in var
-echo ${var//pattern/replacement} ## replace all matches of pattern by replacement in var
-echo ${var/#pattern/replacement} ## replace match of pattern by replacement in var if the pattern occurs at the start of var
-echo ${var/%pattern/replacement} ## replace match of pattern by replacement in var if the pattern occurs at the end of var
+${var/pattern/replacement} ## replace the first match of pattern by replacement in var
+${var//pattern/replacement} ## replace all matches of pattern by replacement in var
+${var/#pattern/replacement} ## replace match of pattern by replacement in var if the pattern occurs at the start of var
+${var/%pattern/replacement} ## replace match of pattern by replacement in var if the pattern occurs at the end of var
 
 ## other parameter expansion syntax
 path="/path/to/file.txt"
-echo ${var#pattern} ## remove the shortest match of pattern from the beginning of var
-echo ${path#*/} ## outputs path/to/file.txt
-echo ${var##pattern} ## remove the longest match of pattern from the beginning of var
-echo ${path##*/} ## outputs file.txt
-echo ${var%pattern} ## remove the shortest match of pattern from the end of var
-echo ${path%/*} ## ouputs /path/to
-echo ${var%%pattern} ## remove the longest match of pattern from the end of var
-echo ${path%%/*} ## outputs empty string
+${var#pattern} ## remove the shortest match of pattern from the beginning of var
+${path#*/} ## outputs path/to/file.txt
+${var##pattern} ## remove the longest match of pattern from the beginning of var
+${path##*/} ## outputs file.txt
+${var%pattern} ## remove the shortest match of pattern from the end of var
+${path%/*} ## ouputs /path/to
+${var%%pattern} ## remove the longest match of pattern from the end of var
+${path%%/*} ## outputs empty string
 
-#? WORD SPLITTING
+#? WORD SPLITTING
 
 
 
-$? PATHS
+#? PATHS
 
 dirname <path> ## strip last component from file name
 basename <path> ## strip directory and suffix from filenames
 realpath <relative_path> ## get absolute path from relative path
 pwd ## get current directory's absolute path
 
-$? SELECT
+#? SELECT
 
 ## classic syntax to make a menu
 PS3="Select color:" ## PS3 is the prompt for select command
 select color in red green blue; do
-	echo $color ## value is red green or blue
-	echo $REPLY ## value is 1 2 or 3 ## print again the menue if $REPLY is empty
-	case $color in
-		red) echo "red" ;;
-		green) echo "green" ;;
-	 	blue) echo "blue" ;;
-	esac
+ echo $color ## value is red green or blue
+ echo $REPLY ## value is 1 2 or 3 ## print again the menue if $REPLY is empty
+ case $color in
+  red) echo "red" ;;
+  green) echo "green" ;;
+   blue) echo "blue" ;;
+ esac
 done
 select var in list; do echo $var; done ## one line
 select color in red green blue; do case $color in red) echo "red" ;; green) echo "green" ;; blue) echo "blue" ;; esac; done
@@ -945,7 +945,7 @@ $PATH ## lits of dirs where bash searches for commands
 $RANDOM ## random number between 0 and 32767
 $REPLY ## default variable for read and select commands
 $SECONDS ## seconds since current bash process creation
-$BASH_VERSION ## the version of bash
+$BASH_VERSION ## the version of bash
 
 ## control the command prompt
 PS1 ## primary prompt over the terminal - default value is \u@\h:\w\$
@@ -956,30 +956,30 @@ PS4 ## Debug prompt (when set -x was performed) - Default value is +
 #? RETURN
 
 ## exit function or sourced script, not standalone scripts
-return ## in function: exit the function; in sourced script: exit the script and get back to shell
-## with a number return specified exit status
-return 5 ## in function: exit the function with specified exit status; in sourced script: exit the script and get back to shell with specified exit status
+return ## in function: exit the function; in sourced script: exit the script and get back to shell
+## with a number return specified exit status
+return 5 ## in function: exit the function with specified exit status; in sourced script: exit the script and get back to shell with specified exit status
 
 #? EXIT
 
-## exit shell process
-## in standalone scripts: exit script
-## in function: exit script
-## in sourced script: exit script and shell process
-exit ## exit shell
+## exit shell process
+## in standalone scripts: exit script
+## in function: exit script
+## in sourced script: exit script and shell process
+exit ## exit shell
 exit 5 ## sets exit status of shell
 
-$? TRAP
+#? TRAP
 
-## execute commands when certain events are triggered
-trap "echo bye" EXIT ## echo bye when script is exited
-trap "echo bye" SIGINT ## echo bye when script is interrupted (Ctrl-C)
-trap "echo bye" ERR ## echo bye when an error is encountered
-trap "echo bye" SIGTERM ## echo bye when the process is killed (while SIGKILL cant be handled)
-trap "echo $BASH_COMMAND" DEBUG ## echo variable each before every command in the script is executed
-trap "echo return status: $?" RETURN ## echo return status when return command is performed
+## execute commands when certain events are triggered
+trap "echo bye" EXIT ## echo bye when script is exited
+trap "echo bye" SIGINT ## echo bye when script is interrupted (Ctrl-C)
+trap "echo bye" ERR ## echo bye when an error is encountered
+trap "echo bye" SIGTERM ## echo bye when the process is killed (while SIGKILL cant be handled)
+trap "echo $BASH_COMMAND" DEBUG ## echo variable each before every command in the script is executed
+trap "echo return status: $?" RETURN ## echo return status when return command is performed
 
-trap "" SIGNAL ## ignore a signal
+trap "" SIGNAL ## ignore a signal
 trap - SIGNAL ## reset signal handling to its default behavior
 
 #? SHIFT
@@ -988,16 +988,16 @@ shift ## shift positional parameters to the left : $1 disappears, $2 becomes $1,
 shift 2 ## shift by two positions
 ## process all command-line arguments, whatever their number
 while (( $# > 0 )); do
-	echo "$1"
-	shift
+ echo "$1"
+ shift
 done
 
 #? EVAL
 
 ## execute a string but does all the substitution before
 var=5
-echo {1..5} ## prints 1 2 3 4 5
-echo {1..$var} ## prints {1..5} because the $ interrupts brace expansion structure and bash goes only one time through the text without going back
+{1..5} ## prints 1 2 3 4 5
+{1..$var} ## prints {1..5} because the $ interrupts brace expansion structure and bash goes only one time through the text without going back
 ## brace expansion happens before variable expansion, so it read his range and doesnt recognize $var as a valid part of the range because it is not a number; then the variable expansion happens and its {1..5} but bash does not go back to perform the brace expansion
 eval "echo {1..$var}" ## echo 1 2 3 4 5 because eval do all the substitutions before sending it to the shell execution
 

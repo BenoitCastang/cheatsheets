@@ -1,5 +1,5 @@
-mkdir dir ## create directory
+mkdir dir ## create directory
 mkdir -p parents/children ## create directory together with subdirectories
 
-rmdir dir ## remove empty directory
+rmdir dir ## remove empty directory
 rmdir -p parents/children ## remove directory with its subdirectory

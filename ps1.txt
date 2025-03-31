@@ -1,8 +1,8 @@
 ## the PS1 environment variable controls the terminal prompt
 ## it works with ansi escape commands to customize i\t
-PS1="\[\e[32;1m\]\u@\h\[\e[0m\]:\[\e[34;1m\]\w\[\e[0m\]\$ " ## classic PS1 prompt
+PS1="\[\e[32;1m\]\u@\h\[\e[0m\]:\[\e[34;1m\]\w\[\e[0m\]\$ " ## classic PS1 prompt
 
-#? PROMPT VARIABLES PLACEHOLDERS
+#? PROMPT VARIABLES PLACEHOLDERS
 
 \u ## username
 \h ## hostname (short)
@@ -10,16 +10,16 @@ PS1="\[\e[32;1m\]\u@\h\[\e[0m\]:\[\e[34;1m\]\w\[\e[0m\]\$ " ## classic PS1 pro
 \w ## current working directory
 \W ## current directory (basename only)
 \t ## current time (hh:mm:ss)
-\@ ## current time (04:31 AM)
+\@ ## current time (04:31 AM)
 \d ## date (weekday month date)
 \! ## command number (in history)
 \# ## command number (this session)
 \$ ## $ for normal users, # for root
 
-#? OTHER TOOLS
+#? OTHER TOOLS
 
 \n ## newline
 \e ## escape character (used for colors)
 \\ ## a literal backslash
-$? ## any variable like $?
-$EDITOR ## any environment variable
+$? ## any variable like $?
+$EDITOR ## any environment variable

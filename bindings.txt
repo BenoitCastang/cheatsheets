@@ -1,50 +1,50 @@
 #? TTY
 
-## TTY has an an input driver to manage terminal job control - it recognizes certain key sequences as special signals
-stty -a ## print bindings
-stty intr ^c ## bind ^c as interruption signal
-stty susp ^z ## bind ^z as suspend signal
-## put commands in bashrc to make changes permanent
+## TTY has an an input driver to manage terminal job control - it recognizes certain key sequences as special signals
+stty -a ## print bindings
+stty intr ^c ## bind ^c as interruption signal
+stty susp ^z ## bind ^z as suspend signal
+## put commands in bashrc to make changes permanent
 
-#? BASH
+#? BASH
 
-## bash, like python or mysql cli, uses readline, a unix library that provides comand-line-editing capabilities
-## readline supports emacs and vi keybindings, history management, auto-completion and keyboard shortcuts
-.bashrc ## bash configuration
+## bash, like python or mysql cli, uses readline, a unix library that provides comand-line-editing capabilities
+## readline supports emacs and vi keybindings, history management, auto-completion and keyboard shortcuts
+.bashrc ## bash configuration
 .inputrc ## readline configuration
 ## readline configuration can be changed in bash with the command bind
 
-## bash
+## bash
 
-set -o vi ## enable vi-mode of bash
+set -o vi ## enable vi-mode of bash
 
-bind -l ## list functions in alphabetical order
-bind -p ## list functions in alphabetical order with their bindings
-bind -v ## list variables and their values
+bind -l ## list functions in alphabetical order
+bind -p ## list functions in alphabetical order with their bindings
+bind -v ## list variables and their values
 
-bind 'C-l clear-screen' ## change a readline function binding
-bind 'set editing-mode vi' ## change a readline variable value
+bind 'C-l clear-screen' ## change a readline function binding
+bind 'set editing-mode vi' ## change a readline variable value
 
-bind -m vi-insert 'C-l clear-screen' ## set mode-specific binding
-bind -m vi-mode -p ## list mode-specific function bindings
+bind -m vi-insert 'C-l clear-screen' ## set mode-specific binding
+bind -m vi-mode -p ## list mode-specific function bindings
 
-bind -r C-l ## remove binding
-bind -m vi-command -r C-l ## remove binding in specific mode
+bind -r C-l ## remove binding
+bind -m vi-command -r C-l ## remove binding in specific mode
 
-bind -f ~/.inputrc ## reload config file
+bind -f ~/.inputrc ## reload config file
 
-## readline
+## readline
 
-C-l clear-screen ## change a function binding
-"cl" clear-screen ## sequences of keys need quotes
-"\t" clear-screen ## special keys need quotes
-set editing-mode vi ## change a value
+C-l clear-screen ## change a function binding
+"cl" clear-screen ## sequences of keys need quotes
+"\t" clear-screen ## special keys need quotes
+set editing-mode vi ## change a value
 
 C-l "Hello, World!" ## key to write something in the terminal
 C-l "ls -lA\n" ## key to execute a command
 "ciw" "bce" ## vim-style command
 
-C-l "" ## unbind key
+C-l "" ## unbind key
 
 ## bindings by default are in global mode - they work both in insert mode and normal mode
 ## mode-specific bindings override global bindings
@@ -55,10 +55,10 @@ set keymap vi-move ## every following binding works only in move mode
 #? TMUX
 
 c-u ? ## see bindings
-c-u / ## test binding
-.tmux.conf ## custom bindings
+c-u / ## test binding
+.tmux.conf ## custom bindings
 
-#? VIM
+#? VIM
 
-:help index ## see default vim bindings
-.bashrc ## custom bindings
+:help index ## see default vim bindings
+.bashrc ## custom bindings

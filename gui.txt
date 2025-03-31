@@ -1,12 +1,12 @@
-#? INSTALL A GUI
+#? INSTALL A GUI
 
 sudo apt upgrade && sudo apt update ## update sources and packages
 sudo apt install task-gnome-desktop || sudo apt install task-kde-desktop || sudo apt install task-xfce-desktop ## install desktop environment
-sudo apt install gdm3 || sudo apt install sddm || sudo apt install lightdm ## install display manager
+sudo apt install gdm3 || sudo apt install sddm || sudo apt install lightdm ## install display manager
 sudo systemctl enable gdm3 ## make display manager start at each boot
 
 sudo dpgk-reconfigure gdm3 ## configure display manager manually if not done automatically during installation
-sudo reboot ## reboot system if necessary
+sudo reboot ## reboot system if necessary
 
 ?# GUI
 
@@ -20,7 +20,7 @@ Wayland Compositor ## Combines the roles of the X Server and window manager (e.g
 
 $XDG_SESSION_TYPE ## variable indicating usage of x11 or wayland
 
-?# WINDOW MANAGER
+?# WINDOW MANAGER
 
 ## A Window Manager is system software component responsible for controlling the placement and appearance of windows within a graphical user interface. It determines how windows are drawn, resized, moved, and how they interact with user input.
 wmctrl ## tool used to manage and interact with windows through command line
@@ -34,14 +34,14 @@ apt install lightdm/gdm3 ## install display manager
 dpkg-reconfigure lightmdm/gdm3 ## set display manager
 reboot
 
-?# DESKTOP ENVIRONMENT
+?# DESKTOP ENVIRONMENT
 
 ## A desktop environment provides a complete user experience with a suite of integrated applications and utilities. Includes a window manager, file manager, panels, and system settings.
 Gnome, KDE, Xfce, LXDE, Cinammon and MATE (tied to Mint)
 
 ?# VNC
 
-VNC ## Virtual Network computing allows to control remote desktop through RFB, Remote Frame Buffer. Events produced by the local keyboard and mouse are transmitted to the remote desktop, which in turn sends back any screen update to be displayed locally.
+VNC ## Virtual Network computing allows to control remote desktop through RFB, Remote Frame Buffer. Events produced by the local keyboard and mouse are transmitted to the remote desktop, which in turn sends back any screen update to be displayed locally.
 
 ?# SYSTEM TRAY NETWORK ICON ON PLASMA
 

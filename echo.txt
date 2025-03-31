@@ -1,12 +1,12 @@
-#? ECHO
+#? ECHO
 
 echo <text> ## print text and go to the next line
 echo -n ## echo without new line
 
-echo -e ## enable escape characters
-echo -e "blop\ncrac" ## newline character
-echo -e "blop \u2192 crac" ## unicode characters
-echo -e "blop\tcrac\nb\tcrac" ## tabs make colums align
+echo -e ## enable escape characters
+echo -e "blop\ncrac" ## newline character
+echo -e "blop \u2192 crac" ## unicode characters
+echo -e "blop\tcrac\nb\tcrac" ## tabs make colums align
 
 echo * ## file globbing: echo all files in current directory if there are, else echo *
 
@@ -18,46 +18,46 @@ printf "Hello, World!\n" ## print text with carriage return
 printf "%d %s" "digit" "string" ## %d is placeholder for any digit, %s for any string
 num=5; str=foo; printf "%d %s" "$num" "$str" ## with variables
 
-#? COLUMN
+#? COLUMN
 
-## format text input into aligned columns
+## format text input into aligned columns
 
-column file.txt ## display text from file
-echo crac | column ## display text from standard input
+column file.txt ## display text from file
+echo crac | column ## display text from standard input
 
 column ## by default makes columns out of each line
 column -t ## make columns out of whitespace or tab separation
-column -ts : ## make columns out of custom separator
+column -ts : ## make columns out of custom separator
 
-column -to = ## use a custom output delimiter
+column -to = ## use a custom output delimiter
 column -tR 2 ## right align column 2 - default is left-align
-column -tH 2 ## hide column 2
+column -tH 2 ## hide column 2
 
-echo -e "Name Age\nAlice 25\nBob 30" | column -t ## make a table out of space separated data
+echo -e "Name Age\nAlice 25\nBob 30" | column -t ## make a table out of space separated data
 
-#? PV
+#? PV
 
-## pipe viewer - monitor the progress of data through a pipe
+## pipe viewer - monitor the progress of data through a pipe
 
 echo blop | pv ## print data transfer amount, time and rate
 
-pv -L 1 ## limit transfer rate to 1 bit per second
+pv -L 1 ## limit transfer rate to 1 bit per second
 pv -q ## quiet, print nothing
 
-echo blop | pv -qL 20 ## print text slowly
+echo blop | pv -qL 20 ## print text slowly
 
-#? LOLCAT
+#? LOLCAT
 
-## rainbow coloring effect for text console display
+## rainbow coloring effect for text console display
 ## default is a slowly changing font color
 echo blop | lolcat
 
 lolcat -F 1 ## modify rainbow effect frequency - 0.1 is the default
 
-#? FORTUNE
+#? FORTUNE
 
-fortune ## get random text
+fortune ## get random text
 
-#? COWSAY
+#? COWSAY
 
-echo blop | cowsay ## make text appear in bubble with cow drawing
+echo blop | cowsay ## make text appear in bubble with cow drawing

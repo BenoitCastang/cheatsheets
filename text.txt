@@ -15,58 +15,58 @@ echo "file" | rev ## Reverts letters order
 
 $? TR
 
-tr h H ## transform h into H from standard input
-cat file | tr j J ## redirection
-tr eo EO ## transform multiple letters
+tr h H ## transform h into H from standard input
+cat file | tr j J ## redirection
+tr eo EO ## transform multiple letters
 tr a-z A-Z ## transform ranges
-tr -d eo ## delete letters
-tr -s l ## squeeze each sequence of a repeated character with a single occurrence of that character
-tr -s l g ## replace each sequence by one g
-tr -c l b ## complementary : every character NOT matching is transformed
+tr -d eo ## delete letters
+tr -s l ## squeeze each sequence of a repeated character with a single occurrence of that character
+tr -s l g ## replace each sequence by one g
+tr -c l b ## complementary : every character NOT matching is transformed
 
-$? SORT
+$? SORT
 
 ## sort lines by alphabetical order
-sort ## from standard input
-sort file ## from file
+sort ## from standard input
+sort file ## from file
 sort -r ## reverse sorting
-sort -R ## random sort
+sort -R ## random sort
 sort -n ## sort by number
-sort -k 2 ## sort using column 2 values
+sort -k 2 ## sort using column 2 values
 sort -t ':' ## sort using ':' delimiter
-sort -u ## uniq : remove duplicate lines
+sort -u ## uniq : remove duplicate lines
 
-$? UNIQ
+$? UNIQ
 
-## identify adjacent duplicate entries
+## identify adjacent duplicate entries
 uniq file ## filter out adjacent duplicate entries
 uniq file_in file_out ## put result in another file
-uniq -c ## print count of duplicate entries
-uniq -d ## print only duplicate lines
-uniq -u ## print only uniq lines
+uniq -c ## print count of duplicate entries
+uniq -d ## print only duplicate lines
+uniq -u ## print only uniq lines
 uniq -i ## ignore case
 uniq -f 1 ## skip field 1 when comparing lines
-uniq -f 2 ## skip first 2 fields
-uniq -s 3 ## skip first 3 characters when comparing lines
-uniq -w 4 ## limit comparison to the first 4 characters
+uniq -f 2 ## skip first 2 fields
+uniq -s 3 ## skip first 3 characters when comparing lines
+uniq -w 4 ## limit comparison to the first 4 characters
 
 #? SHUF
 
 ## shuffle : randomly sort lines
-shuf ## from standard input
+shuf ## from standard input
 shuf file ## from file
-shuf -n 5 ## display only 5 lines
-shuf file -o file ## output to file
+shuf -n 5 ## display only 5 lines
+shuf file -o file ## output to file
 shuf -i 1-10 ## generate 10 random numbers between 1 and 10
-shuf -i 1-100 -n 1 ## generate one random number between 1 and 100
+shuf -i 1-100 -n 1 ## generate one random number between 1 and 100
 
 #? PASTE
 
 ## put two text files side by side
-paste file1 file2 ## tab is the default separator
-paste -d: ## specify separator
-paste -d ' ' ## space as separator
-paste -s ## dipaly data on only one line
+paste file1 file2 ## tab is the default separator
+paste -d: ## specify separator
+paste -d ' ' ## space as separator
+paste -s ## dipaly data on only one line
 
 #? ICONV
 

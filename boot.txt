@@ -3,9 +3,9 @@
 ## 2.The bootloader runs and determines what Linux kernel program to load
 ## 3.The kernel program loads into memory and starts the necessary background programs required for the system to operate
 
-dmesg ## read the kernel ring buffer
+dmesg ## read the kernel ring buffer
 ## the kernel ring buffer logs the boot messages
-## it is circular and set to a predetermined size: as new messages are logged into the buffer, older messages are rotated out
+## it is circular and set to a predetermined size: as new messages are logged into the buffer, older messages are rotated out
 /var/log ## boot messages are also logged the /var/log folder, where files store the messages of individual previous boots
 
 /boot/grub/grub.cfg ## grub configuration

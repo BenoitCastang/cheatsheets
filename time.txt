@@ -1,9 +1,9 @@
 #? TIME
 
-## display time used by a command
-time ls ## show duration
+## display time used by a command
+time ls ## show duration
 
-#? DATE
+#? DATE
 
 date ## print date and local time
 date -u ## print UTC time
@@ -22,7 +22,7 @@ date +"%H:%M" ## print hour at format 12:34
 %B ## Full month name (e.g., August)
 %s ## Unix time: sseconds since epoch (January 1st 1970)
 
-#? TIMEDATECTL
+#? TIMEDATECTL
 
 timedatectl ## Show current timezone
 timedatectl list-timezones ## Show all timezones

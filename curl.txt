@@ -5,7 +5,7 @@ curl -o file https://benoitcastang.fr ## redirect output to a file
 curl https://benoitcastang.fr | jq ## json format
 curl -s https://benoitcastang.fr | jq ## silent curl text
 
-curl -s https://api.chucknorris.io/jokes/random | jq -r '.value' ## get content from an api
+curl -s https://api.chucknorris.io/jokes/random | jq -r '.value' ## get content from an api
 curl -s https://api.chucknorris.io/jokes/random | jq -r '.value' | pv -qL 25 | lolcat ## pv writes it slowly, lolcat colors it
 
 #? WGET

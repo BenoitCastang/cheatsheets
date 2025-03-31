@@ -1,17 +1,17 @@
 #? IPTABLES
 
 ## iptables allows to control network traffic by defining rules
-## its filter table allows to filter packets through chains list of rules that defines how packets are handled: input chain, output chain, forward chain etc.
+## its filter table allows to filter packets through chains list of rules that defines how packets are handled: input chain, output chain, forward chain etc.
 
 iptables -L ## list rules
-iptables -t filter ## select table filter
+iptables -t filter ## select table filter
 
-#? NFTABLES
+#? NFTABLES
 
 #? UFW
 
 ## uncomplicated firewall - frontend for iptables in debian-based distributions
 
-#? FIREWALLD
+#? FIREWALLD
 
-## firewalld is the default firewall in RHEL-based distributions
+## firewalld is the default firewall in RHEL-based distributions

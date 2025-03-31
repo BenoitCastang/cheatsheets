@@ -1,11 +1,11 @@
 $? SYNTAX
 
-awk 'pattern { action }' ## basic syntax
+awk 'pattern { action }' ## basic syntax
 ## pattern filters
 ## action processes
 
-ll | awk 'pattern { action }' ## work with result of a command
-awk 'pattern { action }' filename ## work with a file
+ll | awk 'pattern { action }' ## work with result of a command
+awk 'pattern { action }' filename ## work with a file
 
 awk '{ print }' ## print everything
 awk '{ print $1 }' ## print column 1
@@ -14,13 +14,13 @@ awk '{ print $1, $2 }' ## print columns 1 and 2
 awk '/word/ { print }' ## print only lines containing word
 
 ## default field separator is tab
-awk -F, 'pattern { action }' ## set comma as field separator
+awk -F, 'pattern { action }' ## set comma as field separator
 
 awk '$2 > 20 { print }' ## print line if column 2 is more than 20
 awk -v var=10 '{ print var }' ## define and print variable
 awk -v var=10 '$2 > var { print }' ## condition with variable
 
-#? BUILT-IN VARIABLES
+#? BUILT-IN VARIABLES
 
 FS ## input field separator
 OFS ## output field separator
@@ -33,11 +33,11 @@ $0 ## entire current record: whole line
 
 awk BEGIN '{ action } pattern { action } END { action }'
 
-END ## block used to perform a final action
+END ## block used to perform a final action
 awk '{ sum += $2 } END { print sum }' ## put the addition of numbers in column 2 in variable sum and print it
 awk '{ sum += $2 } END { print "Total:", sum }' ## add text before variable print
 
-BEGIN ## block used to perform preliminary action
+BEGIN ## block used to perform preliminary action
 awk 'BEGIN { print "Result: " } { print } ## print text before the data
 
 #? CONDITIONS

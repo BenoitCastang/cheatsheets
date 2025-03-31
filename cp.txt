@@ -1,4 +1,4 @@
 ## copy files
 
-cp file1 dir2 ## copy file
-cp -r ## copy recursively
+cp file1 dir2 ## copy file
+cp -r ## copy recursively
