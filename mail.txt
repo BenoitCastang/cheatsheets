@@ -2,14 +2,32 @@ MTA ## Mail Transfer Agent
 ## responsible for sending and routing emails between mail servers
 ## uses SMTP (Simple Mail Transfer Protocol) to transfer messages
 ## receives emails, determines if they are destined for a local user and if so passes them to the MDA
+## softwares: sendmail, postfix, exim
+
 MDA ## Mail Delivery Agent
 ## takes the email from the MTA and delivers it to the recipient's mailbox
 ## works with protocols like POP3 or IMAP
+## softwares: binmail, procmail
+
 MUA ## Mail User Agent
 ## the user interface to read, compose, and send emails
+## softwares: binmail, evolution, thunderbird
+
+POP3/IMAP server ## used by the MUA to get mails
+## softwares: Dovecot, Courier, Cyrus
 
 /var/spool/mail/user ## location for unread messages
 /home/user/mbox ## location for read messages
+
+#? PORTS
+
+25 ## SMTP
+587 ## Submission
+## special SMTP port used only for mail clients to submit emails
+110 ## POP3
+995 ## POP3S
+143 ## IMAP
+993 ## IMAPS
 
 #? BINMAIL
 
@@ -27,8 +45,6 @@ mail john@foobar.com ## send mail to another domain
 mail -s Subject john ## enter the subject non interactively
 echo hello | mail john ## enter the mail body non interactively
 mail john < file.txt ## send content of a file
-
-## commands within binmail
 
 ENTER ## read current message
 - ## read previous message
@@ -56,12 +72,14 @@ r ## reply to all (sender include)
 ## Simple Mail Transfer Protocol
 
 telnet host 25 ## open SMTP session with host
+apt install dovecot-core ## install dovecot
 
 ## Sending a message with raw SMTP protocol
 HELO host ## opening greeting from client
 MAIL FROM:john@host ## identifies sender of message
 RCPT TO:bob@host ## identifies recipient
 DATA ## identifies start of message
+Subject: Hello world ## subject
 Hello, World! ## content of message
 . ## dot alone on a line means the end of the message
 QUIT ## stop the SMTP session
@@ -77,13 +95,25 @@ STARTTLS ## encrypted sessions
 #? POP3
 
 ## Post Office Protocol Version 3
+## POP3 grabs the mails from the inbox and removes them from the server after downloading
 
 telnet host 110 ## connect to pop3 server
+apt install dovecot-pop3d ## install dovecot pop3
 
-USER john ## connect as john
-PASS password ## enter password
-LIST ## list inbox emails
+USER john ## authenticae as john
+PASS password ## enter user system password to log in
+STAT ## see number of mails in the inbox and their total size
+LIST ## list inbox emails and their size
 RETR 2 ## read message number 2
 DELE 2 ## delete message number 2
 RSET ## reset deleted message if session has not been ended before
 QUIT ## end session and save changes
+
+#? IMAP
+
+## Internet Message Access Protocol
+## IMAP leaves the mail on the server and syncs folders. 
+
+apt install dovecot-imapd ## install dovecot imap
+telnet host 143 ## connect to imap server
+openssl s_client -connect host:imaps ## conect to imaps server

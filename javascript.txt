@@ -1,0 +1,243 @@
+#? VARIABLES
+
+#! set a variable
+  const a = 5 ## declare a constant
+  let a = 'foo' ## declare a variable
+
+  a = 5 ## define a variable
+  a = prompt('Give a number: ') ## define return value of a function
+
+#! variable types
+  a = 5 ## number
+  a = 'foo' ## string
+  a = false ## boolean
+  a = [ 13, true, 'foo' ] ## array
+  a = { foo: 'bar', color: 'yellow' } ## object
+  a = () => {} ## function
+  a = null ## no value
+  a = undefined ## undefined
+
+  typeof('string') ## get type of variable
+  isNaN('string') ## return true if parameter is not a number
+  [ 3, 5, 2 ].length ## get length of table
+
+  ## check a if a variable is number between 0 and 10
+  function checkNumberBetweenZeroAndTen() {
+    let number = prompt('Enter a number between 0 and 10.')
+    if (isNaN(number)) { return console.error('Must be a number.') }
+    if ( number < 0 || number > 10 ) { return console.error('Must be a number between 0 and 10.') }
+    console.log('Number is valid.')
+  }
+
+#! combine variables
+  5 + 2 ## add numbers
+  'foo' + 'bar' ## concatenate strings
+
+  a + ' ' + b ## separate variables with space
+  "my name is " + a + " and I'm 30" ## insert variable in quotes
+  `my name is ${a} and i'm 30` ## insert variable with backticks
+
+#! arrays
+  let arr = [ 6, 2, [ 8, 3 ], 4 ] ## define an array with a sub array
+  arr[0] ## access first element
+  arr[2][1] ## access element with sub array
+  arr[1] = 'foo' ## change value in array
+
+#! objects
+  let obj = { foo: 'bar', colors: { blue: true, red: false } } ## object inside object
+  obj.foo ## access element
+  obj.colors.blue ## access sub element
+  obj.foo = 'John' ## change value in object
+
+#? CONDITIONS
+
+#! if
+  if (false) {
+    console.log(true)
+  }
+  else if (true && false) { ## multiple conditions
+    console.log(false)
+  }
+  else {
+    console.log('else')
+  }
+
+#! switch
+  switch (5) {
+    case 2:
+      console.log(2)
+    case 5:
+      console.log(5)
+      break ## dont test next conditions
+    default: ## if no test is true
+      console.log('Nok')
+  }
+
+#! tests
+  a == b ## is equal
+  a === b ## is type equal
+  a != b ## is not equal
+  a > b ## is more
+  a < b ## is less
+  a >= b ## is more or equal 
+  a <= b ## is less or equal
+
+  c = a === b ## assign a variable the result of a test
+
+#! logical operators
+  && ## AND
+  || ## OR
+  !false ## NOT
+
+#? LOOPS
+
+break ## exit current loop
+
+#! while
+  let i = 0
+  while (i < 10) {
+    console.log(i)
+    i++
+  }
+
+#! do while
+  let i = 0
+  do { ## ensure code is run at least once
+    console.log(i)
+    i++
+  } while (1 < 10)
+
+#! for
+  for (i = 0; i < 10; i++) {
+    console.log(i)
+  }
+
+#! for in
+  for (let i in [5, 7]) {
+    console.log(i) ## print keys
+  }
+
+#! for of
+  for (let i of [5, 7]) {
+    console.log(i) ## print values
+  }
+
+#? FUNCTIONS
+
+#! declaration
+  function f() {} ## minimal syntax
+  function f(arg) { console.log(arg) } ## with an argument
+  function f() { return 0 } ## return a value
+  ## a function without a value to return will return undefined
+
+  const sum = function (a, b) { return a + b } ## declare a function through a variable
+  ## the name of the variable will be the name of the function
+  ## this limits its range to local as any variable while default function range is global
+
+  () => {} ## anonymous function
+  const sum = (a, b) => a + b ## function with only a return can be written this way
+
+  ## define a function with a callback - a function as parameter
+  function isEven(number, callback) {
+    if (number % 2 === 0) {
+      callback(number)
+    }
+  }
+  isEven(4, (number) => console.log(`${number} is even.`))
+
+#! usage
+  f() ## use a function
+  f('foobar') ## use a function with an argument
+
+
+
+
+
+
+
+a = parseInt(a), b = parseInt(b);
+alert(a + b);
+let text = a + '' + b;
+alert(text);
+result = 5 === parseInt('5');
+result = !result;
+alert(result);
+let a = 0, b = '', c = a === b;
+if (a) {
+  alert(true)
+}
+else if (!a) {
+  alert(false);
+}
+alert(a || b || 'd' ||'last')
+if (confirm('Do you confirm ?')) {
+  alert('confirmed');
+}
+else {
+  alert('not confirmed');
+}
+let choice = prompt('go up or down ?');
+switch(choice) {
+  case 'up':
+    alert('you are alive !');
+    break;
+  case 'down':
+    alert('you are dead !');
+    break;
+  default:
+    alert('I didnt understand what you try to say.');
+}
+alert('Your age : ' + (confirm('Are you an adult ?') ? '18+' : '-18'));
+let number = '5g';
+parseInt(number);
+alert(number);
+let num = 0;
+do {
+  alert(num);
+  num++;
+}
+let i = 0;
+while (i < 10) {
+  alert(i++);
+}
+for (let i = 1 ; i <= 10 ; i++) {
+  if (i % 2 == 0) {
+    continue;
+  }
+  alert(i);
+}
+let myString = new String('This is a string');
+myString = myString.split('');
+console.log(myString);
+myString = myString.join('  ');
+console.log(myString);
+var arr = new Array('Sébastien', 'Laurence', 'Ludovic', 'Pauline', 'Guillaume');
+let arr = {
+self: 'Benoit',
+      sister: 'Alice',
+      dad: 'Denis'
+}
+for (let i = 0, c = arr.length ; i < c ; i++) {
+  alert(arr[i]);  
+}
+arr.push('Jill');
+arr['mom'] = 'Soizic';
+arr.cousin = 'Isabelle';
+console.log(arr);
+for (let key in arr) {
+  alert(key + ' = ' + arr[key]);
+}
+let nicks = new Array(), nick;
+while (nick = prompt('What name ?')) {
+  nicks.push(nick);
+}
+if (nicks.length > 0) {
+  nicks = nicks.join('-');
+  alert(nicks);
+}
+else {
+  alert('Empty array !');
+}
+console.log(parseInt('0xa'));
+var text = parseInt('loutre');
+console.log(isNaN(text));

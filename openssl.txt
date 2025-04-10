@@ -1,0 +1,14 @@
+## OpenSSL - open secure sockets layer
+## toolkit and library for working with SSL and TLS, which are protocols that secure communications over a network between client and server
+## provides secured protocols: https, pop3s, imaps, ftps, smtps etc.
+## provides encryption, decryption, certificate handling, key generation features
+## usable as code library or command-line utility
+
+## divided in 3 three components
+libcrypto ## the core cryptographic library to handle symmetric and asymmetric encryptions, hashing and random number generations
+libssl ## SSL/TLS implementation to handle handshake, certificate validation and secure communication
+## SSL - Secure Sockets Layer
+## TLS - Transport Layer Security
+openssl ## the command-line tool - interface to test, debug and manage ssl/tls operations and certificates
+
+openssl s_client -connect localhost:https ## connect a https port

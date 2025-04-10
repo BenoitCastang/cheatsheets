@@ -1,15 +1,28 @@
+#? DEBIAN
+
+#! dpkg
+## debian package - manual installation
+dpkg -i package ## install a .deb package
+dpkg -i --force package ## install package even if dependencies requirements are not met
+dpkg -r package ## remove package leaving configuration files
+dpkg -P package ## remove package plus configuration files
+dpkg -I package ## get info about package
+dpkg -L package ## get a list of every file installed by a specific package
+dpkg-query -S file ## see which packet owns the file
+dpkg-reconfigure packet ## reinstall a packet
+
+#! apt-get update
 ## apt has over dpkg advanced search capabilities and automatic dependency resolution, it works also in concert with software repositories
-
-#? APT-GET
-
 apt-get update ## update local package index to get info and sources of new and updated packages
 apt update ## shorthand
 
+#! apt-get install
 apt-get install package ## install package from online source
 apt install package ## shorthand
 apt-get install -f package ## fixing broken dependecies
 apt install -f package ## shorthand
 
+#! apt-get remove
 apt-get remove package ## uninstall package, leaving configuration files
 apt remove package ## shorthand
 apt-get remove --purge package ## remove also configuration files
@@ -18,6 +31,7 @@ apt purge package ## shorthand
 apt autoremove ## remove unnecessary packages that were installed as dependencies but are no longer needed
 apt autoremove --purge  ## purge also
 
+#! apt-get upgrade
 apt-get upgrade ## install all new version available of packages
 apt upgrade ## shorthand
 apt dist-upgrade ## upgrade the system while also handling dependencies intelligently
@@ -28,7 +42,7 @@ apt-get clean ## remove content of archives directories
 apt clean ## package
 apt list --installed ## echo list of installed packages
 
-#? APT-CACHE
+#! apt-cache
 
 apt-cache ## operations on the package index
 apt-cache search pattern ## output list of packages containing the pattern in either the name, description or files
@@ -57,12 +71,12 @@ deb-src ## source packages archive type (containing only source code)
   security ## contains security updates.
   backports ## contains more recent versions of packages that are in main, not validated yet by debian stable version.
 
-#? PERSONAL PACKAGE ARCHIVES
+#! personal package archives
 
 ## PPAs are mini-repositories, often including a single application
-sudo apt-add-repository ppa:username/software ## add ppa automaticaly to the sources list dir
+apt-add-repository ppa:username/software ## add ppa automaticaly to the sources list dir
 
-#? APT-FILE
+#! apt-file
 
 apt-file ## file research
 apt-file update ## update package cache (must be done after installation)
@@ -70,16 +84,52 @@ apt-file list package ## list files of a package
 apt list package ## shorthand
 apt-file search file ## search for package containing a file, even uninstalled packages
 
-#? BACKING UP AND RESTORING DEBIAN PACKAGES
+#! backing up and restoring debian packages
 
 dpkg --get-selections > packages.list ## print list of installed packages, put it into a file
-sudo apt update
-sudo apt install dselect ## provides additional features when managing Debian packages
-sudo dselect update
-sudo dpkg --set-selections < packages.list
-sudo apt-get dselect-upgrade ## install list of packages
+apt update
+apt install dselect ## provides additional features when managing Debian packages
+dselect update
+dpkg --set-selections < packages.list
+apt-get dselect-upgrade ## install list of packages
 
-#? HARDWARE ENABLEMENT STACK
+#! hardware enablement stack
 
 ## HWE stack provides additional compatibility for released after the last version of Ubuntu
-sudo apt install --install-recommends linux-generic-hwe-20.04
+apt install --install-recommends linux-generic-hwe-20.04
+
+#? RED HAT
+
+#! rpm
+## red hat package manager - manual installation like dpkg
+
+#! yum
+## yellowdog update modifier - handles dependencies and repositories like apt
+
+#! dnf
+## dandified yum - modern replacement of yum
+dnf check-update ## update package index
+dnf upgrade ## upgrade installed packages
+dnf update ## update package index and upgrade installed packages
+dnf install htop ## install packages
+dnf remove htop ## remove packages
+dnf autoremove ## remove unnecessary packages that were installed as dependencies but are no longer needed
+
+dnf repolist ## list enabled repositories
+subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms ## enable CodeReady Builder repository
+dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm ## install EPEL (Extra Packages for Enterprise Linux)
+
+dnf search package ## searching for packages
+dnf list ## show all packages in sources
+dnf list installed ## show installed packages
+dnf info package ## get package info
+
+#? ARCH
+
+#! pacman
+## arch linux package manager
+pacman -S package ## install package
+pacman -R package ## remove package
+pacman -Q ## list installed packages
+pacman -y ## refresh package database
+pacman -u ## upgrade packages
