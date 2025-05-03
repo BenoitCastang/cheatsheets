@@ -6,7 +6,7 @@ sudo usermod -aG docker username ## add username to docker group so username won
 
 #? RUN IMAGES
 
-docker run <image> ## create a container and exits when primary process terminates (default is /bin/bash)
+docker run <image> ## create a container from indicated image and exits when primary process terminates (default is /bin/bash)
 docker run hello-world ## pull hello-world image from repositories if not found locally and create the container
 ## the the primary process of that image being to print hello world, it stops directly after that
 docker run hello-world:latest ## precise version - latest is default
@@ -75,7 +75,7 @@ CMD ["World"] ## parameters for entrypoint command
 docker run -dit debian /bin/bash ## create container detach mode, without entering it
 docker run -dit -p 8080:80 debian /bin/bash ## port redirection: port 8080 on the host is redirected to port 80 within the container
 apt update ## must be done to install any package, cause source index is outdated
-apt install apache2 
+apt install apache2
 /etc/init.d/apache2 start ## start apache2 service - systemv style
 
 #? RUNNING POSTGRESQL CONTAINER
