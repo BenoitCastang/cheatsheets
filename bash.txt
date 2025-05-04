@@ -565,51 +565,52 @@ ls /home && echo success ## does echo if ls succeeds
 
 #? EXTENDED TEST COMMAND
 
-## double brackets provide more advanced and safer syntax
-[[ 3 < 9 ]] ## allows arithetic expressions syntax
-[[ "some file" == some* ]] ## works with wilcard characters
-[[ 2 == 0 && 3 < 9 ]] ## works with logical operators
-[[ (4 == 4 && 4 == 5) || 6 < 2 ]] ## works with parentheses for logical operators
-[[ "string" =~ ^[a-z] ]] ## equals with tilde ~ allows usage of regular expressions: in this regex test, the left value is treated as the text where to find the pattern, and the right value is that patter
-## no syntax error with empty strings without quotes
+## double brackets provide more advanced features for the test command - string comparisons only
+
+[[ blop == crac ]] ## is string equal
+[[ blop == '' ]] ## is string empty
+[[ blop != '' ]] ## is string not empty
+
+[[ 'some file' == some* ]] ## string pattern matching with globbing
+[[ 'blop' == b??? ]] ## with interrogation marks
+
+[[ 'string' =~ ^[a-z] ]] ## regex
+
+[[ $a == '' ]] ## safer variable handling (no word splitting or pathname expansion)
+
+[[ blop == b* && blop == b??? ]] ## works with logical operators
+[[ ! -f file.txt ]] ## works with not condition ! too
+
+[[ 13 < 9 ]] ## returns true because string comparison is performed
 
 #? ARITHMERIC EVALUATION
 
-((1 > 0)) ## works also with arithmetic expressions
-if (( 1 < 2 )); then echo ok; fi
+## double parentheses provide modern arithmetic evaluation features - number evaluation and calculus
 
-## expansions output nothing but return an int or a bool - uses $(()) for value substitution or capture the result
-((expression)) ## arithmetic expansion
+((1 > 0)) ## returns true
+((4 == 2)) ## returns false
+echo $((1 > 0)) ## echo 0
 
-echo $((4 + 2)) ## print result
-var=$((4+2)) ## redirect result
-((var = 4+2)) ## can be done directly in the parentheses
-## var exists outside of parentheses
+((1 + 3)) ## return 4
+echo $((1 + 3 )) ## echo 4
+
+var=$((1 + 3)) ## store result in variable
+((var = 4 + 2)) ## can be done directly in the parentheses and var exists outside of parentheses
 echo $((var = 1+3)) ## var is changed and printed at the same time
 
-((4 + 2)) ## return result of additions - needs use of echo to be printed
-((4+3)) ## works without spaces
-((4 - 2)) ## substractions
-((4 / 2)) ## divisions - integer only: 9 / 4 returns 2
-((4 * 2)) ## multiplications
 ((4 % 2)) ## modulus
 ((4 ** 2)) ## exponentiation
-((-4 + 2)) ## handle relative numbers
+((-4 + 2)) ## relative numbers
 ((5 + (3 *2))) ## complex operations
 ((10-+1)) ## equals 9
 
 ((a + b)) ## with variables - $ is optional
+
 ((a++)) ## increment - set new value to variable at the same time
 ((a--)) ## decrement
-((a=5)) ## $a is now 5
-((a+=2))
 
-((4 == 2)) ## returns false
-((4 != 2)) ## returns true
-((4 < 2)) ## returns false
-((4 <= 2)) ## returns false
-((4 > 2)) ## returns true
-((4 >= 2)) ## returns true
+((a=5)) ## $a is now 5
+((a+=2)) ## increment by 2
 
 #? CASE
 
