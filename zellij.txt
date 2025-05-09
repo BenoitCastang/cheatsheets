@@ -1,0 +1,8 @@
+zellij ## start new zellij session
+
+zellij -s mysession ## create a session with a specific name
+
+zellij attach ## attach last session
+zellij attach mysession ## attach a specific session
+
+zellij list-sessions ## list all zellij sessions

@@ -1,3 +1,5 @@
+#? CAT
+
 ## name comes from concatenate
 
 cat file ## print file text to screen
@@ -8,3 +10,22 @@ cat < file ## read from file and redirect to standard output
 cat file ## read from file and redirect to standard output
 cat < file > file ## read from file and redirect to file
 cat file > file ## read from file and redirect to file
+
+#? TAIL
+
+tail file.txt ## show last 10 lines of file
+ps -ef | tail ## show last 10 lines of input
+
+tail -n 5 ## show last 5 lines
+tail -n -5 ## show last 5 lines
+tail -n +5 ## show everything but first 5 lines
+
+tail -f ## follow evolution of file
+
+#? HEAD
+
+## show first 10 line of file or input
+
+head -n 1 ## show first line
+head -n +1 ## show first line
+head -n -1 ## show everything but last line

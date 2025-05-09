@@ -1,0 +1,12 @@
+#? BIND
+
+## Barkeley Internet Name Domain
+## provides DNS protocol implementation, is the most popular DNS software available
+
+bind9 bind9utils bind9-doc ## package names on debian
+bind ## package name on redhat
+
+systemctl status named ## service name is named
+
+/etc/bind/named.conf ## config file on debian
+/etc/named.conf ## config file on redhat

@@ -143,10 +143,12 @@ help ## shell builtins help
 
 #? VARIABLES
 
-local_variable=value ## create a local or shell variable, available only in the same bash process
-export GLOBAL_VARIABLE=value ## create a global or environment variable available in child processes
+## variable scope
+var=value ## define a variable
+## var is global by default (it changes the value outside the function) but it is limited to the current process
+local var=value ## var exists only in the function
+export var=value ## var exists also in child processes
 
-export local_variable ## make a local variable a global variable
 export -n GLOBAL_VARIABLE ## make a global variable a local variable
 export ## print global variables
 declare -x ## same as export
@@ -700,10 +702,6 @@ double() {
 }
 double 3 ## echo result
 foo=$(double 3) ## assign to a variable
-
-## variable scope
-var=value ## var is global by default, so it erases every var in the process with the same name and is accesible from everywhere in the process
-local var=value ## var exists only in the function, cant be acessed outside of it neither in nested functions
 
 ## escaping functions is not possible, if a function has the same name as a command, the function goes first - the command can still be used these ways:
 /bin/ls ## full path
