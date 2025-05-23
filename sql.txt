@@ -1,0 +1,142 @@
+#? DATABASE
+
+CREATE DATABASE database; ## create a database
+SHOW DATABASES; ## print existing databases
+DROP DATABASE database; ## delete database
+
+USE database; ## select a database to work with it
+mariadb database ## connect directly to specified database
+
+#? TABLE
+
+CREATE TABLE Animal ( ## create table
+	id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT, ## unsigned means cannot be negative; auto_increment means +1 each entry automatically
+	espece VARCHAR(40) NOT NULL, ## not null means cannot be empty value
+	sexe CHAR(1), ## can be null
+	date_naissance DATETIME NOT NULL,
+	nom VARCHAR(30),
+	commentaires TEXT,
+	PRIMARY KEY (id) ## primary key means unique and mandatory value
+)
+ENGINE=INNODB; ## has foreigh key support and transactions; default is MyISAM, lighter and faster
+
+SHOW TABLES; ## print tables of the selected database
+DESCRIBE Animal; ## print information about the table
+
+DROP TABLE Animal; ## delete table
+
+ALTER TABLE Animal ADD COLUMN color VARCHAR(20) NOT NULL; ## add column to a table
+ALTER TABLE Animal DROP COLUMN color; ## delete column
+ALTER TABLE Animal CHANGE COLUMN color size VARCHAR(20) NOT NULL; ## change column name, data type must be repeated, else it is changed too
+ALTER TABLE Animal MODIFY COLUMN color TEXT DEFAULT 'blue'; ## modify data type only, adding default value
+
+#? INSERT
+
+INSERT INTO Animal VALUES (NULL, 'chat', 'F', '2025-05-10 18:34:00', 'Cathy', NULL); ## insert values in order
+INSERT INTO Animal (date_naissance, espece) VALUES ('2025-05-10 18:34:00', 'chien'); ## insert values without order
+INSERT INTO Animal (date_naissance, espece) VALUES ('2025-05-10 18:34:00', 'chien'), ('2025-05-10 18:24:00', 'poule'); ## insert multiple values
+INSERT INTO Animal SET date_naissance='2025-05-10 18:34:00', espece='chien'; ## mysql alternative syntax
+
+#? FILES
+
+SOURCE file.sql; ## execute sql commands from file
+
+## mysqldump
+mysqldump elevage > elevage_save.sql ## save database
+mariadb elevage < elevage_save.sql ## import saved database
+## database must exist first
+
+## import data from non sql file
+LOAD DATA LOCAL INFILE 'file.csv' ## local means file is on the client host
+INTO TABLE Animal
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES ## ignore column names lines
+(nom,prenom,date_naissance) ## column names of the imported file
+
+## csv example file
+nom;prenom;date_naissance
+Charles;Myeur;1994-12-30
+Bruno;Debor;1978-05-12
+Mireille;Franelli;1990-08-23
+
+#? SELECT
+
+## select and print data
+SELECT 'Hello, world!'; ## print a string
+SELECT 8+3*2; ## do some maths
+
+SELECT * FROM Animal; ## print all data from table
+SELECT espece,nom,sexe FROM Animal; ## print specified columns
+
+#? WHERE
+
+## simple filters
+SELECT * FROM Animal WHERE espece='chien'; ## equal to
+SELECT * FROM Animal WHERE espece<>'chien'; ## different from
+SELECT * FROM Animal WHERE date_naissance<='2007-05-01'; ## before date
+
+## logical operators
+SELECT * FROM Animal WHERE espece='chien' OR espece='chat'; ## OR
+SELECT * FROM Animal WHERE espece='chien' AND sexe='F'; ## AND
+SELECT * FROM Animal WHERE espece='chien' AND NOT sexe='F'; ## NOT
+SELECT * FROM Animal WHERE espece='chien' XOR sexe='F'; ## XOR
+
+SELECT * FROM Animal WHERE date_naissance>'2008-12-31' OR (espece='chat' AND (sexe='M' OR (sexe='F' AND date_naissance<'2007-05-01'))); ## combined logical operators
+
+## null
+SELECT * FROM Animal WHERE nom IS NULL; ## search for empty value
+SELECT * FROM Animal WHERE nom <=> NULL; ## search for empty value
+SELECT * FROM Animal WHERE nom IS NOT NULL; ## search for not empty value
+
+## order by
+SELECT * FROM Animal ORDER BY espece; ## sort results
+SELECT * FROM Animal ORDER BY espece DESC; ## reverse order - default is ASC
+SELECT * FROM Animal ORDER BY espece, nom; ## sort by first column, then second etc.
+
+## distinct
+SELECT DISTINCT espece FROM Animal; ## filter out duplicate entries
+
+## limit
+SELECT * FROM Animal LIMIT 5; ## select only 5 first results
+SELECT * FROM Animal LIMIT 5 OFFSET 2; ## select only 5 first results, ignoring first two lines
+SELECT * FROM Animal LIMIT 2, 5; ## alternative syntax - first number is offset
+
+## like
+SELECT * FROM Animal WHERE nom LIKE 'b%'; ## % is like *
+SELECT * FROM Animal WHERE nom LIKE 'b_'; ## _ is any character, zero or one time
+SELECT * FROM Animal WHERE nom NOT LIKE '1%'; ## exclude string beginning with 1
+SELECT * FROM Animal WHERE nom LIKE BINARY 'b__'; ## make string research case sensible
+
+## between
+SELECT * FROM Animal WHERE id BETWEEN 10 AND 15; ## range selection
+
+## in
+SELECT * FROM Animal WHERE nom IN ('Bob', 'Kyle'); ## search a list of strings
+
+#? DELETE
+
+DELETE from Animal; ## delete every entry of the table
+DELETE from Animal WHERE nom='Fabio'; ## delete specified entry
+
+#? UPDATE
+
+UPDATE Animal SET commentaires='aucun'; ## change a column value for all entries
+UPDATE Animal SET commentaires='aucun', sexe='F'; ## change two column values for all entries
+UPDATE Animal SET commentaires='aucun' WHERE id=5; ## change a column value for specified entries
+
+#? COMMENTS
+
+# commented text ## comment syntax
+-- commented text ## comment syntax
+
+#? STRINGS
+
+'string' ## sql strings are between single quotes
+'dany\'s string' ## escape characters with \
+'dany''s string' ## sql traditional syntax escapes single quotes by doubling them
+
+#? ERRORS
+
+SHOW WARNINGS; ## print warnings
+IF NOT EXISTS ## generate warnings instead of errors

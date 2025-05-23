@@ -1,6 +1,7 @@
 #? INSTALLATION
 
-sudo apt install mariadb ## install mariadb
+sudo apt install mariadb-server ## install mariadb
+sudo apt install mariadb-server ## install mariadb
 sudo systemctl enable --now mariadb ## enable and start mariadb
 sudo mysql_secure_installation ## set password for root
 
@@ -15,6 +16,7 @@ sudo mysql_secure_installation ## set password for root
 
 #? MANAGING DATABASES
 
+## mariadb uses its own internal users, seperate from the Linux system users
 mariadb -u root -p ## connect with user root - prompted for password
 mariadb -u root -ppassword ## connect with user root with password clear - not secure
 sudo mariadb ## connect with user root without password
@@ -22,10 +24,17 @@ sudo mariadb ## connect with user root without password
 ## user management requires being logged in as root
 FLUSH PRIVILEGES; ## reload privileges information - to do after each change
 
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'password'; ## create user allowing connection for sole localhost: one must be connected to the server itself to connect to mariadb
-CREATE USER 'user'@'%' IDENTIFIED BY 'password'; ## allow connection from everywhere
-CREATE USER 'user'@'192.168.0.%' IDENTIFIED BY 'password'; ## allow connection from only 192.168.0.XXX network
+CREATE USER toast; ## create user
+CREATE USER 'toast'@'%' IDENTIFIED BY ''; ## equivalent to CREATE USER toast
+## @ represents allowed hosts: ip adress, localhost, or % for all hosts
+## IDENTIFIED BY represents the password: '' is no password
+CREATE USER 'user'@'localhost'; ## create user allowing connection for sole localhost: one must be connected to the server itself to connect to mariadb
+CREATE USER 'user'@'%'; ## allow connection from everywhere
+CREATE USER 'user'@'192.168.0.%'; ## allow connection from only 192.168.0.XXX network
+CREATE USER user IDENTIFIED BY 'password'; set a password
+
 SELECT HOST, USER, PASSWORD FROM mysql.user; ## print list of users
+DROP USER toast; ## delete user
 
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost'; ## give access to all databases and all tables of these databases to user
 GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost' IDENTIFIED BY 'password'; ## create user at the same time
@@ -35,11 +44,10 @@ GRANT SELECT ON *.* TO 'user'@'localhost'; ## give select rights only
 GRANT SELECT ON *.* TO 'user'@'localhost';
 GRANT SELECT ON *.* TO 'user'@'localhost';
 GRANT SELECT ON *.* TO 'user'@'localhost';
-SHOW GRANTS FOR 'user'@'localhost'; ## print user rights
 
-CREATE DATABASE database; ## create a database
-SHOW DATABASES; ## print existing databases
-USE database; ## select a database to work with it
+SHOW GRANTS; ## print all permissions
+SHOW GRANTS FOR 'user'@'localhost'; ## print user rights
+SELECT user,host from mysql.user; ## print all users
 
 #? ERRORS
 

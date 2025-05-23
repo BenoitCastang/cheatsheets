@@ -108,21 +108,40 @@ apt install --install-recommends linux-generic-hwe-20.04
 
 #! dnf
 ## dandified yum - modern replacement of yum
-dnf check-update ## update package index
+dnf check-update ## update package index and show available updates
 dnf upgrade ## upgrade installed packages
 dnf update ## update package index and upgrade installed packages
+
 dnf install htop ## install packages
 dnf remove htop ## remove packages
 dnf autoremove ## remove unnecessary packages that were installed as dependencies but are no longer needed
 
+dnf search package ## searching for packages
+dnf info package ## get package info
+dnf list ## show all packages in sources
+dnf list installed ## show installed packages
+
+## grouplist
+dnf5 install 'dnf5-command(group)' ## install group command
+dnf group list ## list package groups
+dnf group install system-tools ## install package group
+
+## history
+dnf history list ## list transactions
+dnf history info 4 ## print details about transaction
+dnf history undo 4 ## revert actions of specified transaction
+dnf history redo 4 ## repeat actions of specified transaction
+dnf history rollback 4 ## undo all transactions performed after the specified transaction
+
+#! repos
+## redhat packages are stored in repositories
+subscription-manager ## manages redhat repo access based on subscription
+dnf config-manager ## cli tool to enable/disable repos
+/etc/yum.repos.d/ ## .repo files defining where and how to access repositories
+
 dnf repolist ## list enabled repositories
 subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms ## enable CodeReady Builder repository
 dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm ## install EPEL (Extra Packages for Enterprise Linux)
-
-dnf search package ## searching for packages
-dnf list ## show all packages in sources
-dnf list installed ## show installed packages
-dnf info package ## get package info
 
 #? ARCH
 
