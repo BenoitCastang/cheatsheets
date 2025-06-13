@@ -1,0 +1,7 @@
+## write output to a file and display it in the terminal at the same time
+## named upon the T-splitter in plumbery that direct water flow in two directions
+
+echo "Hello, World!" | tee output.txt ## text is printed on the screen and written in the file at the same time
+tee -a ## append to the file instead of overwriting it
+
+echo "blop" | sudo tee /root/file.txt ## tee can be used with sudo to have admin privileges after a redirection

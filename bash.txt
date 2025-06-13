@@ -385,13 +385,6 @@ echo $(cat file) ## echoes the file content
 <&
 3>&-
 
-#? TEE
-
-## write output to a file and display it in the terminal at the same time
-## named upond the T-splitter in plumbery that direct water flow in two directions
-echo "Hello, World!" | tee output.txt
-tee -a ## append to the file instead of overwriting it
-
 #? XARGS
 
 ## xargs takes ouput and make it argument for a command that dont work with pipe

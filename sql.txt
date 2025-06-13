@@ -140,3 +140,9 @@ UPDATE Animal SET commentaires='aucun' WHERE id=5; ## change a column value for 
 
 SHOW WARNINGS; ## print warnings
 IF NOT EXISTS ## generate warnings instead of errors
+
+#? INDEX
+
+## an index is a structured that stores an ordered column of a table so that search in this column is faster
+## modifications on the other hand are slower cause the index must be redone each time
+

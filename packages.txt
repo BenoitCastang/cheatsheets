@@ -134,14 +134,56 @@ dnf history redo 4 ## repeat actions of specified transaction
 dnf history rollback 4 ## undo all transactions performed after the specified transaction
 
 #! repos
-## redhat packages are stored in repositories
+## redhat packages are stored in repositories - a subscription is need to install packages and updates
 subscription-manager ## manages redhat repo access based on subscription
 dnf config-manager ## cli tool to enable/disable repos
 /etc/yum.repos.d/ ## .repo files defining where and how to access repositories
 
+subscription-manager register ## register system
+subscription-manager status ## get system status: unknown is not registered, disabled is registered with SCA so subscription is not needed
+subscription-manager attach --auto ## attach a subscription to the system - not needed with developper subscription thanks to SCA (Simple Content Acess)
+subscription-manager list --available ## list subscriptions available to attach to the system
+subscription-manager list --consumed ## print currently attached subscription
+subscription-manager unregister ## removes the system from redhat account
+
+subscription-manager repos --list ## list repos the attached subscription gives access to
+subscription-manager repos --enable=ID ## enable repo with ID
+subscription-manager repos --disable=ID ## disable repo with ID
+
 dnf repolist ## list enabled repositories
-subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms ## enable CodeReady Builder repository
-dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm ## install EPEL (Extra Packages for Enterprise Linux)
+dnf repolist all ## list available repositories
+
+dnf config-manager --enable repo ## enable repository
+dnf config-manager --disable repo ## disable repository
+dnf config-manager --add-repo="http://mirror.uv.es/mirror/fedora-epel/9/Everything/x86_64/" ## add external repo - epel here
+
+## gpg key verification
+## gpg stands for GNU Privacy guard
+## it is a public key that ensures the package is from a trusted source (not tampered with) and authentic (signed by the repository maintainer)
+/etc/pki/rpm-gpg/ ## the directory where gpg keys are stored
+## pki stands for Public Key Infrastructure - and the /etc/pki stores gpg keys, tls/ssl certificates etc.
+curl http://mirror.uv.es/mirror/fedora-epel/RPM-GPG-KEY-EPEL-9 > sudo tee /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-9 ## download and store a gpg key - epel here
+/etc/yum.repos.d/mirror.uv.es_mirror_fedora-epel_9_Everything_x86_64_.repo ## .repo file containing epel repo settings
+gpgcheck=1 ## gpg check is enabled - gpg key is needed
+gpgcheck=0 ## gpg check is disabled
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-9 ## url to the local file containing the gpg key
+
+## modules
+## modules allow to choose a specific version of a software with the appropriate dependencies
+## the stream can be chosen, i.e. variant of the module (php8.0, php8.1 etc.)
+## the profile can be chosen to install only what is needed for the use case, instead of everything (default, common, minimum, development, server, client etc.)
+## the module chosen must be enabled, then the specified version like php8.1 is installed when performing atp install php instead of the most recent one in the distro repos
+dnf module list ## list all modules, with their streams and profiles
+## [e] means enabled stream, [d] default profile and [i] installed profile
+dnf module list python ## list only python modules
+dnf module enable php:8.1 ## enable specific stream
+dnf install php ## now php8.1 will be installed instead of default version
+dnf module reset php ## disable enabled stream
+dnf module enable php:8.2 ## switch stream
+dnf remove php ## remove php8.1
+dnf install php ## install php8.2
+dnf module install php:8.1/minimal ## enable then install with specific stream and profile
+## this installs from modular stream instead of default distro repos
 
 #? ARCH
 
