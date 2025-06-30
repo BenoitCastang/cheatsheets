@@ -11,15 +11,20 @@
   ## input - traffic to the machine
   ## output - traffic through the machine (like a router)
   ## forward - traffic from the machine
+  ## prerouting -
+  ## postrouting -
 ## rules: decisions about the traffic
-  ## allow
-  ## drop
-  ## reject
-  ## log
+  ## allow -
+  ## drop -
+  ## reject -
+  ## log -
 
 iptables -L ## list rules
-iptables -t filter ## select table filter
+iptables -L -t nat ## select table - default is filter
+iptables -L INPUT ## select input chain only
+
 iptables -v ## verbose: adds bytes, in and out fields
+iptables -n ## no name resolution
 
 ## rules apply in order (top to bottom)
 ## if no rule matches , the default policy applies

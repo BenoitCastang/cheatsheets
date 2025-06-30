@@ -51,26 +51,8 @@ http://example ## browser access for each site
 #? HTTPS
 
 sudo a2enmod ssl ## enable ssl module
-sudo systemctl restart apache2 ## restart apache
-sudo a2enmod /etc/apache2/sites-availAable/defaut
-openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr ## generate a new private key and a Certificate Signing Request (CSR)
-
-## self certificate
-openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt ##  use the CSR and private key to generate self certificate
-sudo mkdir -p /etc/apache2/ssl ## create ssl directory for certificates
-sudo mv server.key /etc/apache2/ssl/
-sudo mv server.crt /etc/apache2/ssl/
-## Mofify /etc/apache2/sites-available/default-ssl.conf to use the certificate
-SSLCertificateFile /etc/apache2/ssl/server.crt
-SSLCertificateKeyFile /etc/apache2/ssl/server.key
-sudo a2enmod ssl ## enable ssl module
-sudo a2ensite default-ssl.conf ## enable site
-sudo systemctl restart apache2
-## now https should work with self certificate, meaning it signals the user the site is not safe
-
-or
+sudo systemctl restart apache2 ## restart apache to apply module enablement
 
 ## certify by let's encrypt
 sudo apt install -y certbot python3-certbot-apache ## install certbot, let's encrypt's automated process to issue and renew certificates
-sudo certbot --apache -d example.com -d www.example.com ## auto certification
-
+sudo certbot --apache ## auto certification
