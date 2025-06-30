@@ -8,7 +8,8 @@ nmap -p- ## scan all ports
 nmap -s ## s is a prefix for scan, does not function alone but needs to be combined with another letter to specify the type of scan
 nmap -sn ## no port scan, ping scan -sP originally: used to discover which hosts are up and running on a network without scanning for open ports, useful to map out devices on a network without triggering potential firewall alerts caused by port scanning
 nmap -sV ## detect the version of services running on open ports
-nmap -sO # detect operationg system
+nmap -sO ## detect operationg system
+nmap -Pn ## ping none: skip ping check before scan
 
 #? PORTS
 

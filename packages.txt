@@ -134,7 +134,7 @@ dnf history redo 4 ## repeat actions of specified transaction
 dnf history rollback 4 ## undo all transactions performed after the specified transaction
 
 #! repos
-## redhat packages are stored in repositories - a subscription is need to install packages and updates
+## redhat packages are stored in repositories - a subscription is needed to install packages and updates
 subscription-manager ## manages redhat repo access based on subscription
 dnf config-manager ## cli tool to enable/disable repos
 /etc/yum.repos.d/ ## .repo files defining where and how to access repositories

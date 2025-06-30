@@ -155,7 +155,7 @@ autocmd <event> ## print active rules for a specific event
 autocmd <event> <pattern> ## print active rules for a specific event and a specific filter
 
 autocmd BufWritePre * :normal gg=G ## before saving file, indent it automatically
-autocmd BufWritePost *.txt :echo "File saved successfully" ## filter pattern, command works only on .txt files 
+autocmd BufWritePost *.txt :echo "File saved successfully" ## filter pattern, command works only on .txt files
 
 autocmd BufReadPost,BufNewFile * :normal OHere is your file ! ## multiple events can trigger the command
 autocmd BufReadPost *.html,*.js :normal OHere is your html or js file ! ## multiple filter patterns
@@ -166,7 +166,7 @@ set filetype=python ## set buffer's filetype
 autocmd filetype python ## list set filetype autocommands
 
 ## autocommand groups
-## autocommand rules are duplicated each time they events are triggered or when vimrc is sourced: the same are added instead of replacing them
+## autocommand rules are duplicated each time their events are triggered or when vimrc is sourced: the same are added instead of replacing them
 ## groups can be cleared with autocmd!, so previous commands in the same group are deleted
 augroup <groupname>
  autocmd! ## clear autocommand group
@@ -390,12 +390,35 @@ s/pattern// ## replace match by nothing
 g/pattern/d ## delete all lines matching pattern
 g/pattern/s/foo/bar/g ## replace if line matches pattern
 
+#? SYNTAX
+
+## syntax creates text pattern groups, so they can be linked to highlight groups for them to change text style
+
+syntax enable ## enable syntax highlighting on current file
+syntax on ## stronger than enable: it both turns syntax highlighting on and automatically sets it up for new files
+syntax off ## disable syntax highlighting on current file
+syntax clear ## clear all syntax highlighting rules on current file
+
+syntax list ## show list of current syntax groups
+syntax list comments ## show a specific group only
+
+## create custom syntax groups
+## by default the group is linked to the highlight with the same name
+syntax match MyMatch /##.*/ ## detect pattern and apply highlight on all pattern
+syntax keyword MyKeyword if elif else fi ## detect single word patterns and highlight only the word
+syntax region MyRegion start=/blop/ end=/crac/ ## detect start and end of pattern and highlight in between
+
 #? COLORS
 
-## change colors of vim
-highlight <group> <attribute> ## set rule
-highlight ## print rules of every group
-highlight <group> ## print rules of one group
+## highlight defines text style and assigns it to a group
+
+highlight ## print all groups with their attributes
+highlight pmenu ## print one group
+
+highlight pmenu ctermfg=blue ## set attributes for existing highlight group
+highlight MyHighlightGroup cterm=italic ## set new highlight group
+
+highlight link MySyntaxGroup MyHighlightGroup ## link syntax group to a highlight group with a different name
 
 ## attributes
 
@@ -415,6 +438,7 @@ SignColumn ## Errors colums
 ## xtermcolors
 
 ## system colors
+black, red, green, yellow, blue, magenta, cyan, white, gray ## plain text colors
 0 ## Black
 1 ## Maroon
 2 ## Green

@@ -1,9 +1,13 @@
-curl benoitcastang.fr ## sends an http get request by default
+curl benoitcastang.fr ## sends an http get request and print result to screen
 curl https://benoitcastang.fr ## sends an https request
+
+curl -o file.txt https://benoitcastang.fr ## redirect output to a file
+curl -O https://benoitcastang.fr ## redirect output to a file with the same name as the downloaded file
+
 curl -v https://benoitcastang.fr ## give all request detail
-curl -o file https://benoitcastang.fr ## redirect output to a file
-curl https://benoitcastang.fr | jq ## json format
 curl -s https://benoitcastang.fr | jq ## silent curl text
+
+curl https://benoitcastang.fr | jq ## json format
 
 curl -s https://api.chucknorris.io/jokes/random | jq -r '.value' ## get content from an api
 curl -s https://api.chucknorris.io/jokes/random | jq -r '.value' | pv -qL 25 | lolcat ## pv writes it slowly, lolcat colors it

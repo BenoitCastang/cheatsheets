@@ -1,17 +1,42 @@
 #? IPTABLES
 
 ## iptables allows to control network traffic by defining rules
-## its filter table allows to filter packets through chains list of rules that defines how packets are handled: input chain, output chain, forward chain etc.
+
+## tables: sets of rules grouped by purpose
+  ## filter - the default table, used for accepting/denying traffic
+  ## nat -  stands for network address translation (like redirecting ports)
+  ## mangle - for packet alteration
+  ## raw - for advanced packet flow control
+## chains: predefined paths in the kernel that packets pass through
+  ## input - traffic to the machine
+  ## output - traffic through the machine (like a router)
+  ## forward - traffic from the machine
+## rules: decisions about the traffic
+  ## allow
+  ## drop
+  ## reject
+  ## log
 
 iptables -L ## list rules
 iptables -t filter ## select table filter
+iptables -v ## verbose: adds bytes, in and out fields
+
+## rules apply in order (top to bottom)
+## if no rule matches , the default policy applies
+iptables -P INPUT DROP ## change policy
 
 #? NFTABLES
+
+## iptables replacer - default in debian12
+systemctl status nftables ## check if nftables is installed and active
+nft list ruleset ## print rules
 
 #? UFW
 
 ## uncomplicated firewall - frontend for iptables in debian-based distributions
+ufw status ## check is ufw is installed and active
 
 #? FIREWALLD
 
-## firewalld is the default firewall in RHEL-based distributions
+## firewall daemon - frontedn for iptables in RHEL-based distributions
+systemctl status firewalld ## check if firewalld is installed and active
