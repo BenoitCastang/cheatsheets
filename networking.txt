@@ -113,7 +113,7 @@ route add default gw 192.168.0.1 ## set default gateway
 route del 10.10.10.10 ## delete route to 10.10.10.10
 route del default ## delete default gateway
 
-$? IP
+#? IP
 
 ## ip command from iproute2 package - temporary config
 ip option object command ## syntax
@@ -237,7 +237,7 @@ dig example.com NS ## get NS records, i.e. authoritative name servers for the do
 dig example.com SOA ## get SOA records, i.e. Start of Authority (DNS server details and zone settings)
 dig example.com ANY ## get ANY records, i.e. all available DNS records
 
-$? NETSTAT
+#? NETSTAT
 
 ## network statistics - legacy command
 

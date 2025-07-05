@@ -1,6 +1,7 @@
 #? IPTABLES
 
 ## iptables allows to control network traffic by defining rules
+## rules are not persistent after reboot
 
 ## tables: sets of rules grouped by purpose
   ## filter - the default table, used for accepting/denying traffic
@@ -13,22 +14,27 @@
   ## forward - traffic from the machine
   ## prerouting -
   ## postrouting -
-## rules: decisions about the traffic
-  ## allow -
+## targets: decisions about the traffic
+  ## accept -
   ## drop -
   ## reject -
   ## log -
 
+apt install iptables ## install iptables on debian
+
 iptables -L ## list rules
+iptables -L --line-numbers ## display rules with line numbers
 iptables -L -t nat ## select table - default is filter
 iptables -L INPUT ## select input chain only
 
 iptables -v ## verbose: adds bytes, in and out fields
-iptables -n ## no name resolution
+iptables -n ## numeric output
 
 ## rules apply in order (top to bottom)
-## if no rule matches , the default policy applies
+## if no rule matches, the default policy applies
 iptables -P INPUT DROP ## change policy
+
+iptables -R INPUT 2 -j DROP ## modify a rule
 
 #? NFTABLES
 
@@ -39,9 +45,76 @@ nft list ruleset ## print rules
 #? UFW
 
 ## uncomplicated firewall - frontend for iptables in debian-based distributions
+## it is default-deny: everything is denied by default, so ssh must be allowed before enabling ufw
+## rules remain after reboot
+
+apt install ufw ## install ufw
+systemctl start ufw ## start service
+
 ufw status ## check is ufw is installed and active
+ufw status numbered ## show rule numbers
+ufw enable ## enable firewall
+ufw disable ## disable firewall
+
+## default policies
+ufw default deny incoming ## filter all packets to the system
+ufw default allow outgoing ## accept all packets from the system
+
+## ports
+ufw allow ssh ## by port name
+ufw deny 22/tcp ## by port number
+## ufw allow 80 would allow both tcp and udp on port 80, while 80/tcp accepts only tcp, and allow https also accepts only tcp
+
+## filters
+ufw allow ssh ## accept packets
+ufw deny ssh ## silently drop packets (no response)
+ufw reject ssh ## sends a response saying "connection refused"
+ufw limit ssh ## if many failed connections to ssh in a short time, the ip source adredd is banned for a minute
+
+## delete rules
+ufw delete allow ssh ## delete rule
+## the same syntax as when adding the rule, but whith delete before
+ufw delete 2 ## delete rule number 2
+ufw reset ## delete all rules and disable ufw
+
+## filter by IP
+ufw allow from 192.168.0.10 ## allow all traffic from one IP
+ufw allow from 192.168.0.10 to any port 80 ## allow one port only
+ufw allow from 192.168.0.10 to any port 80 proto tcp ## specify protocol
+ufw allow from 192.168.0.10 to any port http ## with port name
+ufw deny from 192.168.0.10 ## deny all traffic from one IP
+ufw deny from 192.168.0.0/24 ## filter by subnet
+
+## logs
+ufw logging on ## turn on logging - low level by default
+ufw logging off ## no logging
+ufw logging low ## logs blocked packets, plus some info (default)
+ufw logging medium ## adds more info (allowed packets, too)
+ufw logging high ## very detailed (packets info and extra metadata)
+ufw logging full ## very verbose, including connection tracking info
+## logs are readable through journalctl
+
+Jul 02 16:45:13 debian2 kernel: [UFW BLOCK] IN=eth0 OUT= MAC=f2:3c:94:88:85:53:fe:ff:ff:ff:ff:ff:08:00 SRC=193.163.125.228 DST=172.232.42.134 LEN=44 TOS=0x08 PREC=0x20 TTL=238 ID=27079 PROTO=TCP SPT=45842 DPT=20101 WINDOW=14600 RES=0x00 SYN URGP=0a ## log entry example
+  Jul 02 16:45:13 ## date
+	debian2 ## hostname of the system
+	kernel: ## log source (kernel netfilter)
+  [UFW BLOCK]	## ufw blocked this packet - [UFW AUDIT] is packet is allowed
+  IN=eth0	## incoming interface - packet entered the server via interface eth0
+  OUT= ## outcoming interface - empty because it's an incoming packet only
+  MAC=f2:3c:94:88:85:53:fe:ff:ff:ff:ff:ff:08:00 ## mac adress of the server
+  SRC=193.163.125.228	## source IP of the packet
+  DST=172.232.42.134 ## destination IP of the packet
+  LEN=44 ## packet length in bytes
+  TTL=238	## Time To Live (how many hops left)
+  PROTO=TCP	## protocol used
+  SPT=45842	## source port
+  DPT=20101	## destination port
+  SYN	## TCP flag set to SYN = this is an attempt to initiate a new connection
 
 #? FIREWALLD
 
-## firewall daemon - frontedn for iptables in RHEL-based distributions
+## firewall daemon - frontend for iptables in RHEL-based distributions
+
+apt install firewalld ## install firewalld
 systemctl status firewalld ## check if firewalld is installed and active
+firewall-cmd --state ## check status

@@ -1,0 +1,24 @@
+? ## suggest commands
+tab ## complete non-ambiguous commands
+ctrl + shift + 6 ## interrupt Cisco IOS working on a command
+
+exit ## go back to previous mode
+
+#? USER EXEC MODE
+
+enable ## go privileged exec mode
+show ## get running system info
+
+#? PRIVILEGED EXEC MODE
+
+configure terminal ## enter global configuration mode
+
+#? GLOBAL CONFIGURATION MODE
+
+enable password CCNA ## set privileged exec mode password as CCNA
+no ip domain-lookup ## disable unknows commands lookup
+
+#? VLANS
+
+## layer 2 virtual local area networks
+show vlan brief
