@@ -3,6 +3,7 @@ tab ## complete non-ambiguous commands
 ctrl + shift + 6 ## interrupt Cisco IOS working on a command
 
 exit ## go back to previous mode
+no command ## cancel command
 
 #? USER EXEC MODE
 
@@ -11,14 +12,45 @@ show ## get running system info
 
 #? PRIVILEGED EXEC MODE
 
+reload ## restart device
 configure terminal ## enter global configuration mode
+show running-config ## get current config - not saved
+show startup-config ## get saved config
+write memory ## save running config
+copy running-config startup-config ## save running config
+
+show interfaces status ## get interfaces status brief
+show ip interface brief ## get interfaces ip status
 
 #? GLOBAL CONFIGURATION MODE
 
+do ## run exec commands in config mode
+hostname Switch ## change device hostname
 enable password CCNA ## set privileged exec mode password as CCNA
+service password-encryption ## encrypt password written in the config file
+enable secret Cisco ## set stronger password (MD5 encryption)
 no ip domain-lookup ## disable unknows commands lookup
+
+interface GigabitEthernet0/1 ## enter interface configuration mode
+interface range g0/1, g0/1, g0/2 ## edit multiple config at once
+
+#? INTERFACE CONFIGURATION
+
+ip address 10.0.0.1 255.255.255.192 ## set ip address
+no shutdown ## turn on router's interface
+## router's interfaces are disabled by default
 
 #? VLANS
 
 ## layer 2 virtual local area networks
-show vlan brief
+show vlan ## show vlan info
+show vlan brief ## simpler view
+
+## access port = interface carrying a single vlan
+## trunk port = interface carrying multiple vlans
+## tags are from 1 to 4094 (because the number is coded on 12 bits)
+switchport mode access ## set interface to access mode
+switchport access vlan 10 ## assign interface to vlan
+
+vlan 10 ## configure vlan 10, create it if does not exist
+name Sales ## name vlan

@@ -19,7 +19,7 @@ git commit ## make a commit
 git commit -m "message" ## make a commit with message
 git commit -a ## add files then commit
 git stash ## drop local changes
-git revert ## 
+git revert ##
 git revert <hash> ## hash from git log --oneline
 
 
@@ -34,7 +34,7 @@ git branch -d master ## delete branch
 
 $? GITHUB
 
-git clone url.git  ## download a public repository
+git clone url.git ## download a public repository
 git pull url.git ## download the changes
 .git/config to see its origin
 Create a repository on Github
