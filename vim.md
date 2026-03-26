@@ -1,26 +1,34 @@
-#? VI MODE
+# Bash vim mode
 
+```bash
 set -o vi ## switch to vim mode in bash
-## change vi mode commands in .inputrc
+```
+
+```bash
+## change vim mode commands in .inputrc
 set editing-mode vi ## set the default editing mode to vi
 set keymap vi-command ## set the default keymap to vi-command mode
 jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
+```
 
-#? HELP
+# Help
 
+```bash
 help {command} | only ## open help fullscreen
 CTRL-] ## jump to a subject
+```
 
-#? ECHO
-=======
+# Echo
 
+```bash
 echo "message" ## echo a message
 echomsg "message" ## echo a message that remains in the message-history
 messages ## show message-history
+```
 
-#? OPTIONS
-==========
+# Options
 
+```bash
 ## two types of options, boolean options and options with value
 set number ## set boolean option
 set nonumber ## unset boolean option
@@ -58,8 +66,9 @@ spelllang=eng ## set spell language
 signcolumn=yes ## always show
 signcolumn=no ## never show
 signcolumn=auto ## depends wether there is something to display or not
+```
 
-#? MAPPING
+# Mapping
 
 map - dd ## set binding
 map <space> dd ## special characters
@@ -125,7 +134,7 @@ _ ## beginning of line
 ~
 `
 
-#? ABBREVIATIONS
+# Abbreviations
 
 ## define shortcuts for bits of text
 ## the big difference with mappings is that the abbreviation is replaced only if followed by non-word character (space, enter, period, comma...)
@@ -146,7 +155,7 @@ cunabbreviate teh ## remove command-line abbreviation
 
 abbreviate btw by the way ## abbreviation expands to multiple words
 
-#? AUTOCOMMANDS
+? Autocommands
 
 ## autocommands run commands when events happen
 autocmd <event> <pattern> <command> ## set autocommand rule
@@ -193,7 +202,7 @@ FileType ## when buffer filetype is set by vim
 VimEnter ## entering vim
 VimLeave ## leaving vim
 
-#? MACROS
+# Macros
 
 qj ## record a macro
 q ## quit recording
@@ -208,29 +217,29 @@ g/pattern/norm @j ## run macro when pattern matches
 registers ## see macros
 let @j="" ## delete macro
 
-#? REGISTERS
+# Registers
 
 "ay$ ## in register "a", copy till end of line
 "ap ## from register "a", paste text
 
-#? WINDOWS
+# Windows
 
 ## vim command-line window
 q: ## q: in normal mode allows editing history in vim mode
 
-#? REPEAT
+# Repeat
 
 . ## repeat the previous action
 ; ## repeat the previous f/F/t/T action
 , ## repeat the previous f/F/t/T action in reverse
 
-#? INCREMENT
+# Increment
 
 c-a ## increment by 1 next number
 c-x ## decrement by 1 next number
 5c-a ## increment by 5
 
-#? CASE
+# Case
 
 gUmotion ## make uppercase
 gu<motion> ## make lowercase
@@ -307,10 +316,14 @@ $ ## go end of line
 
 #? NEXT OCCURRENCE
 
+```bash
 * ## go to next identical word
 # ## go to previous identical word
+```
 
-reg ## buffer of previously yanked or copied text
+#? REG 
+
+## buffer of previously yanked or copied text
 
 #? ROD13
 
