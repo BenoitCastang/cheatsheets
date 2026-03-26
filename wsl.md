@@ -1,7 +1,7 @@
-#? WSL
+> [!Note]
+> WSL stands for Windows Subsystem for Linux
 
-## Windows Subsystem for Linux
-
+```bash
 wsl --install ## install Linux distribution - default is Ubuntu
 wsl --install -d debian ## install a specific distribution
 wsl --unregister -d debian ## uninstall a distribution
@@ -14,3 +14,4 @@ wsl -d debian ## lauch a specific distribution
 
 wsl -v ## see wsl version
 wsl -l -v ## list installed Linux distributions and their version
+```

@@ -422,8 +422,8 @@ highlight link MySyntaxGroup MyHighlightGroup ## link syntax group to a highligh
 
 ## attributes
 
-ctermbg ## background color
-ctermfg ## foregroud color
+ctermg ## background color
+ctermfg ## foreground color
 cterm ## text-style attributes: bold, italic, underline, reverse (colors)
 
 ## groups
