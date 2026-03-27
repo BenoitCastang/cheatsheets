@@ -1,6 +1,7 @@
 # WSL
 
-> [!Note] WSL stands for Windows Subsystem for Linux
+> [!NOTE]
+> WSL stands for Windows Subsystem for Linux
 
 ```bash
 wsl --install ## install Linux distribution - default is Ubuntu
