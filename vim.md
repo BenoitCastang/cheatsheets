@@ -2,9 +2,7 @@
 
 ```bash
 set -o vi ## switch to vim mode in bash
-```
 
-```bash
 ## change vim mode commands in .inputrc
 set editing-mode vi ## set the default editing mode to vi
 set keymap vi-command ## set the default keymap to vi-command mode
