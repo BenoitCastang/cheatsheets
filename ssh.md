@@ -1,6 +1,7 @@
 # SSH
 
-> [!Note] SSH stands for Secure Shell Host
+> [!Note]
+> SSH stands for Secure Shell Host
 
 ```bash
 sudo apt install ssh ## install ssh
