@@ -1,7 +1,6 @@
 #? INSTALLATION
 
 sudo apt install mariadb-server ## install mariadb
-sudo apt install mariadb-server ## install mariadb
 sudo systemctl enable --now mariadb ## enable and start mariadb
 sudo mysql_secure_installation ## set password for root
 
@@ -31,7 +30,7 @@ CREATE USER 'toast'@'%' IDENTIFIED BY ''; ## equivalent to CREATE USER toast
 CREATE USER 'user'@'localhost'; ## create user allowing connection for sole localhost: one must be connected to the server itself to connect to mariadb
 CREATE USER 'user'@'%'; ## allow connection from everywhere
 CREATE USER 'user'@'192.168.0.%'; ## allow connection from only 192.168.0.XXX network
-CREATE USER user IDENTIFIED BY 'password'; set a password
+CREATE USER user IDENTIFIED BY 'password'; ## set a password
 
 SELECT HOST, USER, PASSWORD FROM mysql.user; ## print list of users
 DROP USER toast; ## delete user
