@@ -1,12 +1,13 @@
-#? SSH
+# SSH
 
-## Secure Shell Host
+> [!Info] SSH stands for Secure Shell Host
 
-sudo apt install ssh ## install shh
+```bash
+sudo apt install ssh ## install ssh
 
 ssh host ## connect through ssh
-ssh user@host ## precise user
-ssh -v ## gives more infos
+ssh user@host ## connect with user
+ssh -v ## verbose
 
 /home/user/.ssh/config ## user config file, host is server to connect to, hostname is adress, port is port default 22, user is default user for connection
 ## Example :
@@ -42,15 +43,19 @@ check /home/user is not writable for group and others
 /etc/ssh/sshd_config ## config file for ssh server
  PermitRootLogin yes/no ## disable root login from ssh (but not then connected to the machine), need systemctl restart ssh then logout to take effect (test ssh connexion before logging out after any ssh config change)
  PasswordAuthentication no ## disable possibility to connect via password, public key is necessary (caution: set public key access before)
+```
 
-#? SCP
+# SCP
 
+```bash
 sudo scp <file> user@host: ## transfer a file to a host via ssh
 sudo scp -r <directory> user@host: ## transfer a directory to a host via ssh
 sudo scp user@host:<file> <destination> ## reverse transfer from remote to local
+```
 
-#? RSYNC
+# RSYNC
 
+```bash
 sudo rsync <file> user@host: ## transfer a file to a host via ssh
 sudo rsync -v <file> user@host: ## show files transfered
 sudo rsync -r <directory> user@host: ## transfer a directory
@@ -68,3 +73,4 @@ sudo rsync -h <file> user@host: ## output numbers in a human-readable format
 sudo rsync -progress <file> user@host: ## show progress during transfer
 sudo rsync --remove-source-files <file> user@host: ## works as mv, deletes source files
 sudo rsync --dry-run <file> user@host: ## works as a test, shows what would be the output of the command
+```
