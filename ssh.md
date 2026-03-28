@@ -37,7 +37,7 @@ ssh -i /home/username/.ssh/id_rsa.pub username@debian1 ## manually select key to
 ssh-add id_ed25519 ## add the private key to the cache so it does not ask for passphrase (ssh-agent must be running)
 eval $(ssh-agent) ## create new ssh-agent session
 ssh-add -l ## list ssh-agent identities saves
-keychain
+keychain ## software to skip entering passphrase
 check /home/user is not writable for group and others
 
 /etc/ssh/ssh_config ## system-wide config file

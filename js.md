@@ -1,61 +1,63 @@
 # Variables
-
+## Set a variable
 ```js
-
-// set a variable
-  const a = 5 // declare a constant
-  let a = 'foo' // declare a variable
-
+  let a // declare a variable
+  // let is mandatory to declare a variable with "use strict";
   a = 5 // define a variable
-  a = prompt('Give a number: ') // define return value of a function
+  let a = 5 // do both at the same time
+  console.log(a) // show the content of a variable
 
-// variable types
-  a = 5 // number
-  a = 'foo' // string
-  a = false // boolean
-  a = [ 13, true, 'foo' ] // array
-  a = { foo: 'bar', color: 'yellow' } // object
-  a = () => {} // function
-  a = null // no value
-  a = undefined // undefined
+  const a = 5 // declare a constant
 
-  typeof('string') // get type of variable
+  a = prompt('Give a number: ') // assign a variable the return value of a function
+```
+## data types
+```js
+  let a = 5 // number
+  let a = 1234567890123456789012345678901234567890n; // bigInt
+  let a = 'foo' // string
+  let a = "foo" // string with double quotes
+  let a = `${name} is ${4 + 37} years old.` // string with backticks allow embedding data
+  let a = false // boolean
+  let a = 1 < 2 // assign the result of a comparison
+  let a = [ 13, true, 'foo' ] // array
+  let a = { foo: 'bar', color: 'yellow' } // object
+  let a = () => {} // function
+  let a = null // no value
+  let a = undefined // undefined
+
+  typeof 'string' // operator to get the type of a variable
+  // it is not a function
+  typeof('string') // grouping parentheses to make it look a function
+
   isNaN('string') // return true if parameter is not a number
-  [ 3, 5, 2 ].length // get length of table
-
-  // check a if a variable is number between 0 and 10
-  function checkNumberBetweenZeroAndTen() {
-    let number = prompt('Enter a number between 0 and 10.')
-    if (isNaN(number)) { return console.error('Must be a number.') }
-    if ( number < 0 || number > 10 ) { return console.error('Must be a number between 0 and 10.') }
-    console.log('Number is valid.')
-  }
-
-// combine variables
+```
+## combine variables
+```js
   5 + 2 // add numbers
   'foo' + 'bar' // concatenate strings
-
   a + ' ' + b // separate variables with space
   "my name is " + a + " and I'm 30" // insert variable in quotes
   `my name is ${a} and i'm 30` // insert variable with backticks
-
-// arrays
+```
+## arrays
+```js
   let arr = [ 6, 2, [ 8, 3 ], 4 ] // define an array with a sub array
   arr[0] // access first element
   arr[2][1] // access element with sub array
   arr[1] = 'foo' // change value in array
 
-// objects
+  [ 3, 5, 2 ].length // get length of table
+```
+## objects
+```js
   let obj = { foo: 'bar', colors: { blue: true, red: false } } // object inside object
   obj.foo // access element
   obj.colors.blue // access sub element
   obj.foo = 'John' // change value in object
 ```
-
 # Conditions
-
 ```js
-
 // if
   if (false) {
     console.log(true)
@@ -94,9 +96,7 @@
   || // OR
   !false // NOT
 ```
-
 # Loops
-
 ```js
 break // exit current loop
 
@@ -129,9 +129,7 @@ break // exit current loop
     console.log(i) // print values
   }
 ```
-
 # Functions
-
 ```js
 
 // declaration
@@ -159,11 +157,14 @@ break // exit current loop
   f() // use a function
   f('foobar') // use a function with an argument
 ```
-
-# Legacy
-
+# Console
 ```js
-
+console.log() // print message in the console
+console.error() // print error message
+console.warn() // print warning message
+```
+# Legacy
+```js
 a = parseInt(a), b = parseInt(b);
 alert(a + b);
 let text = a + '' + b;
