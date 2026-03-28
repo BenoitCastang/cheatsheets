@@ -1,12 +1,9 @@
 # Repo management
-
 ```bash
 git init ## make the current directory a git repository
-.git/config ## repo config file
+.git/config ## repo config file
 ```
-
 # Status
-
 ```bash
 git status [file] ## show changes
 git diff ## display changes
@@ -15,9 +12,7 @@ git log ## display list of commits
 git log --oneline ## short display
 git lp ## log with all details
 ```
-
 # Commit
-
 ```bash
 git add <file> ## add files to the repo
 git add . ## add every files in working directory
@@ -30,18 +25,14 @@ git stash ## drop local changes
 git revert ##
 git revert <hash> ## hash from git log --oneline
 ```
-
 # Branch management
-
 ```bash
 git branch ## list branches in local repository
 git checkout master  ## switch to a branch
 git checkout -b master ## create branch
 git branch -d master ## delete branch
 ```
-
 # Github
-
 ```bash
 git clone url.git ## download a public repository
 git pull url.git ## download the changes
@@ -52,9 +43,7 @@ git remote add origin url.git ## change origin in .git/config
 ## On Github: Profile icon -> Settings -> Developer settings -> Personal access tokens -> Generate new token
 git push origin master ## push the repo to github, asked credentials : connect with Github username as username and Github access token as a password
 ```
-
 # Config
-
 ```bash
 ~/.gitconfig ## git config file
 
@@ -65,14 +54,4 @@ git config --global core.editor = "nvim" ## set git editor
 
 git config --global credential.helper cache ## store credentials until system restart
 git config --global credential.helper store ## store credentials permanently
-```
-
-# Repos
-
-```bash
-https://github.com/BenoitCastang/dotfiles
-https://github.com/BenoitCastang/python-files
-https://github.com/BenoitCastang/c-files
-https://github.com/BenoitCastang/bash-files
-https://github.com/BenoitCastang/personal-website
 ```

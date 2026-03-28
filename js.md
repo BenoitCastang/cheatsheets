@@ -11,7 +11,7 @@
 
   a = prompt('Give a number: ') // assign a variable the return value of a function
 ```
-## data types
+## Data types
 ```js
   let a = 5 // number
   let a = 1234567890123456789012345678901234567890n; // bigInt
@@ -32,7 +32,7 @@
 
   isNaN('string') // return true if parameter is not a number
 ```
-## combine variables
+## Combine variables
 ```js
   5 + 2 // add numbers
   'foo' + 'bar' // concatenate strings
@@ -40,7 +40,7 @@
   "my name is " + a + " and I'm 30" // insert variable in quotes
   `my name is ${a} and i'm 30` // insert variable with backticks
 ```
-## arrays
+## Arrays
 ```js
   let arr = [ 6, 2, [ 8, 3 ], 4 ] // define an array with a sub array
   arr[0] // access first element
@@ -49,7 +49,7 @@
 
   [ 3, 5, 2 ].length // get length of table
 ```
-## objects
+## Objects
 ```js
   let obj = { foo: 'bar', colors: { blue: true, red: false } } // object inside object
   obj.foo // access element
