@@ -1,5 +1,4 @@
 # SSH
-
 > [!Note]
 > SSH stands for Secure Shell Host
 
@@ -45,17 +44,13 @@ check /home/user is not writable for group and others
  PermitRootLogin yes/no ## disable root login from ssh (but not then connected to the machine), need systemctl restart ssh then logout to take effect (test ssh connexion before logging out after any ssh config change)
  PasswordAuthentication no ## disable possibility to connect via password, public key is necessary (caution: set public key access before)
 ```
-
 # SCP
-
 ```bash
 sudo scp <file> user@host: ## transfer a file to a host via ssh
 sudo scp -r <directory> user@host: ## transfer a directory to a host via ssh
 sudo scp user@host:<file> <destination> ## reverse transfer from remote to local
 ```
-
 # RSYNC
-
 ```bash
 sudo rsync <file> user@host: ## transfer a file to a host via ssh
 sudo rsync -v <file> user@host: ## show files transfered

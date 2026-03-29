@@ -1,5 +1,4 @@
 # Script tag
-
 ```html
 
 <script>

@@ -131,7 +131,6 @@ break // exit current loop
 ```
 # Functions
 ```js
-
 // declaration
   function f() {} // minimal syntax
   function f(arg) { console.log(arg) } // with an argument

@@ -1,0 +1,99 @@
+REPL = Read, Eval, Print, Loop ## name of the python shell
+python3 ## command to lauch the python shell
+exit() ## get out of the python shell print() ## print syntax
+help() ## go to the python documentation
+python3 script.py ## lauch a non executable .py file
+./script.py ## lauch executable .py file with python3 if he has shebang #!/usr/bin/en python3 in the beginning
+print(sys.version) or print (sys.version_info) ## print python version in use
+
+$? Setting up virtual environment
+
+sudo apt install python-3.11-venv ## virtual environment for the lastest python version
+mkdir dir && cd dir ## create a directory for the virtual environment
+python3.11 -m venv lpp3ed ## -m for using module venv to create the virtual environment named lpp3ed
+source ./lpp3ed/bin/activate ## activate and enter the virtual environment
+deactivate ## deactivate virtual environment
+## create or verify the presence of requirements.txt to install the dependencies
+pip freeze > requirements.txt ## make a requirements.txt out of current dependencies
+pip install -r requirements.txr ## install dependencies of the requirements.txt in the current virtual environment ## -r stands for requirements path
+
+$? Basics
+
+print() ## echo something
+id() ## get the id of an object
+1 + 4 ## performing some maths
+1_500 + 2_500 ## python allows the user of underscores to make big numbers more readable
+type() ## indicate type
+10 / 5 ## returns float
+10 // 5 ## returns integer
+my_var = 8 ## declare a variable
+print(int + int) ## add variables
+print(str + str) ## concatenates variables
+list = ['first', 'second', 'third'] ## declare a list
+print(list[0]) ## print first element of list
+list.pop(2) ## delete third element of list
+list.append('fourth') ## add element to a list
+dictionary = {'first': 'data1', 'second': 'data2', 'third': 'data3'} ## declare a dictionary
+print(dictionary['first']) ## print element named 'first' of dictionary
+del dictionary['first'] ## drop element named 'first' of dictionary
+dictionary['fourth'] = 'data4' ## add element to a dictionary
+'foo' + 6 ## operation impossible between two different data types
+str(5) ## make an integer a string
+int('5') ## make a string an integer
+int('1101', base=2) ## convert binary to integer
+
+$? Boolean numbers
+
+int(False) ## returns 0
+int(True) ## returns 1
+bool(1) ## evaluate in the boolean context, returns True
+bool(0) ## returns False
+bool(-42) ## returns True
+bool('blop') ## returns True
+bool and bool ## Both values must be true
+bool or bool ## either must be true
+not bool ## opposite of bool
+1 + True ## returns 2, because True equals 1
+1 + False ## returns 1, because False equals 0
+
+$? Strings
+
+str[start:stop:step]  ## string slicing rule
+str[0] ## access first element of a string
+str[1:4] ## access a range from second to fourth element ## start is inclusive, stop in exclusive
+str[:4] ## from beginning to stop
+str[4:] ## from start to end
+str.upper() ## make a string uppercase
+str.lower() ## make a string lowercase
+str.removeprefix('str') ## remove a string from beginning of line
+str.removesuffix('str') ## remove a string from end of line
+
+print('bloc\nflop') ## print line return
+def additon(a, b):
+	return a + b
+addition(1, 2) ## basic function syntax
+local variable ## exist only in the contextual function
+global variable ## exist anywhere in the code
+global myvar ## declare a variable as global
+myvar = 5 ## setting his value
+input() ## return the string written by the user 
+input("Text") ## input with text before
+continue ## go back to while condition
+series of if ## go through all conditions whether they are verified or not -> if; if; if
+if, elif, else ## stops the if series if one condition is verified -> if || if || if
+if inside if ## verifies if previous condition is verified -> if && if && if
+tuple = ('flic', 'flac', floc') ## you can't change a tuple once it's declared, it's non mutable like dictionaries and lists, you must do del tuple before declaring a new one to modify it - but its faster, uses less memory and protects the array from unwanted change
+len(array) ## return number of elements of an array
+import os ## allows to perform os things ignoring the system
+os.getcwd() ## get current working directory
+os.rename('first', 'second') ## rename a file
+os.system('ls') ## perform system command
+os.system('ls', ' -la') ## won't work, takes only one argument
+subprocess.call(['ls', '-la']) ## perform system command
+'Bonjour {}'.format('Michael') ## replace {} as placeholders with arguments - works also with names and numbers
+exit(1) ## stop the program if some error is encountered, cause you dont want it to continue if this failed; return number in parenthesis
+try: ## get ready to catch exception
+	command ## perform the command
+except: ## catch all exceptions
+	command ## perform the command if an exception is catched
+except subprocess.CalledProcessError as e: ## catch exception of only one function

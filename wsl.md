@@ -1,5 +1,4 @@
 # WSL
-
 > [!NOTE]
 > WSL stands for Windows Subsystem for Linux
 
