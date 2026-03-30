@@ -1,16 +1,9 @@
-# Bash vim mode
-```bash
-set -o vi ## switch to vim mode in bash
-
-## change vim mode commands in .inputrc
-set editing-mode vi ## set the default editing mode to vi
-set keymap vi-command ## set the default keymap to vi-command mode
-jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
-```
+# Vim
 # Help
 ```bash
-help {command} | only ## open help fullscreen
-CTRL-] ## jump to a subject
+help {command} ## open help buffer
+CTRL-] ## jump to a subject within help buffer
+
 vim --version ## get version of vim installed
 ```
 # Options
@@ -26,8 +19,8 @@ set number ## set boolean option
 set nonumber ## unset boolean option
 set number! ## toggle option
 
-set numberwidth=4 ## set option with value
-set number numberwidth=4 ## set multiple options at the same time
+set numberwidth = 4 ## set option with value
+set number numberwidth = 4 ## set multiple options at the same time
 
 set number? ## print option value
 set number? numberwidth? ## check multiple options at the same time
@@ -59,13 +52,9 @@ set signcolumn=yes ## always show
 set signcolumn=no ## never show
 set signcolumn=auto ## depends wether there is something to display or not
 ```
-# Echo
-```bash
-echo 'message' ## echo a message
-echomsg 'message' ## echo a message that remains in the message-history
-messages ## show message-history
-```
+# Commands
 # Mapping
+## Map
 ```bash
 map v dd ## make the v key do dd
 map v ## print user mapping for v
@@ -100,17 +89,29 @@ nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective mod
 ## operator-pending mode, after an operator (y, d, c) waits for a motion and execute operation between current cursor position and final cursor position (or selected text if visual mode)
 onoremap j ejela( ## complex movement
 onoremap j /fi<cr> ## dj will remove text till 'fi' is found
-
-## leader key
-let mapleader=' ' ## set space as leader key
-let maplocalleader='g' ## set g as local leader key
-## alternative leader key that can be used in specific file types and make no conflict with global leader key
-nnoremap <leader>d d10j ## map a command with the leader key
 ```
-# Source
-source $MYVIMRC ## run file content
+## Motions
+```bash
+:2 ## go line 2
+:2p ## go to line 2
+
+e ## go end of word
+E ## go enf of WORD
+
+w ## go begging of word
+W ## go begging of WORD
+
+b ## go beginning of previous word
+B ## go beginning of previous WORD
+
+^ ## go beginning of line
+$ ## go end of line
+
+/word ## go to word
+```
 # Abbreviations
 ```bash
+## abbreviations trigger when hitting space in insert mode
 abbreviate teh the ## writing teh becomes the
 abbreviate ## print list of abbreviations
 unabbreviate teh ## remove abbreviation
@@ -127,44 +128,45 @@ abbreviate btw by the way ## abbreviation expands to multiple words
 
 ## the big difference with mappings is that the abbreviation is replaced only if followed by non-keyword character (space, enter, period, comma...)
 set iskeyword? ## get the list of ASCII characters that are keyword characters
+
+abbrev <buffer> teh the ## abbreviation for the current buffer only
 ```
 # Autocommands
 ## Syntax
 ```bash
 ## autocommands run commands when certain events happen
-autocmd <event> <pattern> <command> ## set autocommand rule
-autocmd BufNewFile
+autocmd BufNewFile *.txt :write ## when opening a buffer which is a new file, if the file is a .txt, then execute the comment write to save it
+
+autocmd BufRead,BufNewFile * set number! ## multiple events
+autocmd BufRead *.html,*.js set number! ## multiple patterns
+autocmd BufRead * ## multiple commands
 
 autocmd ## print active rules
-autocmd <event> ## print active rules for a specific event
-autocmd <event> <pattern> ## print active rules for a specific event and a specific filter
+autocmd * ## print active rules a specific pattern
+autocmd BufRead * ## print active rules for both
 
-autocmd BufWritePre * :normal gg=G ## before saving any file, indent it automatically
-autocmd BufWritePost *.txt :echo 'File saved successfully' ## filter pattern, command works only on .txt files
-
-autocmd BufReadPost,BufNewFile * :normal OHere is your file ! ## multiple events can trigger the command
-autocmd BufReadPost *.html,*.js :normal OHere is your html or js file ! ## multiple filter patterns
-
-autocmd FileType python nnoremap <buffer> <localleader>c I//<esc> ## automatic comment addition only for python files
+## filetype event
+autocmd FileType python set number! ## no need for a pattern
 set filetype? ## print buffer's detected filetype
 set filetype=python ## set buffer's filetype
-autocmd filetype python ## list set filetype autocommands
+autocmd filetype python ## list given filetype autocommands
 ```
 ## Groups
 ```bash
-## autocommand rules are duplicated each time their events are triggered or when vimrc is sourced: the same are added instead of replacing them
-## groups can be cleared with autocmd!, so previous commands in the same group are deleted
-augroup <groupname>
+## autocommands are duplicated when sourcing vimrc, augroup merge autocommands
+augroup test
  autocmd! ## clear autocommand group
- autocmd BufLeave * :echo 'Hello,'
- autocmd BufLeave * :echo 'World!'
+ autocmd BufWritePre * set number!
+ autocmd BufWritePre * set wrap!
 augroup END
 ```
 ## Events
 ```bash
-FileType ## when buffer filetype is set by vim
+FileType python ## once filetype option has been set
 
 BufNewFile ## when is opened a buffer with a new file
+BufRead ## when reading a file
+
 BufEnter ## when entering a buffer
 BufLeave ## when leaving a buffer
 
@@ -190,6 +192,15 @@ MenuPopup ## before showing the popup menu
 
 VimEnter ## entering vim
 VimLeave ## leaving vim
+```
+## Patterns
+```bash
+* ## matches any file
+*.txt ## matches any file ending in .txt
+```
+## Commands
+```bash
+## <cr> cannot be used in the command part of an autocommand
 ```
 # Macros
 qj ## record a macro
@@ -227,6 +238,10 @@ U ## in visual mode, make selected text uppercase
 read ## insert content from outsite
 read file ## insert content of a file
 read !command ## insert output of a command
+# Source
+source $MYVIMRC ## run file content
+# Pipe
+echom "Hello" | echom "World!" ## write two commands on the same line
 # Autocompletion
 c-n ## next match
 c-p ## previous match
@@ -257,21 +272,6 @@ xp ## cut letter and paste it after next one
 cs'' ## change surround ' to '
 ysiw' ## you surround inner word with '
 ds' ## delete surround '
-# Motions
-2 ## go line 2
-2p ## go to line 2
-
-e ## go end of word
-E ## go enf of WORD
-
-w ## go begging of word
-W ## go begging of WORD
-
-b ## go beginning of previous word
-B ## go beginning of previous WORD
-
-^ ## go beginning of line
-$ ## go end of line
 # Easymotion
 <leader><leader>s ## easymotion
 <leader><leader>j ## to line below
@@ -386,6 +386,7 @@ syntax list comments ## show a specific group only
 syntax match MyMatch /##.*/ ## detect pattern and apply highlight on all pattern
 syntax keyword MyKeyword if elif else fi ## detect single word patterns and highlight only the word
 # Colors
+```bash
 ## highlight defines text style and assigns it to a group
 
 highlight ## print all groups with their attributes
@@ -411,10 +412,11 @@ NonText ## empty lines
 LineNr ## line numbers colum
 SignColumn ## Errors colums
 
-## xtermcolors
-
+```
+## Colors
+```bash
 ## system colors
-black, red, green, yellow, blue, magenta, cyan, white, gray ## plain text colors
+black,red,green,yellow,blue,magenta,cyan,white,gray ## plain text colors
 0 ## Black
 1 ## Maroon
 2 ## Green
@@ -431,10 +433,22 @@ black, red, green, yellow, blue, magenta, cyan, white, gray ## plain text colors
 13 ## Fuchsia
 14 ## Aqua
 15 ## White
+
 ## non-system colors
 16-255 ## shades of colors
 none ## transparency
+```
+# Bash vim mode
+```bash
+set -o vi ## switch to vim mode in bash
+
+## change vim mode commands in .inputrc
+set editing-mode vi ## set the default editing mode to vi
+set keymap vi-command ## set the default keymap to vi-command mode
+jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
+```
 # Interact through command line
+```bash
 ## normal command to interact as in normal mode through command line - from autocommands or from outside vim
 normal G ## go last line
 normal iblop ## go insert mode, write blop
@@ -451,8 +465,74 @@ g/pattern/normal A; ## interact with matching pattern
 / ## in normal mode, typing / goes directly to search mode, which is command-line but erverything begins automatically by /
 
 %s/pattern/replacement/gc ## ex commands
+```
 # Interact while outside of vim
+```bash
 ## vim -c put you in vim in command-line mode - all interactions from command line is so valid
 vim -c 'normal iblop' ## do command through command line (and stay in vim)
 vim -c 'normal Gocrac' -c 'wq' file ## chain commands, finish getting out of vim
 vim -c '/pattern' file ## search in file
+```
+# Vimscript
+## Echo
+```bash
+echo 'message' ## echo a message
+echomsg 'message' ## echo a message that remains in the message-history
+messages ## show message-history
+
+echo var ## print a variable
+echo 3 + 1 ## echo a result
+
+## vim coerces strings to integers
+echom "hello" + 10 ## prints 10
+echom "10hello" + 10 ## prints 20
+echom "hello10" + 10 ## prints 10
+```
+## Variables
+```bash
+let foo = 42 ## declare a variable
+echo foo ## print a variable
+
+## buffer-scoped variables can be defined with a b: namespace
+let b:foo = 42 ## declare
+echo b:foo ## print
+
+## option variables have an ampersand namespace
+let &numberwidth = 2 ## set option a variable
+let &number = 1 ## set boolean option variable
+echo &number ## 0 is disabled, 1 is enabled
+
+let &numberwidth = &numberwidth + 4 ## variables allow maths
+
+## local option variables have a l: namespace
+let &l:number = 1 ## local option variable
+echo &l:number ## print local option variable
+
+## registers have an at sign namespace
+let @a = "Hello!" ## set a register as variable
+echo @a ## print register
+```
+## Conditionals
+### If
+```bash
+:if 0
+:    echom "if"
+:elseif "nope!"
+:    echom "elseif"
+:else
+:    echom "finally!"
+:endif
+```
+### Comparisons
+```bash
+1 < 10 ## true
+number > 10 ## with variable
+10 == 5 ## false
+
+## string comparisons depend on the user's &ignorecase value
+"foo" == "BAR"
+
+"foo" ==? "BAR" ## case-insensitive comparison
+"foo" ==# "BAR" ## case-sensitive comparison
+```
+## Functions

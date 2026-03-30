@@ -999,3 +999,8 @@ var=5
 ## brace expansion happens before variable expansion, so it read his range and doesnt recognize $var as a valid part of the range because it is not a number; then the variable expansion happens and its {1..5} but bash does not go back to perform the brace expansion
 eval "echo {1..$var}" ## echo 1 2 3 4 5 because eval do all the substitutions before sending it to the shell execution
 
+#? HISTORY
+
+up and down arrows ## cycle through command history
+ctrl-R ## search through command history
+ctrl-S ## cycle back through command history
