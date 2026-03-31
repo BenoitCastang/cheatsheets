@@ -1,7 +1,7 @@
 # Vim
 # Help
 ```bash
-help {command} ## open help buffer
+help {command} ## open help buffer
 CTRL-] ## jump to a subject within help buffer
 
 vim --version ## get version of vim installed
@@ -135,7 +135,7 @@ abbrev <buffer> teh the ## abbreviation for the current buffer only
 ## Syntax
 ```bash
 ## autocommands run commands when certain events happen
-autocmd BufNewFile *.txt :write ## when opening a buffer which is a new file, if the file is a .txt, then execute the comment write to save it
+autocmd BufNewFile *.txt :write ## when opening a buffer which is a new file, if the file is a .txt, then execute the comment write to save it
 
 autocmd BufRead,BufNewFile * set number! ## multiple events
 autocmd BufRead *.html,*.js set number! ## multiple patterns
@@ -241,7 +241,7 @@ read !command ## insert output of a command
 # Source
 source $MYVIMRC ## run file content
 # Pipe
-echom "Hello" | echom "World!" ## write two commands on the same line
+echom "Hello" | echom "World!" ## write two commands on the same line
 # Autocompletion
 c-n ## next match
 c-p ## previous match
@@ -462,7 +462,7 @@ normal! ## ignore custom mappings
 g/pattern/normal A; ## interact with matching pattern
 
 /blop ## search
-/ ## in normal mode, typing / goes directly to search mode, which is command-line but erverything begins automatically by /
+/ ## in normal mode, typing / goes directly to search mode, which is command-line but everything begins automatically by /
 
 %s/pattern/replacement/gc ## ex commands
 ```
@@ -480,11 +480,11 @@ echo 'message' ## echo a message
 echomsg 'message' ## echo a message that remains in the message-history
 messages ## show message-history
 
-echo var ## print a variable
-echo 3 + 1 ## echo a result
+echo var ## print a variable
+echo 3 + 1 ## echo a result
 
 ## vim coerces strings to integers
-echom "hello" + 10 ## prints 10
+echom "hello" + 10 ## prints 10
 echom "10hello" + 10 ## prints 20
 echom "hello10" + 10 ## prints 10
 ```
@@ -505,19 +505,19 @@ echo &number ## 0 is disabled, 1 is enabled
 let &numberwidth = &numberwidth + 4 ## variables allow maths
 
 ## local option variables have a l: namespace
-let &l:number = 1 ## local option variable
-echo &l:number ## print local option variable
+let &l:number = 1 ## local option variable
+echo &l:number ## print local option variable
 
 ## registers have an at sign namespace
 let @a = "Hello!" ## set a register as variable
-echo @a ## print register
+echo @a ## print register
 ```
 ## Conditionals
 ### If
 ```bash
 :if 0
 :    echom "if"
-:elseif "nope!"
+:elseif "nope!" ## strings have false value
 :    echom "elseif"
 :else
 :    echom "finally!"
@@ -525,14 +525,113 @@ echo @a ## print register
 ```
 ### Comparisons
 ```bash
-1 < 10 ## true
-number > 10 ## with variable
+1 < 10 ## true
+number > 10 ## with variable
 10 == 5 ## false
 
 ## string comparisons depend on the user's &ignorecase value
 "foo" == "BAR"
 
 "foo" ==? "BAR" ## case-insensitive comparison
-"foo" ==# "BAR" ## case-sensitive comparison
+"foo" ==# "BAR" ## case-sensitive comparison
 ```
 ## Functions
+### Syntax
+```bash
+function Hello() ## initial letter must be capital
+  echom "Hello, world!"
+endfunction
+
+call Hello() ## call function
+
+function Hello() ## return a value
+  return 1
+endfunction
+
+echom Hello() ## print return value
+
+if Hello() ## use return value as a comparison
+  echom "Function returns true !"
+endif
+```
+### Arguments
+```bash
+## arguments have a specific name space a:
+function DisplayName(name)
+  echom a:name
+endfunction
+
+call DisplayName("Joe")
+
+## handle variable number of arguments
+function Vargs(...)
+  echom a:0 ## number of arguments
+  echom a:1 ## first argument
+  echo a:000 ## list of given arguments
+endfunction
+
+function Vargs2(foo, ...) ## one argument plus variable number of arguments
+
+function Assign(foo)
+  let a:foo = "Nope" ## can't assign a new value to a function argument
+  let foo_tmp = a:foo ## must use an intermediate variable
+  let foo_tmp = "Yep"
+  echom foo_tmp
+endfunction
+
+call AssignGood("test")
+```
+## Numbers
+### Types
+```bash
+## float
+echom 4.3
+
+## hexadecimal
+echom 0xff ## prints 255
+echom 0xa0 - 0x92 ## prints 14
+
+## octal
+echom 024 ## prints 20
+
+## exponential
+echom 7.0e2 ## prints 700
+echom 7.0e-1 ## prints 0.7
+```
+### Operations
+```bash
+## coercion
+echom 2 * 2.0 ## prints 4.0
+
+## division
+echom 3 / 2 ## print 1
+echom 3 / 2.0 ## print 1.5
+```
+## Strings
+```bash
+echom "Hello, world!" ## print a string
+
+## the + operator coerces everything to number (int)
+echom "Hello, " + "word!" ## prints 0
+echom "3 mice" + "2 cats" ## prints 5
+echom 2 + "1.5" ## prints 3
+
+## the concatenation operator is . - it coerces everything to strings
+echom "Hello, " . "world!" ## concatenation
+echom 10 . "foo" ## prints 10foo
+echom 10.1 . "foo" ## prints 10.1foo
+
+## escape characters
+echom "foo\"bar\" ## escape character
+echom "foo\\bar" ## escape \
+```
+
+```bash
+## special characters
+echom "foo\nbar" ## prints foo^@bar
+echo "foo\nbar" ## echom cant handle special characters
+
+## literal strings
+echom '\n\\' ## print \n\\
+echom 'Its''s okay' ## escape single quote
+```
