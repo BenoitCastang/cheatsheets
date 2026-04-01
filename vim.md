@@ -296,7 +296,7 @@ abbrev <buffer> teh the ## abbreviation for the current buffer only
 ## Syntax
 ```bash
 ## autocommands run commands when certain events happen
-autocmd BufNewFile *.txt :write ## when opening a buffer which is a new file, if the file is a .txt, then execute the comment write to save it
+autocmd BufNewFile *.txt write ## when opening a buffer which is a new file, if the file is a .txt, then execute the comment write to save it
 
 autocmd BufRead,BufNewFile * set number! ## multiple events
 autocmd BufRead *.html,*.js set number! ## multiple patterns
@@ -314,22 +314,33 @@ autocmd filetype python ## list given filetype autocommands
 ```
 ## Normal
 ```bash
-normal G ## take a sequence of keys and act like it was typed in normal mode
+## autocommand by default executes in command line, the normal command is then needed to perform normal mode actions it
+normal G ## perform normal mode action
 normal! G ## ignore user remappings
+
+normal! ifoo ## inserts foo
+normal! v ## enters visual mode
+
+## unlike map, the normal command does not change mode with :, / or ?, though it does with i and v
+normal! :w ## wont work
+
+## does not recognize special characters also
+normal! ifoo<cr> ## inserts foo<cr>
 
 1,10normal A; ## interact with multiple lines
 %normal A; ## interact with whole file
 g/pattern/normal A; ## interact with matching pattern
-
-## unlike map, the normal command does not change mode with :, / or ?, though it does with i and v
-normal! :w ## wont work
-normal! /foo<cr> ## does not recognize special characters also
 ```
 ## Execute
 ```bash
 ## run a string as a command
 execute "echom 'Hello, world!'"
-exe "vsplit " . bufname("%") ## using the result of a function
+
+## allows to build a command dynamically
+execute "vsplit " . bufname("%") ## using the result of a function
+
+## with normal it allows it to use :, / and ?
+execute "normal! :vsplit\<cr>" ## but special characters need to be escaped
 ```
 ## Groups
 ```bash
