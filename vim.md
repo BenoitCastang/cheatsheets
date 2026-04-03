@@ -253,8 +253,7 @@ onoremap j /fi<cr> ## dj will remove text till 'fi' is found
 ```
 ## Motions
 ```bash
-:2 ## go line 2
-:2p ## go to line 2
+## Operators (d, c, y) wait for a movement
 
 e ## go end of word
 E ## go enf of WORD
@@ -267,6 +266,18 @@ B ## go beginning of previous WORD
 
 ^ ## go beginning of line
 $ ## go end of line
+
+fp ## find character p
+Fp ## find character p backwards
+tp ## until character p
+Tp ## until character p backwards
+
+## text objects - before the motion
+iw ## inside word
+aw ## around word
+
+:2 ## go line 2
+:2p ## go to line 2
 
 /word ## go to word
 ```
@@ -298,13 +309,13 @@ abbrev <buffer> teh the ## abbreviation for the current buffer only
 ## autocommands run commands when certain events happen
 autocmd BufNewFile *.txt write ## when opening a buffer which is a new file, if the file is a .txt, then execute the comment write to save it
 
-autocmd BufRead,BufNewFile * set number! ## multiple events
-autocmd BufRead *.html,*.js set number! ## multiple patterns
-autocmd BufRead * ## multiple commands
-
 autocmd ## print active rules
 autocmd * ## print active rules a specific pattern
 autocmd BufRead * ## print active rules for both
+
+autocmd BufRead,BufNewFile * set number! ## multiple events
+autocmd BufRead *.html,*.js set number! ## multiple patterns
+autocmd BufWritePre * echom "toast" | vsplit ## multiple commands
 
 ## filetype event
 autocmd FileType python set number! ## no need for a pattern
@@ -326,6 +337,9 @@ normal! :w ## wont work
 
 ## does not recognize special characters also
 normal! ifoo<cr> ## inserts foo<cr>
+normal! ifoo<esc>Acrac ## exit normal mode wont be possible
+
+## execute allows to go past those last two limitations
 
 1,10normal A; ## interact with multiple lines
 %normal A; ## interact with whole file
@@ -336,15 +350,17 @@ g/pattern/normal A; ## interact with matching pattern
 ## run a string as a command
 execute "echom 'Hello, world!'"
 
+## allows the normal command to use special characters, :, / and ?
+execute "normal Iblop \<esc>A crac\<esc>" ## special characters
+execute "normal! :vsplit\<cr>" ## : example
+execute "normal /number\<cr>" ## / example
+
 ## allows to build a command dynamically
 execute "vsplit " . bufname("%") ## using the result of a function
-
-## with normal it allows it to use :, / and ?
-execute "normal! :vsplit\<cr>" ## but special characters need to be escaped
 ```
 ## Groups
 ```bash
-## autocommands are duplicated when sourcing vimrc, augroup merge autocommands
+## autocommands dont have names so they are duplicated if repeated or when sourcing vimrc => augroup give them a name so you cant repeat them, plus it groups them
 augroup test
  autocmd! ## clear autocommand group
  autocmd BufWritePre * set number!

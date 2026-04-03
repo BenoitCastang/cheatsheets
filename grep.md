@@ -1,3 +1,4 @@
+```bash
 ## search a pattern and return lines matching it - works with stdin and files
 grep foo ## search pattern in stdin, here user input
 ls -l | grep foo ## search pattern in stdin, here redirected command output
@@ -5,6 +6,7 @@ grep foo <files> ## search pattern in file
 
 grep -v ## reverted grep, show no match entries
 grep -c ## display only number of matches
+
 grep -i ## ignore case
 grep -r ## recursive
 grep -l ## show file name only, the line line matching the pattern
@@ -20,15 +22,26 @@ grep -o ## show only matching part of each line
 grep -e pattern1 -e pattern2 ## specify multiple patterns, search pattern1 or pattern2
 grep -q ## quiet, no output and returns 0 if match is found, 1 if not
 
+## escape needed
+grep "crac\|plouf" ## match crac or plouf
+
+## extended regex
+grep -E "crac|blop" ## crac or blop
+grep -E "file(1|2)" ## file1 or file2
+
 grep ^blop ## if line begins with blop
 grep crac$ ## if line ends with crac
 grep ^flop$ ## if the entire line is exactly flop
 grep ^fl.*op$ ## if line is fl then any character any number of times then op
 
-## escape needed
-grep "crac\|plouf" ## match crac or plouf
+## match spaces
+grep the end ## wont work
+grep "the end" ## will work
+grep " " ## match a space character alone
 
-. ## matches any single character
+## . matches any single character
+grep ..bee ## any character two times then bee
+
 [] ## matches any character withing the brackets
 [^abc] ## doesnt match characters within the brackets
 
@@ -39,6 +52,4 @@ grep "crac\|plouf" ## match crac or plouf
 {n,} ## previous character must be present n or more times
 {n,m} ## previous character must be present between n and m times
 
-## extended regex
-grep -E "crac|blop" ## crac or blop
-grep -E "file(1|2)" ## file1 or file2
+```
