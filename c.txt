@@ -1,0 +1,552 @@
+#? COMPILATION AND EXECUTION
+
+## gcc is GNU Compiler Collection
+## gcc compiles the c code then links it with the c runtime library of the operating system and creates an executable
+gcc helloworld.c ## make a a.out file to be run
+gcc -g helloworld.c ## integrates debugging info
+gcc -Wall helloworld.c ## shows all compilation errors
+gcc helloworld.c -o helloworld ## specify executable file name
+gcc -g -Wall helloworld.c functions.c -o helloworld && ./helloworld ## compile and run
+-o ## creates the executable file
+
+#? DEBUGGING
+
+## gdb is GNU Debugger
+gdb ./helloworld ## debug helloworld program
+-q ## undisplays welcoming message
+(gdb) "step" ## goes line to line 
+(gdb) "next" ## skips functions 
+(gdb) "until" ## skips loops 
+(gdb) "watch" ## variable - return changes
+
+(gdb) "rwatch" ## variable - return readings
+(gdb) "awatch" ## variable - return both
+
+#? HELLO WORLD
+
+## basic syntax
+int main() ## entry point, function called when the program is run
+{
+	printf("Hello world !\n");
+	return 0;
+}
+int main(){printf("Hello, world!\n");return 0;} ## no whitespaces version
+
+## escape sequences - bigraphs (two characters) used to perform non-text actions or avoid special behaviors
+\n ## newline - \v + \r
+\t ## horizontal tab - useful to align columns of text
+\v ## linefeed or vertical tab - go next line without getting back to beginning of line
+\r ## carriage return - cursor gets back to beginning of line without going next line
+\b ## backspane - delete one character to the left
+\a ## alert or bell - produces an audible or visual alert on some systems
+\' ## single quote - not escaped it ends the string
+\" ## double quote - not escaped it ends the string
+\\ ## backslash - escaped otherwise and generates an error by itself
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#? LEGACY
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "functions.h"
+#include "string.h"
+#define NUMBER 5
+#define HELLO_WORLD printf("\nHello world !\n");\
+printf("\nHow was your summer ?\n");
+#define LINE_CHECK(line, file) if (line > 1) \
+printf("Line %d is not the first line of %s file.\n", line, file); \
+else printf("This is the first line.\n");
+#define MAX_SIZE 1000
+
+int main()
+{
+	printf("Hello world !\n");
+	const int LIVES = 5;
+	int foo = 3;
+	printf("%d and %d\n", LIVES, foo);
+	printf("Give any number : ");
+	scanf("%d", &foo);
+	printf("You gave %d.\n", foo);
+	float bar = 9.0 / 2.0;
+	printf("%f\n", bar);
+
+	int a = 0, b = 0;
+	printf("a : ");
+	scanf("%d", &a);
+	printf("b : ");
+	scanf("%d", &b);
+	int result = a + b;
+	printf("%d + %d = %d\n", a, b, result );
+
+	int modulo = 5%2;
+	printf("%d\n", modulo);
+	
+	int foo = 1;
+	printf("%d\n", foo);
+	foo++;
+	printf("%d\n", foo);
+	foo+=1;
+	printf("%d\n", foo);
+	foo--;
+	printf("%d\n", foo);
+	foo-=1;
+	printf("%d\n", foo);
+	foo*=5;
+	printf("%d\n", foo);
+	foo%=2;
+	printf("%d\n", foo);
+
+	int number = -2;
+	printf("number = %d\n", number);
+	int absolute = abs(number);
+	printf("absolute = %d\n", absolute);
+
+	double unceiled = 5.4;
+	printf("unceiled = %f\n", unceiled);
+	int ceiled = ceil(unceiled);
+	printf("ceiled = %d\n", ceiled);
+
+	double unfloored = 7.090999;
+	printf("unfloored = %f\n", unfloored);
+	int floored = floor(unfloored);
+	printf("floored = %d\n", floored);
+
+	int unpowered = 2, power = 3;
+	printf("unpower"ctrl+b"ed = %d\n", unpowered);
+	int powered = pow(unpowered, power);
+	printf("powered by %d = %d\n", power, powered);
+
+	int unsquared = 15;
+	printf("unsquared = %d\n", unsquared);
+	double squared = sqrt(unsquared);
+	printf("squared = %f\n", squared);
+
+	int age;
+	printf("Tell me your age : ");
+	scanf("%d", &age);
+	if (age>=18 && !(age>120))
+	{
+		printf("Wow ! You are an adult !\n");
+	}
+	else if (age<18 || age>=120)
+	{
+		printf("Ahem ! You shouldn't be allowed to vote...\n");
+	}
+	else
+	{
+		printf("Are you sure this is your age ?\n");
+	}
+
+	printf("=== MENU ===\n");
+	printf("1. La daronne à Benito\n");
+	printf("2. La dragonne du G\n");
+	printf("What do you want ? : ");
+	int choice;
+	scanf("%d", &choice);
+	switch(choice)
+	{
+		case 1:
+			printf("C'est parti le B !\n");
+			break;
+		case 2:
+			printf("Attention aux brûlures !\n");
+			break;
+		default:
+			printf("You must enter the number for your dish.\n");
+	}
+
+	int adult = 0, age;
+	if(adult)
+	{
+		age = 18;
+		printf("%d\n", age);
+	}
+	else
+	{
+		age = 17;
+		printf("%d\n", age);
+	}
+
+	int adult = 1, age;
+	age = (adult) ? 18 : 17;
+	printf("%d\n", age);
+
+	int foo = 1;
+	while (foo <= 10)
+	{
+		printf("%d\n", foo);
+		foo++;
+	}
+
+
+	int foo = 11;
+	do // Do while guarantees to enter the loop at least once.
+	{
+		printf("%d\n", foo);
+		foo++;
+	} while (foo <= 10);
+
+	for (int i = 0 ; i < 10 ; i++)
+	{
+		printf("%d\n", i);
+	}
+
+	Clear console
+	printf("\e[1;1H\e[2J");
+
+	triple(4);
+	punition(2);
+
+#? POINTERS
+
+	int *foobar = NULL;
+	int foo = 10;
+	foobar = &foo;
+	printf("\nfoo = %d\n", *foobar);
+	printf("\n&foo = %p\n", &foo);
+	printf("\nfoobar = %p\n", foobar);
+
+	int foo = 5, bar = 10, *foo_pointer = &foo, *bar_pointer = &bar;
+	printf("\nfoo = %d\n", foo);
+	printf("\nbar = %d\n", bar);
+	printf("\nfoo_pointer = %d\n", *foo_pointer);
+	printf("\nbar_pointer = %d\n", *bar_pointer);
+	printf("\nfoo = %d\n", foo);
+	printf("\nbar = %d\n", bar);
+	printf("\nfoo_pointer = %d\n", *foo_pointer);
+	printf("\nbar_pointer = %d\n", *bar_pointer);
+	pointer(foo, bar, foo_pointer, bar_pointer);
+
+#? ARRAYS
+
+	int arrsz = 5;
+	int array[arrsz];
+	int array[5];
+	array[0] = 8;
+	array[1] = 2;
+	array[2] = 5;
+	array[3] = 12;
+	array[4] = 14;
+	int array[5] = {5, 6, 8, 9, 7};
+	int array[5] = {5, 6}; // Inserts 5, 6, 0, 0, O
+	int array[10] = {0};
+	printf("\narray adress = %p\n", array); // adress
+	printf("\narray key = %d\n", *array); // first value
+	printf("\narray key = %d\n", *(array + 1)); // second value
+	printf("\narray key = %d\n", array[0]); // first value
+	printf("\narray key = %d\n", array[1]); // second value
+	for (int i = 0 ; i < 10 ; i++)
+	{
+		printf("array[%d] = %d\n", i, array[i]);
+	/ array[i] = 0;
+	/ printf("array[%d] = %d\n", i, array[i]);
+	}
+
+	int array[3] = {4, 7, 9};
+	print_array(array, 3);
+
+	 Exercize sum array
+	int array[3] = {3, 6, 9};
+	printf("\nsum array = %d\n\n", sum_array(array, 3));
+
+	 Exercize average array
+	int array[5] = {10, 12, 20, 13, 19};
+	printf("\naverage array = %f\n", average_array(array, 5));
+
+	 Exercize copy array
+	int array[3] = {8, 6, 7};
+	int copied_array[3] = {0};
+	copy_array(array, 3, copied_array);
+	print_array(copied_array, 3);
+
+	 Exercice values can't overcome a given max
+	int array[5] = {10, 12, 20, 13, 19};
+	int max =   13;
+	print_array(array, 5);
+	max_array(array, 5, max);
+	print_array(array, 5);
+
+	 Exercize sorting values from an array
+	int array[6] = {15, 17, 12, 20, 14, 15};
+	int copied_array[6];
+	sort_array_ascending_order(array, 6, copied_array);
+	print_array(array, 6);
+	sort_array_descending_order(array, 6, copied_array);
+	print_array(array, 6);
+	
+#? CHAR
+
+	// char letter = 'a';
+	// printf("\nletter = %d\n", letter);
+	// printf("\nletter = %c\n", letter);
+	// char scan_letter;    
+	// printf("\nscan_letter = ");
+	// scanf("%c", &scan_letter);
+	// printf("\nletter = %c\n", scan_letter);
+	// printf("\nascii number = %d\n", scan_letter);
+
+#? STRINGS
+
+	char string[6];
+	string[0] = 'h';
+	string[1] = 'e';
+	string[2] = 'l';
+	string[3] = 'l';
+	string[4] = 'o';
+	string[5] = '\0';
+	char string[] = "Hello, what's your name ?";
+	string[5] = 'b';
+	printf("\nstring = %s\n", string);
+	char name[50];
+	printf("What's your name ? ");
+	scanf("%s", name);
+	printf("\nHello, %s !\n", name);
+	int string_length = strlen(name);
+	printf("\nstrlen = %d\n", string_length);
+
+	char string[] = "hello, guys !";
+	printf("\nstring = %s\n", string);
+	strcpy(string, "Wow");
+	printf("\nstring = %s\n", string);
+	char copy_string[14] = "hi, bitches !";
+	printf("\ncopy_string = %s\n", copy_string);
+	strcpy(copy_string, string); // the function returns a pointer so you don't have to store it in a variable
+	printf("\ncopy string updated = %s\n", copy_string);
+	char *string_copy = strcpy(copy_string, string);
+	printf("\ntext = %p\n", string_copy);
+
+	char string[] = "hello, guys !";
+	char string2[] = "hi, bitches !";
+	strcat(string, string2);
+	printf("\nstring_cat = %s\n", string);
+	
+	char string1[] = "hello, guys !";
+	char string2[] = "hello, guys !";
+	char string3[] = "hi, girls !";
+	printf("\nstrcmp = %d\n", strcmp(string1, string2));	
+	strcmp_print(string1, string3);
+
+	char string[] = "hello, guys, can you tell me date ?";
+	printf("\nletter = %c", 'g');
+	char *char_adress = strchr(string, 'g');
+	printf("\tchar_adress = %p\n", char_adress);
+	printf("\nletter = %c", 'u');
+	char_adress = strchr(string, 'u');
+	printf("\tchar_adress = %s\n", char_adress); 
+
+	char *char_adress = strpbrk("Le loup a faim.", "glo");
+	printf("\nchar_adress = %s\n", char_adress);
+
+	char *searched_string = strstr("Le loup a faim, très faim.", "faim");
+	printf("\nsearched_string = %s\n", searched_string);
+
+	char string[50];
+	int age = 15;
+	sprintf(string, "\nYou are %d.\n", age);
+	printf("\n%s\n", string);
+
+#? PREPROCESSOR CONSTANTS
+
+	printf("\nnumber = %d\n", NUMBER);
+	HELLO_WORLD
+	LINE_CHECK(__LINE__, __FILE__)
+
+	 predefined preprocessor constants
+	printf("\nline = %d\n", __LINE__);
+	printf("\nfile = %s\n", __FILE__);
+	printf("\ndate = %s\n", __DATE__);
+	printf("\ntime = %s\n", __TIME__);
+
+#? STRUCTURES
+
+	Coordinates point;
+	point.x = 44;
+	point.y = 25;
+	Coordinates point = {50, 24};
+	printf("\nx = %d\n", point.x);
+	printf("\ny = %d\n", point.y);
+	
+	Person p1, p2;
+	strcpy(p1.firstname, "Michael");
+	strcpy(p1.lastname, "Jordan");
+	printf("\np1 firstname = %s\n", p1.firstname);
+	printf("\np1 lastname = %s\n", p1.lastname);
+	strcpy(p2.firstname, "Magic");
+	strcpy(p2.lastname, "Johnson");
+	printf("\np2 firstname = %s\n", p2.firstname);
+	printf("\np2 lastname = %s\n", p2.lastname);
+	Person p = {"Kirk", "Douglas"};
+	printf("\np firstname = %s\n", p.firstname);
+	printf("\np lastname = %s\n", p.lastname);
+
+
+	Person persons[2];
+	strcpy(persons[0].firstname, "Larry");
+	strcpy(persons[0].lastname, "Bird");
+	printf("\npersons[0] firstname = %s\n", persons[0].firstname);
+	printf("\npersons[0] lastname = %s\n", persons[0].lastname);
+	strcpy(persons[1].firstname, "Lebron");
+	strcpy(persons[1].lastname, "James");
+	printf("\npersons[1] firstname = %s\n", persons[1].firstname);
+	printf("\npersons[1] lastname = %s\n", persons[1].lastname);
+	for (int i = 0 ; i < 2 ; i++)
+	{
+		printf("What's the first name ? : ");
+		scanf("%s", persons[i].firstname);
+		printf("What's the last name ? : ");
+		scanf("%s", persons[i].lastname);
+		printf("\nWelcome among us, %s %s :)\n\n", persons[i].firstname, persons[i].lastname);
+	}
+
+	Coordinates point = {0};
+	printf("\nx = %d\n", point.x);
+	printf("\ny = %d\n", point.y);
+	set_Coordinates(&point, 66, 27);
+	printf("\nx = %d\n", point.x);
+	printf("\ny = %d\n", point.y);
+
+#? ENUMERATIONS
+
+	Volume sound = HIGH;
+	printf("\nsound = %d\n", sound);
+
+#? FILES
+
+	FILE* file = NULL;
+	file = fopen("file.txt", "a+");
+	file = fopen("file.txt", "w");
+	if (file != NULL)
+	{
+		printf("file_adress = %p\n", file);
+		fputc('b', file);
+		fputs(" Le loup a faim. ", file);
+		printf("How old are you ? ");
+		int age = 0;
+		scanf("%d", &age);
+		fprintf(file, "Ok you're %d years old.\n", age);
+		int character = 0;
+		do
+		{
+			character = fgetc(file);
+			if (character != EOF)
+			{
+				printf("%c", character);
+			}
+		}
+		while (character != EOF);
+
+		char string[MAX_SIZE] = "";
+		while (fgets(string, MAX_SIZE, file) != NULL)
+		{
+			printf("%s\n", string);
+		}
+
+		int number[3] = {0};
+		while (fscanf(file, "%d, %d, %d", &number[0], &number[1], &number[2]))
+		{
+			printf("\n%d, %d, %d\n", number[0], number[1], number[2]);
+			printf("\n%d, %d, %d\n", number[0]*10, number[1]*10, number[2]*10);
+		}
+		fseek(file, 0, 0);
+		fputs("Lausanne", file);
+		printf("ftell = %ld\n", ftell(file));
+		fseek(file, 5, SEEK_SET);
+		printf("ftell = %ld\n", ftell(file));
+		fseek(file, 10, SEEK_CUR);
+		printf("ftell = %ld\n", ftell(file));
+		fputs("Ma bite", file);
+		fseek(file, 0, SEEK_END);
+		printf("ftell = %ld\n", ftell(file));
+		fputs("Michelle", file);
+		rewind(file);
+		printf("ftell = %ld\n", ftell(file));
+	}
+	else
+	{
+		printf("File impossible to open.\n");
+	}
+	int close_file = fclose(file);
+	if (close_file == 0)
+	{
+		printf("File is closed.\n");
+	}
+	else
+	{
+		printf("Error.\n");
+	}
+	printf("\ntext = %p\n", fopen("/home/porco/Desktop/c.pdf", "r"));
+	
+	fopen("rename.txt", "w");
+	rename("rename.txt", "remove.txt");
+	remove("remove.txt");
+
+#? DYNAMIC MEMORY ALLOCATION
+
+	printf("char : %ld octet\n", sizeof(char));
+	printf("int : %ld octets\n", sizeof(int));
+	printf("long : %ld octets\n", sizeof(long));
+	printf("double : %ld octets\n", sizeof(double));
+	printf("Coordinates : %ld octets\n", sizeof(Coordinates));
+
+	int * int_malloc = malloc(sizeof(int));
+	if (int_malloc == NULL)
+	{
+		exit(1);
+	}
+	else
+	{
+		printf("What's your age ? ");
+		scanf("%d", int_malloc);
+		printf("\nOkay, you're %d years old !\n", *int_malloc);
+		free(int_malloc);
+	}
+	
+	int number_of_friends = 0;
+	printf("How many friends do you have ? ");
+	scanf("%d", &number_of_friends);
+	int * age_of_friends = NULL;
+	age_of_friends = malloc(number_of_friends * sizeof(int));
+	if (number_of_friends < 1 || age_of_friends == NULL)
+	{
+		exit(0);
+	}
+	else
+	{
+		for (int i = 0 ; i < number_of_friends ; i++)
+		{
+			printf("How old is your friend number %d ? \n", i+1);
+			scanf("%d", &age_of_friends[i]);
+		}
+		for (int i = 0 ; i < number_of_friends ; i++)
+		{
+			printf("Your friend number %d is %d years old.\n", i+1, age_of_friends[i]);
+		}
+	}
+	free(age_of_friends);
+	
+
+	return 0;
+}

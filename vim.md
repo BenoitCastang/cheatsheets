@@ -44,94 +44,355 @@ set signcolumn=yes ## always show
 set signcolumn=no ## never show
 set signcolumn=auto ## depends wether there is something to display or not
 ```
-# Shortcuts
-## Registers
+# Normal mode
+## Commands
+### Keys
 ```bash
-reg ## see registers
-"0p ## paste last yank
-"ayy ## in register a copy the line
-```
-## Repeat
-```bash
+<esc> ## back to normal mode
+
+i ## insert
+I ## insert beginning of line
+
+a ## append after cursor
+A ## append end of line
+
+Y ## yank line
+
+D ## delete until end of line
+
+C ## change until end of line (delete then enter insert mode)
+
+## substitute deletes its target and enters insert mode
+s ## substitute character
+S ## substitute line
+
+o ## open line below
+O ## open line above
+
+p ## paste after
+P ## paste before
+
+u ## undo change
+U ## undo all changes of a line
+
+r ## replace one character by another
+R ## replace mode - erase as you write
+
 . ## repeat the previous action
-; ## repeat the previous f/F/t/T action
-, ## repeat the previous f/F/t/T action in reverse
+& ## repeat last substitute command
+
+J ## join lines
+K ## help - default is man search
+
+x ## delete one character
+<del> ## same as x
+X ## delete one character to the left
+
+v ## visual mode
+V ## line visual mode
+
+: ## command-line mode
+Q ## ex mode
+
+m ## set mark
+
+q ## record macro
+
+~ ## toggle case
+
+<pageup> ## scroll up one page
+<pagedown> ## scroll down one page
+
+<F1> ## open help window
+<F2-12> ## no command by default
+
+## [count] + command allows to repeat command [count] times
+3dd ## delete 3 lines
 ```
-## Increment
+### Macros
 ```bash
-c-a ## increment by 1 next number
-c-x ## decrement by 1 next number
-5c-a ## increment by 5
-```
-## Case
-```bash
-gUU ## make line uppercase
-guu ## make line lowercase
-```
-## Pipe
-```bash
-echom "Hello" | echom "World!" ## write two commands on the same line
-```
-## Autocompletion
-```bash
-c-n ## next match
-c-p ## previous match
-c-x ## accept selection
-c-x c-f ## auto complete file path
-c-x c-l ## auto complete line
-```
-## Next occurrence
-```bash
-* ## go to next identical word
-# ## go to previous identical word
-```
-## Macros
-```bash
+## macros take sequences of characters from registers and execute them as commands
 qj ## record a macro
 q ## quit recording
 @j ## run macro
 
+@@ ## run last recorded macro
 5@j ## run macro 5 times
 2,5norm @j ## run same macro on lines 2 to 5
 %norm @j ## run macro on whole file
-g/pattern/norm @j ## run macro when pattern matches
+g/pattern/norm @j ## run macro where pattern matches
 
-## macro are saved in registers
 registers ## see macros
-let @j='' ## delete macro
+let @j='' ## delete macro by emptying register
 ```
-## Marks
+### Registers
 ```bash
-## marks are persistent through files and exiting vim
-## they work in visual mode and operator pending mode
+## registers store every copied text
+registers ## see registers
+
+"0p ## paste last yank
+"ayy ## in register a copy the line
+let jjj
+```
+## Motions
+### Keys
+```bash
+h ## one character left
+<left> ## same as h
+l ## one character right
+<right> ## same as l
+
+<bs> ## one character left across lines
+<space> ## one character right across lines
+
+## a logical line is a real, physical line of the file, like line 1, 2 etc, meaning if the line is wrapped by the display, going on line down jumps over the wrapped line
+## gj and gk are used to not jump over wrapping
+j ## one logical line down - same column
+<down> ## same as j
+k ## one logical line up - same column
+<up> ## same as k
+
+- ## one logical line up - column 0
++ ## one logical line down - column 0
+<cr> ## same as +
+
+w ## next word
+W ## next Word
+
+e ## end word
+E ## end Word
+
+b ## previous word
+B ## previous Word
+
+$ ## end of line
+<end> ## same as $
+
+^ ## soft beginning of line (first non blank character)
+<home> ## same as ^
+_ ## soft beginning of line (combined with a [count] to go multiple lines down)
+2_ ## beginning of line plus one line down
+0 ## hard beginning of line (really first column, so it crosses spaces but if the line begins with a tab, as the tab is really one character but looks like multiple (depends on the set tabstop option), it can look its not the real beginning of the line)
+set list ## show real tabs
+set tabstop=8 ## set tab visual length
+
+{ ## beginning of paragraph
+} ## end of paragraph
+
+## a sentence is a sequence of text ending in ., ? or !, followed by a space, tab, or the end of the line
+## if there is no ., ? or !, it goes to the next end of line
+( ## beginning of sentence
+) ## end of sentence
+
+## followed by a character
+f ## find next character
+F ## find previous character
+
+## until, meaning one character before find motion
+t ## forward find
+T ## backward find
+
+; ## repeat find motion
+, ## reverse repeat find motion
+
+H ## high of the screen
+L ## low of the screen
+M ## middle of the screen
+
+% ## navigate between opening and closing pair parenthesis, brace etc.
+
+## go to [count] column
+| ## without [count], beginning of line
+5| ## column 5 of the current line
+```
+### Text objects
+```bash
+## text objects are a combination of a range, 
+iw ## inside word
+aw ## around word
+
+"
+'
+(
+)
+<
+>
+B
+W
+[
+]
+`
+b
+p
+s
+t
+w
+{
+}
+```
+### Searching modes
+```bash
+## make a search and jump to the first match
+
+/foo ## forward search
+?bar ## backward search
+
+## after a research, to cycle through results
+n ## next find
+N ## previous find
+
+// ## repeat last forward search
+?? ## repeat last backward search
+
+* ## search forward identical whole words
+# ## search previous identical whole word
+
+/foo\c ## case case-insensitive search
+
+set ignorecase ## make all searches case-insensitive
+set smartcase ## if the search includes any uppercase letter, it becomes case-sensitive
+
+set hlsearch ## highlight all search results
+noh ## clear results
+```
+### Marks
+```bash
+## set a mark to a place and jump to it
+## marks are automatically saved by vim
+
+## single quote is line-level jump
+## backstick is precise column jump
 
 ## local marks
 ma ## set mark of the cursor position to letter a
-'a ## go to that line
-`a ## go to exact cursor position
+'a ## jump to line of mark
+`a ## go to exact cursor position of mark
 
 ## global marks
-ma ## works through multiple files
-'a ## go to that line of the other file
-`a ## go to exact cursor position of the other file
-
-:## predefined special marks
-'' ## go to line of last position
-'' ## go to line where vim was exited
-'^ ## go to line of last insert
-'. ## go to line of last change
+mA ## set mark across files
+'A ## jump to that line of the other file
+`A ## jump to exact cursor position in the other file
 
 ## command-line
 mark a ## set a mark
 marks ## see all marks
 delmarks a ## delete a mark
-delmarks ! ## delete all marks
+delmarks! ## delete all local marks of the file
+
+## vim-predefined special marks
+'' ## jump to last mark jumped to
+'^ ## jump to place of last insert
+'. ## jump to place of last change
+'[ ## jump to start of last changed or yanked text
+'] ## jump to end of last changed or yanked text
+'" ## jump where vim was exited
+'0-9 ## history of marks of vim exit
+'` ## last cursor position
+`` ## last cursor position
 ```
-## Visual mode
+## Operators
+```bash
+## operators wait for a motion, and perform an action until destination of the motion
+## example: delete until 5 line below
+## the moment an operator is waiting for a motion to come is called operator-pending mode
+
+d ## delete
+c ## delete then go insert mode
+y ## yank or copy
+
+> ## indent
+< ## un-indent
+= ## auto-indent
+
+## repeat the operator means the target is the line
+dd ## delete current line
+>> ## indent current line
+
+## External filter
+## send a range of lines as input to a shell command to be replaced by command's output
+!sort ## sort lines
+```
+## Prefixes
+### G
+```bash
+gj ## one visual line up
+gk ## one visual line down
+
+gg ## top of file
+G ## end of file
+
+3gg ## go line 3
+3G ## go line 3
+
+gf ## open file under cursor
+
+## case
+gUU ## make line uppercase
+guu ## make line lowercase
+
+g_ ## go end of line (last character, stops before spaces or tabs in end of lines)
+```
+### Z
+```bash
+zo ## open fold
+zc ## close fold
+
+ZZ ## save and quit
+ZQ ## quit without saving
+
+## scroll file when it exceeds the size of the screen
+zt ## scroll the file so the cursor is top of the screen
+zb ## scroll the file so the cursor is bottom of the screen
+zz ## scroll the file so the cursor is center of the screen
+```
+### Ctrl
+```bash
+## increment
+c-a ## increment next number
+c-x ## decrement number
+
+5c-a ## increment by 5
+```
+### Square brackets
+```bash
+]] ## next section start
+[[ ## previous section start
+
+][ ## next section end
+[] ## previous section end
+
+]} ## end of current {} structure
+[{ ## beginning of current {} structure
+
+]) ## end of current () structure
+[( ## beginning of current () structure
+
+]m ## next method
+[m ## previous method
+]M ## next end of method
+[M ## previous end of method
+
+## for code with /* and */ comment style
+]/ ## next end of comment
+]* ## next end of comment
+[/ ## previous beginning of comment
+[/ ## previous beginning of comment
+
+]s ## next misspelled word
+[s ## previous misspelled word
+```
+# Visual mode
 ```bash
 v ## enter visual mode
 V ## line by line visual mode
 c-v ## block visual mode
+
+## once in visual mode, all normal commands are available to act on it or to move it, including searching modes and ex commands
+
+o ## reverse selection direction
+O ## (block visual mode) switch corner
+
+gv ## reselect last selection
 
 `< ## go to start of last visual selection
 `> ## go to end of last visual selection
@@ -140,7 +401,26 @@ c-v ## block visual mode
 I ## insert before each selected block
 A ## insert after each selected block
 ```
-# Commands
+# Operator-pending mode
+```bash
+## Operators wait for a motion
+## then operator-pending mode acts like a visual mode where you cant see the selection
+## you peform motions, and the operator does its operation between the original cursor position and the end of the given motion
+
+de ## delete until end of word
+d^ ## delete until beginning of line
+
+dfp ## delet until character p
+
+diw ## inside word
+
+d:2 ## delete until line 2
+
+d/word ## delete until word
+
+d'a ## delete until mark a
+```
+# Command-line mode
 ## Help
 ```bash
 help {command} ## open help buffer
@@ -184,19 +464,18 @@ syntax list comments ## show a specific group only
 syntax match MyMatch /##.*/ ## detect pattern and apply highlight on all pattern
 syntax keyword MyKeyword if elif else fi ## detect single word patterns and highlight only the word
 ```
-## Ex
+## Substitution
 ```bash
-Q ## enter ex mode
-```
-## substitution
-```bash
+## ex command to replace text
 s/pattern/replacement ## replace first match of current line
 4s/pattern/replacement ## replace on line 4
 1,10s/pattern/replacement ## replace on lines 1 to 10
 %s/pattern/replacement ## replace on all file
 
+## flags
 s/pattern/replacement/g ## replace all matches
 s/pattern/replacement/c ## ask confirmation
+s/pattern/replacement/i ## ignore case
 
 s/\d/#/g ## works with regex - replace digits with hastags
 
@@ -210,6 +489,23 @@ s/pattern// ## replace match by nothing
 /pattern/d ## delete current line if matches pattern
 g/pattern/d ## delete all lines matching pattern
 g/pattern/s/foo/bar/g ## replace if line matches pattern
+
+& ## (normal mode) repeat last substitute command
+s ## repeat last substitute command
+%& ## replace on all file
+```
+# Ex mode
+```bash
+## ex is vim ancestor
+Q ## enter ex mode
+```
+# Autocompletion
+```bash
+c-n ## next match
+c-p ## previous match
+c-x ## accept selection
+c-x c-f ## auto complete file path
+c-x c-l ## auto complete line
 ```
 # Mapping
 ## Map
@@ -250,36 +546,6 @@ nunmap, iunmap, cunmap, vunmap, ounmap ## remove key binding from respective mod
 ## operator-pending mode, after an operator (y, d, c) waits for a motion and execute operation between current cursor position and final cursor position (or selected text if visual mode)
 onoremap j ejela( ## complex movement
 onoremap j /fi<cr> ## dj will remove text till 'fi' is found
-```
-## Motions
-```bash
-## Operators (d, c, y) wait for a movement
-
-e ## go end of word
-E ## go enf of WORD
-
-w ## go begging of word
-W ## go begging of WORD
-
-b ## go beginning of previous word
-B ## go beginning of previous WORD
-
-^ ## go beginning of line
-$ ## go end of line
-
-fp ## find character p
-Fp ## find character p backwards
-tp ## until character p
-Tp ## until character p backwards
-
-## text objects - before the motion
-iw ## inside word
-aw ## around word
-
-:2 ## go line 2
-:2p ## go to line 2
-
-/word ## go to word
 ```
 # Abbreviations
 ```bash
@@ -335,11 +601,12 @@ normal! v ## enters visual mode
 ## unlike map, the normal command does not change mode with :, / or ?, though it does with i and v
 normal! :w ## wont work
 
-## does not recognize special characters also
-normal! ifoo<cr> ## inserts foo<cr>
-normal! ifoo<esc>Acrac ## exit normal mode wont be possible
+## does not either recognize special characters
+normal! :w<cr> ## does not work
+normal! ifoo<esc> ## inserts foo<esc>
+normal! ifoo<esc>Acrac ## exit insert mode wont be possible
 
-## execute allows to go past those last two limitations
+## execute allows to go past those limitations by using strings, parsing special characters to replace it with terminal actions
 
 1,10normal A; ## interact with multiple lines
 %normal A; ## interact with whole file
@@ -348,15 +615,24 @@ g/pattern/normal A; ## interact with matching pattern
 ## Execute
 ```bash
 ## run a string as a command
-execute "echom 'Hello, world!'"
-
-## allows the normal command to use special characters, :, / and ?
-execute "normal Iblop \<esc>A crac\<esc>" ## special characters
-execute "normal! :vsplit\<cr>" ## : example
-execute "normal /number\<cr>" ## / example
+execute "w"
 
 ## allows to build a command dynamically
 execute "vsplit " . bufname("%") ## using the result of a function
+
+## allows the normal command to use special characters, :, / and ?
+execute "normal Iblop \<esc>A crac\<esc>" ## special characters
+execute "normal! :w\<cr>" ## : example
+execute "normal /word\<cr>" ## / example
+
+## make a move before editing
+onoremap ih ?^==<cr><esc>kvg_ ## it does not work because <cr> stops the motion so the operator only acts between the cursor and the next occurrence
+onoremap ih :execute "normal! ?^==\<cr>" ## using a string prevents it, so the <cr> makes the search without getting out of the motion - however \<cr> does not work here, it needs \r
+onoremap ih :execute "normal! ?^==\r" ## no error, but it needs an enter key at the end
+onoremap ih :execute "normal! ?^==\r"<cr> ## it works but it deletes the text between the cursor and the search result, while we only want the search to move the cursor - thats because it needs a new selection to act on the last one instead
+onoremap ih :execute "normal! ?^==\rkvg_"<cr> ## make a new selection so the operator operate on this one
+
+## vim parsing messes up because the map command and the execute command do their own separate parsing, so as a rule literals like \t, \r, \e works better than special characters like <tab>, <cr>, <esc>
 ```
 ## Groups
 ```bash
@@ -370,6 +646,7 @@ augroup END
 ## Events
 ```bash
 FileType python ## once filetype option has been set
+## filetypes can be gitcommit, help, markdown, php etc.
 
 BufNewFile ## when is opened a buffer with a new file
 BufRead ## when reading a file
