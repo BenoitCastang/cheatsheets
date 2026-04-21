@@ -1,5 +1,5 @@
-I have one million bees
-None of these have knees
-But if I squint
-They won't sprint
-Even if I also say please
+I led you astray with promises
+once burnished and unspoken
+yet without you here I apprehend
+  unyielding vigilance
+for everything I may have broken.
