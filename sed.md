@@ -1,11 +1,17 @@
 # Syntax
 ```bash
 ## stream editor - take a stream of text as input, scan each line for a regex pattern and perform an action on each match
+## sed comes from ed
 
 sed "command" ## input is stdin
 sed "command" filename ## input is file
 ## stdout is the output, not the file himself
 ls | sed "command" ## input is output of a command
+
+## any character can be used to separate parts of the command
+sed s/new/old/ ## classic one
+sed s,new,old, ## works too
+sed ssnewsolds ## works also !
 ```
 # Commands
 ```bash
@@ -40,11 +46,15 @@ sed "i\new text" ## insert new line of text before each line
 sed "y/abc/123/" ## replace a by 1, b by 2, c by 3 in all file
 
 ## logical operators
-sed "/blop\|crac/p" ## or - needs escaping
+sed "/blop\|crac/p" ## or - needs escaping (or -E)
 sed "s/blop/crac; s/flip/plouf" ## do two commands
 
 ## addressing
 sed "4s/old/new/" ## replace only on line 4
+
+## capturing
+sed "s/.*(foo).*/\1/" ## () captures text, \1, \2 etc represent captured text
+## needs -E
 ```
 # Options
 ```bash

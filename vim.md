@@ -496,7 +496,8 @@ s ## repeat last substitute command
 ```
 # Ex mode
 ```bash
-## ex is vim ancestor
+## ex is the child of ed and the ancestor of sed and vim
+## it essentially works like sed
 Q ## enter ex mode
 ```
 # Autocompletion
