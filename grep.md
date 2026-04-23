@@ -57,6 +57,9 @@ grep "ap+" ## a then p is mandatory, once or more times
 
 ## or
 grep -E "crac|blop" ## crac or blop
+
+## grouping
+grep -E "(ab)+" ## apply a quantifier on a whole sub-expression
 grep -E "file(1|2)" ## file1 or file2
 ```
 ## Blanks
@@ -96,6 +99,9 @@ grep -P "\W" ## non-word characters i.e. spaces and tabs and punctuation signs
 
 grep -P "\s" ## white spaces
 grep -P "\S" ## non white spaces
+
+\b ## word boundary (matches the position between a word char and a non-word char, so spaces are excluded from the match)
+grep "\b[A-z]\b" ## matches any one character word
 ```
 # Options
 ```bash

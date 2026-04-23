@@ -53,7 +53,7 @@ sed "s/blop/crac; s/flip/plouf" ## do two commands
 sed "4s/old/new/" ## replace only on line 4
 
 ## capturing
-sed "s/.*(foo).*/\1/" ## () captures text, \1, \2 etc represent captured text
+sed "s/.*(foo).*/\1/" ## regex groups in () capture text, \1, \2 etc represent captured text in substitution string
 ## needs -E
 ```
 # Options
