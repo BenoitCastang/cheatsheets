@@ -466,7 +466,7 @@ syntax keyword MyKeyword if elif else fi ## detect single word patterns and high
 ```
 ## Substitution
 ```bash
-## ex command to replace text
+## works like sed
 s/pattern/replacement ## replace first match of current line
 4s/pattern/replacement ## replace on line 4
 1,10s/pattern/replacement ## replace on lines 1 to 10
@@ -480,12 +480,10 @@ s/pattern/replacement/i ## ignore case
 s/\d/#/g ## works with regex - replace digits with hastags
 
 ## delete characters
-
 s/pattern// ## replace match by nothing
 %s/\s\+$//e ## replace by nothing all whitespaces at the end of lines, without showing errors
 
 ## delete lines
-
 /pattern/d ## delete current line if matches pattern
 g/pattern/d ## delete all lines matching pattern
 g/pattern/s/foo/bar/g ## replace if line matches pattern
@@ -493,12 +491,6 @@ g/pattern/s/foo/bar/g ## replace if line matches pattern
 & ## (normal mode) repeat last substitute command
 s ## repeat last substitute command
 %& ## replace on all file
-```
-# Ex mode
-```bash
-## ex is the child of ed and the ancestor of sed and vim
-## it essentially works like sed
-Q ## enter ex mode
 ```
 # Autocompletion
 ```bash
