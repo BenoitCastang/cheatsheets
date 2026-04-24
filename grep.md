@@ -100,7 +100,10 @@ grep -P "\W" ## non-word characters i.e. spaces and tabs and punctuation signs
 grep -P "\s" ## white spaces
 grep -P "\S" ## non white spaces
 
-\b ## word boundary (matches the position between a word char and a non-word char, so spaces are excluded from the match)
+## word boudaries
+## word boundary characters match the position between a word char and a non-word char, so spaces are excluded from the match
+\<foo\> ## boudaries
+\b ## shortcut
 grep "\b[A-z]\b" ## matches any one character word
 ```
 # Options

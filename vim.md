@@ -43,6 +43,9 @@ set spelllang=eng ## set spell language
 set signcolumn=yes ## always show
 set signcolumn=no ## never show
 set signcolumn=auto ## depends wether there is something to display or not
+
+set hlsearch ## highlight search results
+set incsearch ## highlight matched pattern as you write it
 ```
 # Normal mode
 ## Commands
@@ -599,7 +602,7 @@ normal! :w<cr> ## does not work
 normal! ifoo<esc> ## inserts foo<esc>
 normal! ifoo<esc>Acrac ## exit insert mode wont be possible
 
-## execute allows to go past those limitations by using strings, parsing special characters to replace it with terminal actions
+## the execute command allows to go past those limitations by using strings, parsing special characters to replace it with terminal actions
 
 1,10normal A; ## interact with multiple lines
 %normal A; ## interact with whole file
@@ -625,7 +628,7 @@ onoremap ih :execute "normal! ?^==\r" ## no error, but it needs an enter key at 
 onoremap ih :execute "normal! ?^==\r"<cr> ## it works but it deletes the text between the cursor and the search result, while we only want the search to move the cursor - thats because it needs a new selection to act on the last one instead
 onoremap ih :execute "normal! ?^==\rkvg_"<cr> ## make a new selection so the operator operate on this one
 
-## vim parsing messes up because the map command and the execute command do their own separate parsing, so as a rule literals like \t, \r, \e works better than special characters like <tab>, <cr>, <esc>
+## vim parsing messes up because the map command and the execute command do their own separate parsing, so, as a rule, literals like \t, \r, \e work better than special characters like <tab>, <cr>, <esc>
 ```
 ## Groups
 ```bash
@@ -859,30 +862,29 @@ echom len(131) ## returns 3
 ```bash
 echom "Hello, world!" ## print a string
 
-## the + operator coerces everything to number (int)
-echom "Hello, " + "word!" ## prints 0
-echom "3 mice" + "2 cats" ## prints 5
-echom 2 + "1.5" ## prints 3
-
 ## the concatenation operator is . - it coerces everything to strings
 echom "Hello, " . "world!" ## concatenation
 echom 10 . "foo" ## prints 10foo
 echom 10.1 . "foo" ## prints 10.1foo
 
-## escape characters
-echom "foo\"bar\" ## escape character
+## the + operator coerces everything to number (int)
+echom "Hello, " + "word!" ## prints 0
+echom "3 mice" + "2 cats" ## prints 5
+echom 2 + "1.5" ## prints 3
+
+## double quotes
+## they are interpreted strings, they can process escape squences and special characters
+echom "foo\"bar\" ## escape " character
 echom "foo\\bar" ## escape \
 ```
-
 ```bash
-## special characters
-echom "foo\nbar" ## prints foo^@bar
-DisplayName
-echo "foo\nbar" ## echom cant handle special characters
+echom "foo\nbar" ## prints foo^@bar - echom cant handle special characters
+echo "foo\nbar" ## works as expected
 
-## literal strings
-echom '\n\\' ## print \n\\
-echom 'Its''s okay' ## escape single quote
+## single quotes
+## they are literal strings, every character is taken as is, with no interpretation
+echom 'foo\nbar' ## prints foo\nbar
+echom 'foo''bar' ## only exception
 ```
 ### Functions
 ```bash
@@ -919,4 +921,10 @@ jj: vi-movement-mode ## bind the jj sequence to switch to vi movement mode
 vim -c 'normal iblop' ## do command through command line (and stay in vim)
 vim -c 'normal Gocrac' -c 'wq' file ## chain commands, finish getting out of vim
 vim -c '/pattern' file ## search in file
+```
+# Regex
+```bash
+/^blop ## searches take regex, like ed
+/b.\+p/ ## regex special characters need to be escaped
+execute "normal /b.\\+p\r" ## double escape is needed so the \+ does not activate before the string is passed to the search
 ```
