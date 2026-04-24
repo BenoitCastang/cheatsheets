@@ -924,6 +924,7 @@ vim -c '/pattern' file ## search in file
 ```
 # Regex
 ```bash
+## Vim has four regex modes
 /^blop ## searches take regex, like ed
 /b.\+p/ ## regex special characters need to be escaped
 execute "normal /b.\\+p\r" ## double escape is needed so the \+ does not activate before the string is passed to the search
